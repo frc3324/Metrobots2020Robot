@@ -1,9 +1,8 @@
 package frc.team3324.robot.drivetrain
 
-import com.ctre.phoenix.motorcontrol.NeutralMode
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX
 import com.kauailabs.navx.frc.AHRS
+import com.revrobotics.CANSparkMax
+import com.revrobotics.CANSparkMaxLowLevel
 import edu.wpi.first.wpilibj.CounterBase
 import edu.wpi.first.wpilibj.DoubleSolenoid
 
@@ -40,34 +39,28 @@ object DriveTrain: Subsystem() {
 
     private val gyro = AHRS(SPI.Port.kMXP)
 
-    private val flMotor = WPI_VictorSPX(Consts.DriveTrain.FL_MOTOR)
-    private val blMotor = WPI_TalonSRX(Consts.DriveTrain.BL_MOTOR)
+    private val flMotor = CANSparkMax(Consts.DriveTrain.FL_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless)
+    private val blMotor = CANSparkMax(Consts.DriveTrain.BL_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless)
 
-    private val frMotor = WPI_TalonSRX(Consts.DriveTrain.FR_MOTOR)
-    private val brMotor = WPI_VictorSPX(Consts.DriveTrain.BR_MOTOR)
+    private val frMotor = CANSparkMax(Consts.DriveTrain.FR_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless)
+    private val brMotor = CANSparkMax(Consts.DriveTrain.BR_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless)
 
     private val drive = DifferentialDrive(frMotor, blMotor)
 
     init {
-        frMotor.configPeakCurrentLimit(100)
-        frMotor.configPeakCurrentDuration(50)
-        frMotor.configContinuousCurrentLimit(40)
-
-        blMotor.configPeakCurrentLimit(100)
-        blMotor.configPeakCurrentDuration(50)
-        blMotor.configContinuousCurrentLimit(40)
-
-        frMotor.enableCurrentLimit(true)
-        blMotor.enableCurrentLimit(true)
+        frMotor.setSmartCurrentLimit(40)
+        blMotor.setSmartCurrentLimit(40)
+        frMotor.setSecondaryCurrentLimit(80.0)
+        blMotor.setSecondaryCurrentLimit(80.0)
 
         brMotor.follow(frMotor)
         flMotor.follow(blMotor)
 
-        brMotor.inverted = true
+        brMotor.inverted = false
         frMotor.inverted= true
         
         blMotor.inverted = true
-        flMotor.inverted = true
+        flMotor.inverted = false
 
         lEncoder.distancePerPulse = Consts.DriveTrain.DISTANCE_PER_PULSE
         rEncoder.distancePerPulse = Consts.DriveTrain.DISTANCE_PER_PULSE
@@ -117,19 +110,18 @@ object DriveTrain: Subsystem() {
     }
 
     fun setBrakeMode() {
-        frMotor.setNeutralMode(NeutralMode.Brake)
-        brMotor.setNeutralMode(NeutralMode.Brake)
-
-        flMotor.setNeutralMode(NeutralMode.Brake)
-        blMotor.setNeutralMode(NeutralMode.Brake)
+        frMotor.idleMode = CANSparkMax.IdleMode.kBrake
+        flMotor.idleMode = CANSparkMax.IdleMode.kBrake
+        brMotor.idleMode = CANSparkMax.IdleMode.kBrake
+        blMotor.idleMode = CANSparkMax.IdleMode.kBrake
     }
 
     fun setCoastMode() {
-        frMotor.setNeutralMode(NeutralMode.Coast)
-        brMotor.setNeutralMode(NeutralMode.Coast)
+        frMotor.idleMode = CANSparkMax.IdleMode.kCoast
+        flMotor.idleMode = CANSparkMax.IdleMode.kCoast
+        brMotor.idleMode = CANSparkMax.IdleMode.kCoast
+        blMotor.idleMode = CANSparkMax.IdleMode.kCoast
 
-        flMotor.setNeutralMode(NeutralMode.Coast)
-        blMotor.setNeutralMode(NeutralMode.Coast)
     }
 
     override fun initDefaultCommand() {

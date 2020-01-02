@@ -1,7 +1,7 @@
 package frc.team3324.robot.util
 
 import edu.wpi.first.wpilibj.DoubleSolenoid
-import edu.wpi.first.wpilibj.command.InstantCommand
+import edu.wpi.first.wpilibj2.command.InstantCommand
 
 class PneumaticShift(val solenoid: DoubleSolenoid): InstantCommand() {
 

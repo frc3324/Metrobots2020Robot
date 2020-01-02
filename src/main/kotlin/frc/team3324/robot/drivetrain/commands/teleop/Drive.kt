@@ -1,20 +1,18 @@
 package frc.team3324.robot.drivetrain.commands.teleop
 
-import edu.wpi.first.wpilibj.command.Command
+import edu.wpi.first.wpilibj.GenericHID
+import edu.wpi.first.wpilibj2.command.CommandBase
+import edu.wpi.first.wpilibj.GenericHID.Hand
 import frc.team3324.robot.drivetrain.DriveTrain
-import frc.team3324.robot.util.OI
 
-object Drive: Command() {
+class Drive(val driveTrain: DriveTrain, val xSpeed: (GenericHID.Hand) -> Double, val ySpeed: (GenericHID.Hand) -> Double): CommandBase() {
 
     init {
-        requires(DriveTrain)
+        addRequirements(driveTrain)
     }
 
     override fun execute() {
-        val xSpeed = OI.primaryLeftY
-        val ySpeed = OI.primaryRightX
-
-        DriveTrain.curvatureDrive(xSpeed, ySpeed)
+        driveTrain.curvatureDrive(xSpeed(Hand.kLeft), ySpeed(Hand.kRight))
     }
 
     override fun isFinished(): Boolean {

@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.command.Command
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import frc.team3324.robot.drivetrain.DriveTrain
 import frc.team3324.robot.util.Consts
-import frc.team3324.robot.util.TrapezoidProfile
+import frc.team3324.robot.util.physics.TrapezoidProfile
 
 
 class FollowPath(val goal: TrapezoidProfile.State, val kp: Double, val kv: Double): Command() {
@@ -24,7 +24,7 @@ class FollowPath(val goal: TrapezoidProfile.State, val kp: Double, val kv: Doubl
     }
 
     override fun execute() {
-        var calculatedValue = 0.0
+        var calculatedValue: Double
         timeDifference = Timer.getFPGATimestamp() - timeStart
         SmartDashboard.putNumber("time diff", timeDifference)
         val distance_covered: Double = DriveTrain.getAverageDistance() - encoderOffset

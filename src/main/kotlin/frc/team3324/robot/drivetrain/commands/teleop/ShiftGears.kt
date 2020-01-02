@@ -1,13 +1,13 @@
 package frc.team3324.robot.drivetrain.commands.teleop
 
 import edu.wpi.first.wpilibj.DoubleSolenoid
-import edu.wpi.first.wpilibj.command.InstantCommand
-import frc.team3324.robot.drivetrain.DriveTrain.shifterStatus
+import edu.wpi.first.wpilibj2.command.InstantCommand
+import frc.team3324.robot.drivetrain.DriveTrain
 
-class ShiftGears: InstantCommand() {
+class ShiftGears(val driveTrain: DriveTrain): InstantCommand() {
     override fun initialize() {
-        shifterStatus = when {
-            (shifterStatus == DoubleSolenoid.Value.kForward) -> DoubleSolenoid.Value.kReverse
+        driveTrain.shifterStatus = when {
+            (driveTrain.shifterStatus == DoubleSolenoid.Value.kForward) -> DoubleSolenoid.Value.kReverse
             else -> DoubleSolenoid.Value.kForward
         }
     }

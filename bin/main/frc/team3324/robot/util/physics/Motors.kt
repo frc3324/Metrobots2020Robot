@@ -1,4 +1,4 @@
-package frc.team3324.robot.util
+package frc.team3324.robot.util.physics
 
 import kotlin.math.PI
 

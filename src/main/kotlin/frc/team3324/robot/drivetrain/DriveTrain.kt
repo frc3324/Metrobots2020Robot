@@ -8,14 +8,14 @@ import edu.wpi.first.wpilibj.DoubleSolenoid
 
 import edu.wpi.first.wpilibj.Encoder
 import edu.wpi.first.wpilibj.SPI
-import edu.wpi.first.wpilibj.command.Subsystem
 import edu.wpi.first.wpilibj.drive.DifferentialDrive
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
+import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.team3324.robot.drivetrain.commands.teleop.Drive
 
 import frc.team3324.robot.util.Consts
 
-object DriveTrain: Subsystem() {
+class DriveTrain: SubsystemBase() {
 
     private val lEncoder = Encoder(Consts.DriveTrain.LEFT_ENCODER_PORT_A, Consts.DriveTrain.LEFT_ENCODER_PORT_B, false, CounterBase.EncodingType.k4X)
     private val rEncoder = Encoder(Consts.DriveTrain.RIGHT_ENCODER_PORT_A, Consts.DriveTrain.RIGHT_ENCODER_PORT_B, true, CounterBase.EncodingType.k4X)
@@ -48,6 +48,7 @@ object DriveTrain: Subsystem() {
     private val drive = DifferentialDrive(frMotor, blMotor)
 
     init {
+
         frMotor.setSmartCurrentLimit(40)
         blMotor.setSmartCurrentLimit(40)
         frMotor.setSecondaryCurrentLimit(80.0)
@@ -124,7 +125,4 @@ object DriveTrain: Subsystem() {
 
     }
 
-    override fun initDefaultCommand() {
-        defaultCommand = Drive
-    }
 }

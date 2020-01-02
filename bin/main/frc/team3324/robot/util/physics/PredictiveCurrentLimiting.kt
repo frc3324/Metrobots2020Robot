@@ -1,6 +1,7 @@
-package frc.team3324.robot.util
+package frc.team3324.robot.util.physics
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
+import frc.team3324.robot.util.Consts
 
 class PredictiveCurrentLimiting(val motor: Motors.Motor, val upperLimit: Double, val lowerLimit: Double) {
 

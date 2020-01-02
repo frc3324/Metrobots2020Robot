@@ -9,11 +9,10 @@ import frc.team3324.robot.arm.commands.StopArm
 import frc.team3324.robot.climber.Climber
 import frc.team3324.robot.drivetrain.DriveTrain
 import frc.team3324.robot.drivetrain.commands.teleop.FollowPath
-import frc.team3324.robot.drivetrain.commands.teleop.ShiftGears
 import frc.team3324.robot.intake.cargo.commands.Intake
 import frc.team3324.robot.intake.cargo.commands.Outtake
 import frc.team3324.robot.intake.hatch.Hatch
-import frc.team3324.robot.intake.hatch.commands.SwitchIntake
+import frc.team3324.robot.util.physics.TrapezoidProfile
 
 object OI {
     val oneEightyDegree = PIDCommand(0.55, 0.001, 0.0, Math.toRadians(180.0), 0.01, Arm, Arm::getArmRadians, Arm::setSpeed)

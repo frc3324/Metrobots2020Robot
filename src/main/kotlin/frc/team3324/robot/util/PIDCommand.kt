@@ -1,16 +1,16 @@
 package frc.team3324.robot.util
 
 import edu.wpi.first.wpilibj.Notifier
-import edu.wpi.first.wpilibj.command.Command
-import edu.wpi.first.wpilibj.command.Subsystem
+import edu.wpi.first.wpilibj2.command.CommandBase
+import edu.wpi.first.wpilibj2.command.Subsystem
 
-class PIDCommand(val kP: Double, val kI: Double, val kD: Double, val goal: Double, val dt: Double, subsystem: Subsystem, val measurement: () -> Double, val useOutput: (Double) -> Unit): Command() {
+class PIDCommand(val kP: Double, val kI: Double, val kD: Double, val goal: Double, val dt: Double, subsystem: Subsystem, val measurement: () -> Double, val useOutput: (Double) -> Unit): CommandBase() {
     private var integral = 0.0
     private var lastPosition = 0.0
     private val notifier = Notifier(this ::executePID)
 
     init {
-        this.requires(subsystem)
+       addRequirements(subsystem)
     }
 
     override fun initialize() {
@@ -30,13 +30,8 @@ class PIDCommand(val kP: Double, val kI: Double, val kD: Double, val goal: Doubl
         useOutput(output)
     }
 
-    override fun end() {
+    override fun end(interrupted: Boolean) {
         stopNotifier()
-    }
-
-    override fun interrupted() {
-        stopNotifier()
-        end()
     }
 
     fun stopNotifier() {
