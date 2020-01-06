@@ -50,18 +50,18 @@ class DriveTrain: SubsystemBase() {
     init {
 
         frMotor.setSmartCurrentLimit(40)
-        blMotor.setSmartCurrentLimit(40)
+        flMotor.setSmartCurrentLimit(40)
         frMotor.setSecondaryCurrentLimit(80.0)
-        blMotor.setSecondaryCurrentLimit(80.0)
+        flMotor.setSecondaryCurrentLimit(80.0)
 
         brMotor.follow(frMotor)
-        flMotor.follow(blMotor)
+        blMotor.follow(flMotor)
 
         brMotor.inverted = false
         frMotor.inverted= true
         
         blMotor.inverted = true
-        flMotor.inverted = false
+        flMotor.inverted = true
 
         lEncoder.distancePerPulse = Consts.DriveTrain.DISTANCE_PER_PULSE
         rEncoder.distancePerPulse = Consts.DriveTrain.DISTANCE_PER_PULSE
