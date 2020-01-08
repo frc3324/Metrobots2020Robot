@@ -7,10 +7,10 @@ object Consts {
         const val DRIVETRAIN_PCM_MODULE = 0
 
         // Motor ports
-        const val FL_MOTOR = 4 // Victor
-        const val BL_MOTOR = 3 // Talon
-        const val FR_MOTOR = 1 // Talon
-        const val BR_MOTOR = 2 // Victor
+        const val FL_MOTOR = 4
+        const val BL_MOTOR = 3
+        const val FR_MOTOR = 1
+        const val BR_MOTOR = 2
 
         const val LEFT_ENCODER_PORT_A = 0
         const val LEFT_ENCODER_PORT_B = 1

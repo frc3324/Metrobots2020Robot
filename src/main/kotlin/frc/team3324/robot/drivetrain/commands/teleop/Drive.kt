@@ -12,7 +12,7 @@ class Drive(val driveTrain: DriveTrain, val xSpeed: (GenericHID.Hand) -> Double,
     }
 
     override fun execute() {
-        driveTrain.curvatureDrive(xSpeed(Hand.kLeft), ySpeed(Hand.kRight))
+        driveTrain.curvatureDrive(xSpeed(Hand.kRight), ySpeed(Hand.kLeft))
     }
 
     override fun isFinished(): Boolean {

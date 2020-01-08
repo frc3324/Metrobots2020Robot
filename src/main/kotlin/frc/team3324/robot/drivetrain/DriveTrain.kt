@@ -45,23 +45,33 @@ class DriveTrain: SubsystemBase() {
     private val frMotor = CANSparkMax(Consts.DriveTrain.FR_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless)
     private val brMotor = CANSparkMax(Consts.DriveTrain.BR_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless)
 
-    private val drive = DifferentialDrive(frMotor, blMotor)
+    private val drive = DifferentialDrive(frMotor, flMotor)
 
     init {
+        frMotor.restoreFactoryDefaults()
+        flMotor.restoreFactoryDefaults()
+        brMotor.restoreFactoryDefaults()
+        blMotor.restoreFactoryDefaults()
+        frMotor.encoder.positionConversionFactor = Consts.DriveTrain.CIRCUMFERENCE
+        blMotor.encoder.positionConversionFactor = Consts.DriveTrain.CIRCUMFERENCE
+        frMotor.encoder.velocityConversionFactor = Consts.DriveTrain.CIRCUMFERENCE
+        blMotor.encoder.velocityConversionFactor = Consts.DriveTrain.CIRCUMFERENCE
 
         frMotor.setSmartCurrentLimit(40)
         flMotor.setSmartCurrentLimit(40)
         frMotor.setSecondaryCurrentLimit(80.0)
         flMotor.setSecondaryCurrentLimit(80.0)
+        frMotor.openLoopRampRate = 0.01
+        flMotor.openLoopRampRate = 0.01
 
         brMotor.follow(frMotor)
         blMotor.follow(flMotor)
 
         brMotor.inverted = false
         frMotor.inverted= true
-        
-        blMotor.inverted = true
-        flMotor.inverted = true
+
+        flMotor.inverted = false
+        blMotor.inverted = false
 
         lEncoder.distancePerPulse = Consts.DriveTrain.DISTANCE_PER_PULSE
         rEncoder.distancePerPulse = Consts.DriveTrain.DISTANCE_PER_PULSE
@@ -99,13 +109,12 @@ class DriveTrain: SubsystemBase() {
     }
 
     fun curvatureDrive(xSpeed: Double, ySpeed: Double) {
-        SmartDashboard.putNumber("Current Of FLMotor ", blMotor.outputCurrent)
-        SmartDashboard.putNumber("Current Of FRMotor ", frMotor.outputCurrent)
+
 
         if (xSpeed < 0.05) {
-            drive.curvatureDrive(xSpeed, ySpeed * 0.65, true)
+            drive.curvatureDrive(xSpeed, ySpeed * 0.7, true)
         } else {
-            drive.curvatureDrive(xSpeed, ySpeed * 0.7, false)
+            drive.curvatureDrive(xSpeed, ySpeed * 0.65, false)
         }
 
     }
@@ -124,5 +133,6 @@ class DriveTrain: SubsystemBase() {
         blMotor.idleMode = CANSparkMax.IdleMode.kCoast
 
     }
+
 
 }
