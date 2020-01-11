@@ -25,10 +25,20 @@ object Consts {
         const val DISTANCE_PER_PULSE = CIRCUMFERENCE / PULSES
         const val DISTANCE_BETWEEN_WHEELS = 0.61
 
-        const val HIGH_GEAR_MAX_VELOCITY = 3.4072
-        const val HIGH_GEAR_MAX_ACCELERATION = 3.00
+
+        const val HIGH_GEAR_RATIO = 9.167
+        const val LOW_GEAR_RATIO = 20.833
+        const val HIGH_GEAR_MAX_VELOCITY = 3.0435
+        const val HIGH_GEAR_MAX_ACCELERATION = 2.00
         const val LOW_GEAR_MAX_VELOCITY = 1.8
         const val LOW_GEAR_MAX_ACCELERATION = 6.51
+
+        const val ksVolts = 0.181
+        const val kvVoltSecondsPerMeter = 2.3
+        const val kaVoltSecondsSquaredPerMeter = 0.302
+        const val kPDriveVel = 5
+        const val kRamseteB = 2.0
+        const val kRamseteZeta = 0.7
 
         const val GEARSHIFTER_FORWARD = 0
         const val GEARSHIFTER_REVERSE = 1
@@ -52,24 +62,6 @@ object Consts {
 
         const val FRONT_LIMIT_SWITCH = 9
         const val BACK_LIMIT_SWITCH = 8
-    }
-
-    object HatchIntake {
-        const val HATCH_INTAKE_PORT_FORWARD = 6
-        const val HATCH_INTAKE_PORT_BACKWARD = 7
-    }
-
-    object CargoIntake {
-        const val CARGO_INTAKE_MOTOR = 4
-    }
-
-    object Climber {
-        const val BACK_PCM_MODULE = 1
-
-        const val BACK_FORWARD = 5
-        const val BACK_BACKWARD = 4
-        const val FRONT_FORWARD = 1
-        const val FRONT_BACKWARD = 0
     }
 
     object LED {
