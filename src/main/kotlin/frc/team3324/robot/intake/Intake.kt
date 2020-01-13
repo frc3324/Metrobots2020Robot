@@ -11,6 +11,7 @@ class Intake : SubsystemBase() {
         leftMotor.configContinuousCurrentLimit(20)
         leftMotor.enableCurrentLimit(true)
         rightMotor.follow(leftMotor)
+        var motorcurrent = getCurrent(leftMotor)
     }
 
 
