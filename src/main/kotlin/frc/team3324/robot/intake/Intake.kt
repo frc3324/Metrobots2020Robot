@@ -8,15 +8,19 @@ class Intake : SubsystemBase() {
     private val rightMotor = WPI_TalonSRX(1)
 
     init {
+        i = 0
         leftMotor.configContinuousCurrentLimit(20)
         leftMotor.enableCurrentLimit(true)
         rightMotor.follow(leftMotor)
-        var motorcurrent = getCurrent(leftMotor)
+
     }
 
 
     fun run(power: Double) {
         leftMotor.set(power)
+        var motorcurrent = getCurrent(leftMotor)
+        putData(motorcurrent, i)
+        i++
     }
 
 
