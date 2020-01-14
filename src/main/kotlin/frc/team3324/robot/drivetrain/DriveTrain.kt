@@ -67,8 +67,8 @@ class DriveTrain: SubsystemBase() {
         flMotor.restoreFactoryDefaults()
         brMotor.restoreFactoryDefaults()
         blMotor.restoreFactoryDefaults()
-        rightEncoder.positionConversionFactor = Consts.DriveTrain.CIRCUMFERENCE / Consts.DriveTrain.HIGH_GEAR_RATIO
-        leftEncoder.velocityConversionFactor = Consts.DriveTrain.CIRCUMFERENCE / Consts.DriveTrain.HIGH_GEAR_RATIO
+        rightEncoder.positionConversionFactor = Consts.DriveTrain.CIRCUMFERENCE * Consts.DriveTrain.HIGH_GEAR_RATIO
+        leftEncoder.velocityConversionFactor = Consts.DriveTrain.CIRCUMFERENCE * Consts.DriveTrain.HIGH_GEAR_RATIO
 
         frMotor.setSmartCurrentLimit(40)
         flMotor.setSmartCurrentLimit(40)

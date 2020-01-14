@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint
 import edu.wpi.first.wpilibj2.command.Command
-import edu.wpi.first.wpilibj2.command.CommandScheduler
 import edu.wpi.first.wpilibj2.command.RamseteCommand
 import edu.wpi.first.wpilibj2.command.button.JoystickButton
 import frc.team3324.robot.drivetrain.DriveTrain
@@ -22,7 +21,9 @@ import frc.team3324.robot.drivetrain.commands.teleop.Drive
 import frc.team3324.robot.drivetrain.commands.teleop.ShiftGears
 import frc.team3324.robot.drivetrain.commands.teleop.ToggleAutoShifting
 import frc.team3324.robot.intake.Intake
-import frc.team3324.robot.intake.Run
+import frc.team3324.robot.intake.commands.RunIntake
+import frc.team3324.robot.shooter.Shooter
+import frc.team3324.robot.shooter.commands.RunShooter
 import frc.team3324.robot.util.AutoShifter
 import frc.team3324.robot.util.Camera
 import frc.team3324.robot.util.Consts
@@ -30,7 +31,9 @@ import frc.team3324.robot.util.Consts
 class RobotContainer {
     private val intake = Intake()
     private val driveTrain = DriveTrain()
+    private val shooter = Shooter()
     private val primaryController = XboxController(0)
+    private val secondaryController = XboxController(1)
     private val autoShifter = AutoShifter(driveTrain)
 
     private val primaryRightX: Double
@@ -49,7 +52,8 @@ class RobotContainer {
     fun configureButtonBindings() {
         JoystickButton(primaryController, Button.kBumperLeft.value).whenPressed(ShiftGears(driveTrain))
         JoystickButton(primaryController, Button.kA.value).whenPressed(ToggleAutoShifting(autoShifter))
-        JoystickButton(primaryController, Button.kB.value).whenPressed(Run(intake))
+        JoystickButton(primaryController, Button.kB.value).whenPressed(RunIntake(intake))
+        JoystickButton(secondaryController, Button.kA.value).whenPressed(RunShooter(shooter, 5000.0))
     }
 
     fun getAutoCommand(): Command {
