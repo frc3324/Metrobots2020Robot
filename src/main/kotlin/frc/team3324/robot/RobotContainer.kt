@@ -27,6 +27,7 @@ import frc.team3324.robot.shooter.commands.RunShooter
 import frc.team3324.robot.util.AutoShifter
 import frc.team3324.robot.util.Camera
 import frc.team3324.robot.util.Consts
+import frc.team3324.robot.util.PneumaticShift
 
 class RobotContainer {
     private val intake = Intake()
@@ -50,7 +51,7 @@ class RobotContainer {
    }
 
     fun configureButtonBindings() {
-        JoystickButton(primaryController, Button.kBumperLeft.value).whenPressed(ShiftGears(driveTrain))
+        JoystickButton(primaryController, Button.kBumperLeft.value).whenPressed(PneumaticShift(driveTrain.gearShifter))
         JoystickButton(primaryController, Button.kA.value).whenPressed(ToggleAutoShifting(autoShifter))
         JoystickButton(primaryController, Button.kB.value).whenPressed(RunIntake(intake))
         JoystickButton(secondaryController, Button.kA.value).whenPressed(RunShooter(shooter, 5000.0))
