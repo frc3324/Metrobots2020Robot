@@ -18,16 +18,16 @@ class Shooter: SubsystemBase() {
 
     var RPM: Double
         get() = (-leftEncoder.velocity + rightEncoder.velocity) / 2.0
-        set(rpm) = leftMotor.set(0.5)//getVoltageFromRPM(rpm / Consts.Shooter.GEAR_RATIO, motor))
+        set(rpm) = leftMotor.setVoltage(-getVoltageFromRPM(rpm / Consts.Shooter.GEAR_RATIO, motor))
 
     init {
         rightMotor.restoreFactoryDefaults()
         leftMotor.restoreFactoryDefaults()
-        rightMotor.idleMode = CANSparkMax.IdleMode.kBrake
-        leftMotor.idleMode = CANSparkMax.IdleMode.kBrake
+        rightMotor.idleMode = CANSparkMax.IdleMode.kCoast
+        leftMotor.idleMode = CANSparkMax.IdleMode.kCoast
+        rightMotor.follow(leftMotor, true)
 
-//        rightMotor.follow(leftMotor)
-        rightMotor.inverted = true
+        leftMotor.inverted = false
         leftEncoder.velocityConversionFactor = Consts.Shooter.GEAR_RATIO
         rightEncoder.velocityConversionFactor = Consts.Shooter.GEAR_RATIO
         leftMotor.setSmartCurrentLimit(40)
@@ -35,8 +35,7 @@ class Shooter: SubsystemBase() {
     }
 
     override fun periodic() {
-        leftMotor.setVoltage(12.0)
-        SmartDashboard.putNumber("RPM ", leftEncoder.velocity)
+        SmartDashboard.putNumber("RPM ", (leftEncoder.velocity + rightEncoder.velocity) / 2.0)
         SmartDashboard.putNumber("Amp", leftMotor.outputCurrent)
     }
 

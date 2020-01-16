@@ -13,7 +13,6 @@ class RunShooter(val shooter: Shooter, val rpm: Double): CommandBase() {
 
     override fun execute() {
        shooter.RPM = rpm
-        SmartDashboard.putNumber("RPM", shooter.RPM)
     }
 
     override fun end(interrupted: Boolean) {
