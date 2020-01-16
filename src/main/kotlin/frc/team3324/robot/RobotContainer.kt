@@ -28,7 +28,7 @@ import frc.team3324.robot.util.Camera
 import frc.team3324.robot.util.Consts
 
 class RobotContainer {
-    private val intake = Intake()
+   // private val intake = Intake()
     private val driveTrain = DriveTrain()
     private val primaryController = XboxController(0)
     private val autoShifter = AutoShifter(driveTrain)
@@ -49,7 +49,7 @@ class RobotContainer {
     fun configureButtonBindings() {
         JoystickButton(primaryController, Button.kBumperLeft.value).whenPressed(ShiftGears(driveTrain))
         JoystickButton(primaryController, Button.kA.value).whenPressed(ToggleAutoShifting(autoShifter))
-        JoystickButton(primaryController, Button.kB.value).whenPressed(Run(intake))
+        //JoystickButton(primaryController, Button.kB.value).whenPressed(Run(intake))
     }
 
     fun getAutoCommand(): Command {
