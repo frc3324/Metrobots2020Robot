@@ -28,8 +28,8 @@ object Consts {
         const val DISTANCE_BETWEEN_WHEELS = 0.61
 
 
-        const val HIGH_GEAR_RATIO = 1/9.167
-        const val LOW_GEAR_RATIO = 1/20.833
+        const val HIGH_GEAR_RATIO = 1/9.07
+        const val LOW_GEAR_RATIO = 1/19.61
         const val HIGH_GEAR_MAX_VELOCITY = 3.0435
         const val HIGH_GEAR_MAX_ACCELERATION = 2.00
         const val LOW_GEAR_MAX_VELOCITY = 1.8
