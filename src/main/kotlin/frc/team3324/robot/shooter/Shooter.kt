@@ -2,6 +2,7 @@ package frc.team3324.robot.shooter
 
 import com.revrobotics.CANSparkMax
 import com.revrobotics.CANSparkMaxLowLevel
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.team3324.robot.util.Consts
 import frc.team3324.robot.util.physics.Motors
@@ -53,7 +54,13 @@ class Shooter: SubsystemBase(), Loggable {
         set(rpm) = leftMotor.setVoltage(runPID(rpm))
 
     init {
-        rightMotor.follow(leftMotor)
+        rightMotor.restoreFactoryDefaults()
+        leftMotor.restoreFactoryDefaults()
+        rightMotor.idleMode = CANSparkMax.IdleMode.kBrake
+        leftMotor.idleMode = CANSparkMax.IdleMode.kBrake
+
+//        rightMotor.follow(leftMotor)
+        rightMotor.inverted = true
         leftEncoder.velocityConversionFactor = Consts.Shooter.GEAR_RATIO
         rightEncoder.velocityConversionFactor = Consts.Shooter.GEAR_RATIO
         leftMotor.setSmartCurrentLimit(40)
@@ -67,7 +74,9 @@ class Shooter: SubsystemBase(), Loggable {
     }
 
     override fun periodic() {
-
+        leftMotor.setVoltage(12.0)
+        SmartDashboard.putNumber("RPM ", leftEncoder.velocity)
+        SmartDashboard.putNumber("Amp", leftMotor.outputCurrent)
     }
 
 }

@@ -44,6 +44,7 @@ class Robot: TimedRobot() {
 
     override fun autonomousInit() {
         CommandScheduler.getInstance().schedule(robotContainer.getAutoCommand())
+        SmartDashboard.putBoolean("We here 4", true)
         enabledInit()
     }
     override fun teleopInit() {

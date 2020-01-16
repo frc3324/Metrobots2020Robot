@@ -63,7 +63,7 @@ object Consts {
 
     object Shooter {
         const val LEFT_MOTOR_PORT = 10
-        const val RIGHT_MOTOR_PORT = 9
+        const val RIGHT_MOTOR_PORT = 11
         const val GEAR_RATIO = 1.25
 
         const val Kv = 0.107 / 60 // Char tool gives Kv in terms of RPS so /60

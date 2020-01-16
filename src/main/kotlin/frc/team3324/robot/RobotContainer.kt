@@ -38,7 +38,8 @@ class RobotContainer {
     private val intake = Intake()
     private val driveTrain = DriveTrain()
     private val relay = Relay(0)
-//    private val shooter = Shooter()
+    private val shooter = Shooter()
+    private val shooterCommand = RunShooter(shooter, 1000.0)
     private val primaryController = XboxController(0)
     private val secondaryController = XboxController(1)
 
@@ -54,7 +55,6 @@ class RobotContainer {
        driveTrain.defaultCommand = Drive(driveTrain, {primaryController.getY(GenericHID.Hand.kLeft)}, {primaryController.getX(GenericHID.Hand.kRight)})
        intake.defaultCommand = RunPivot(intake, -0.05)
        configureButtonBindings()
-
    }
 
     fun configureButtonBindings() {
