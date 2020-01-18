@@ -16,6 +16,6 @@ class RunShooter(val shooter: Shooter, val rpm: Double): CommandBase() {
     }
 
     override fun end(interrupted: Boolean) {
-        shooter.RPM = 0.0
+        shooter.percentPower = 0.0
     }
 }

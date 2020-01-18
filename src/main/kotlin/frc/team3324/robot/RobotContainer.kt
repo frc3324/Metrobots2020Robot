@@ -49,6 +49,6 @@ class RobotContainer {
 
     fun configureButtonBindings() {
         JoystickButton(primaryController, Button.kB.value).whenPressed(RunIntake(intake))
-        JoystickButton(secondaryController, Button.kA.value).whileHeld(RunShooter(shooter, 5512.5))
+        JoystickButton(secondaryController, Button.kA.value).whileHeld(RunShooter(shooter, 5550.0))
     }
 }
