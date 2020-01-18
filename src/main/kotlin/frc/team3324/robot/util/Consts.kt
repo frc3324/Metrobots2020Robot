@@ -1,6 +1,7 @@
 package frc.team3324.robot.util
 
 import edu.wpi.first.wpilibj.DoubleSolenoid
+import edu.wpi.first.wpilibj.util.Units
 
 object Consts {
     object DriveTrain {
@@ -20,16 +21,17 @@ object Consts {
         const val RIGHT_ENCODER_PORT_B = 3
 
         // Encoder and Auto constants
-        const val WHEEL_DIAMETER_METERS = 0.1555575
+        const val HIGH_GEAR_RATIO = 1/9.07
+        const val LOW_GEAR_RATIO = 1/19.61
+        const val WHEEL_DIAMETER_METERS = 6.00/39.36
         const val CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER_METERS
         const val PULSES = 1870 // 256 (pulses) * 4(quad, 4 ticks/pulse) * 3 * 25 (gear ratios)
         const val TICKS = PULSES * 4
-        const val DISTANCE_PER_PULSE = CIRCUMFERENCE / PULSES
+        const val DISTANCE_PER_PULSE_HIGH = CIRCUMFERENCE * HIGH_GEAR_RATIO
+        const val DISTANCE_PER_PULSE_LOW = CIRCUMFERENCE * LOW_GEAR_RATIO
         const val DISTANCE_BETWEEN_WHEELS = 0.61
 
 
-        const val HIGH_GEAR_RATIO = 1/9.07
-        const val LOW_GEAR_RATIO = 1/19.61
         const val HIGH_GEAR_MAX_VELOCITY = 3.0435
         const val HIGH_GEAR_MAX_ACCELERATION = 2.00
         const val LOW_GEAR_MAX_VELOCITY = 1.8

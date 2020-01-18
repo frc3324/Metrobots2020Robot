@@ -21,6 +21,7 @@ class DriveTrain: SubsystemBase() {
 
     val driveKinematics = DifferentialDriveKinematics(Consts.DriveTrain.DISTANCE_BETWEEN_WHEELS)
     val gearShifter = DoubleSolenoid(Consts.DriveTrain.GEARSHIFTER_FORWARD, Consts.DriveTrain.GEARSHIFTER_REVERSE)
+    var activeConversionRatio = Consts.DriveTrain.DISTANCE_PER_PULSE_HIGH
     var shifterStatus: DoubleSolenoid.Value
         get() = gearShifter.get()
         set(status) {
@@ -29,23 +30,24 @@ class DriveTrain: SubsystemBase() {
     val accelerationGyro: Double
         get() = gyro.accelFullScaleRangeG.toDouble() * 9.8
     val leftEncoderSpeed: Double
-        get() = leftEncoder.velocity
+        get() = leftEncoder.velocity * (1/60) * activeConversionRatio
     val leftEncoderPosition: Double
-        get() = leftEncoder.position
+        get() = leftEncoder.position * activeConversionRatio
     val rightEncoderSpeed: Double
-        get() = rightEncoder.velocity
+        get() = rightEncoder.velocity * (1/60) * activeConversionRatio
     val rightEncoderPosition: Double
-        get() = rightEncoder.position
+        get() = rightEncoder.position * activeConversionRatio
     val pose: Pose2d
         get() = diffDriveOdometry.poseMeters
     val wheelSpeeds: DifferentialDriveWheelSpeeds
         get() = DifferentialDriveWheelSpeeds(leftEncoderSpeed, rightEncoderSpeed)
 
-    val speed: Double
-        get() = (rightEncoderSpeed + leftEncoderSpeed) / 2
+    val velocity: Double
+        get() = (rightEncoderSpeed + leftEncoderSpeed) / 2.0
 
     val position: Double
-        get() = (rightEncoderPosition + leftEncoderPosition) / 2
+        get() = (rightEncoderPosition - leftEncoderPosition) / 2.0
+
     var acceleration = 0.0
 
 
@@ -87,7 +89,6 @@ class DriveTrain: SubsystemBase() {
 
     init {
         shifterStatus = Consts.DriveTrain.HIGH_GEAR
-        setHighGearConversions()
         lmMotor.restoreFactoryDefaults()
         luMotor.restoreFactoryDefaults()
         ldMotor.restoreFactoryDefaults()
@@ -148,11 +149,11 @@ class DriveTrain: SubsystemBase() {
         }
 
         if (sign(rightEncoderPosition) * sign(leftEncoderPosition) != -1.0 && enabled) {
-            if (shifterStatus == Consts.DriveTrain.LOW_GEAR && speed > 1.554 && timeBetweenShifts > 0.5) {
+            if (shifterStatus == Consts.DriveTrain.LOW_GEAR && velocity > 1.554 && timeBetweenShifts > 0.5) {
                // shifterStatus = Consts.DriveTrain.HIGH_GEAR
                // lastShift = Timer.getFPGATimestamp()
                // setHighGearConversions()
-            } else if (shifterStatus == Consts.DriveTrain.HIGH_GEAR && speed < 1.554 && timeBetweenShifts > 0.5) {
+            } else if (shifterStatus == Consts.DriveTrain.HIGH_GEAR && velocity < 1.554 && timeBetweenShifts > 0.5) {
 //                lastShift = Timer.getFPGATimestamp()
 //                shifterStatus = Consts.DriveTrain.LOW_GEAR
 //
@@ -160,7 +161,7 @@ class DriveTrain: SubsystemBase() {
             }
         }
         SmartDashboard.putNumber("Position: ", position)
-        SmartDashboard.putNumber("Speed ", speed)
+        SmartDashboard.putNumber("Speed ", velocity)
     }
 
     fun curvatureDrive(xSpeed: Double, ySpeed: Double, quickTurn: Boolean) {
@@ -189,18 +190,5 @@ class DriveTrain: SubsystemBase() {
         SmartDashboard.putNumber("leftVolts", leftVolts)
         lmMotor.setVoltage(leftVolts)
         rmMotor.setVoltage(-rightVolts)
-    }
-
-    fun setHighGearConversions() {
-        rightEncoder.positionConversionFactor = Consts.DriveTrain.CIRCUMFERENCE / Consts.DriveTrain.HIGH_GEAR_RATIO //rotations to meters
-        leftEncoder.positionConversionFactor = Consts.DriveTrain.CIRCUMFERENCE / Consts.DriveTrain.HIGH_GEAR_RATIO //rotations to meters
-        rightEncoder.velocityConversionFactor = (Consts.DriveTrain.CIRCUMFERENCE / Consts.DriveTrain.HIGH_GEAR_RATIO)/60 //rpm to mps
-        leftEncoder.velocityConversionFactor = (Consts.DriveTrain.CIRCUMFERENCE / Consts.DriveTrain.HIGH_GEAR_RATIO)/60 //rpm to mps
-    }
-    fun setLowGearConversions() {
-        rightEncoder.positionConversionFactor = Consts.DriveTrain.CIRCUMFERENCE * Consts.DriveTrain.LOW_GEAR_RATIO //rotations to meters
-        leftEncoder.positionConversionFactor = Consts.DriveTrain.CIRCUMFERENCE * Consts.DriveTrain.LOW_GEAR_RATIO //rotations to meters
-        rightEncoder.velocityConversionFactor = (Consts.DriveTrain.CIRCUMFERENCE * Consts.DriveTrain.LOW_GEAR_RATIO)/60 //rpm to mps
-        leftEncoder.velocityConversionFactor = (Consts.DriveTrain.CIRCUMFERENCE * Consts.DriveTrain.LOW_GEAR_RATIO)/60 //rpm to mps
     }
 }
