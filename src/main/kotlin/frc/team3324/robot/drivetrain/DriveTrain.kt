@@ -21,7 +21,7 @@ class DriveTrain: SubsystemBase() {
 
     val driveKinematics = DifferentialDriveKinematics(Consts.DriveTrain.DISTANCE_BETWEEN_WHEELS)
     val gearShifter = DoubleSolenoid(Consts.DriveTrain.GEARSHIFTER_FORWARD, Consts.DriveTrain.GEARSHIFTER_REVERSE)
-    var activeConversionRatio: Double = Consts.DriveTrain.DISTANCE_PER_PULSE_HIGH
+    var activeConversionRatio: Double = Consts.DriveTrain.DISTANCE_PER_PULSE_LOW
     var shifterStatus: DoubleSolenoid.Value
         get() = gearShifter.get()
         set(status) {
