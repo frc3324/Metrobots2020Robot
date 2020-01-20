@@ -148,18 +148,15 @@ class DriveTrain: SubsystemBase() {
             timeDifference = 0.2
         }
 
-        if (sign(rightEncoderPosition) * sign(leftEncoderPosition) != -1.0 && enabled) {
             if (shifterStatus == Consts.DriveTrain.LOW_GEAR && velocity > 1.554 && timeBetweenShifts > 0.5) {
-               // shifterStatus = Consts.DriveTrain.HIGH_GEAR
-               // lastShift = Timer.getFPGATimestamp()
-               // setHighGearConversions()
+                shifterStatus = Consts.DriveTrain.HIGH_GEAR
+                lastShift = Timer.getFPGATimestamp()
+
             } else if (shifterStatus == Consts.DriveTrain.HIGH_GEAR && velocity < 1.554 && timeBetweenShifts > 0.5) {
-//                lastShift = Timer.getFPGATimestamp()
-//                shifterStatus = Consts.DriveTrain.LOW_GEAR
-//
-//                setLowGearConversions()
+                lastShift = Timer.getFPGATimestamp()
+                shifterStatus = Consts.DriveTrain.LOW_GEAR
+
             }
-        }
         SmartDashboard.putNumber("Position: ", position)
         SmartDashboard.putNumber("Speed ", velocity)
     }

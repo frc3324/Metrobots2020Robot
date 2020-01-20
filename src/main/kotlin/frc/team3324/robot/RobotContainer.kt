@@ -17,7 +17,7 @@ import frc.team3324.robot.util.PneumaticShift
 class RobotContainer {
     private val intake = Intake()
     private val driveTrain = DriveTrain()
-    private val shooter = Shooter()
+//    private val shooter = Shooter()
     private val primaryController = XboxController(0)
     private val secondaryController = XboxController(1)
 
@@ -38,6 +38,6 @@ class RobotContainer {
         JoystickButton(primaryController, Button.kBumperLeft.value).whenPressed(PneumaticShift(driveTrain.gearShifter))
         JoystickButton(primaryController, Button.kA.value).whenPressed(ToggleAutoShifting(driveTrain))
         JoystickButton(primaryController, Button.kB.value).whenPressed(RunIntake(intake))
-        JoystickButton(secondaryController, Button.kA.value).whenPressed(RunShooter(shooter, 5000.0))
+//        JoystickButton(secondaryController, Button.kA.value).whenPressed(RunShooter(shooter, 5000.0))
     }
 }
