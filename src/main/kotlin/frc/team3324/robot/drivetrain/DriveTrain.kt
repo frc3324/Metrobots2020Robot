@@ -26,6 +26,7 @@ class DriveTrain: SubsystemBase(), Loggable {
     val feedForward = SimpleMotorFeedforward(Consts.DriveTrain.ksVolts, Consts.DriveTrain.LOW_GEAR_KV, Consts.DriveTrain.LOW_GEAR_KA)
     val gearShifter = DoubleSolenoid(Consts.DriveTrain.GEARSHIFTER_FORWARD, Consts.DriveTrain.GEARSHIFTER_REVERSE)
     var activeConversionRatio: Double = Consts.DriveTrain.DISTANCE_PER_PULSE_LOW
+
     var shifterStatus: DoubleSolenoid.Value
         get() = gearShifter.get()
         set(status) {
@@ -35,7 +36,7 @@ class DriveTrain: SubsystemBase(), Loggable {
 
     val leftEncoderSpeed: Double
         @Log
-        get() = leftEncoder.velocity * (1/60.0) * activeConversionRatio
+        get() = leftEncoder.velocity * (1 / 60.0) * activeConversionRatio
 
     val leftEncoderPosition: Double
         @Log
@@ -43,7 +44,7 @@ class DriveTrain: SubsystemBase(), Loggable {
 
     val rightEncoderSpeed: Double
         @Log
-        get() = rightEncoder.velocity * (1/60.0) * activeConversionRatio
+        get() = rightEncoder.velocity * (1 / 60.0) * activeConversionRatio
 
     val rightEncoderPosition: Double
         @Log
@@ -88,8 +89,6 @@ class DriveTrain: SubsystemBase(), Loggable {
 
     val leftPIDController = PIDController(2.95, 0.0, 0.0)
     val rightPIDController = PIDController(2.95, 0.0, 0.0)
-
-
 
 
     private val gyro = AHRS(SPI.Port.kMXP)
@@ -149,7 +148,7 @@ class DriveTrain: SubsystemBase(), Loggable {
         ldMotor.follow(lmMotor)
 
         ruMotor.inverted = false
-        rmMotor.inverted= false
+        rmMotor.inverted = false
         rdMotor.inverted = false
 
         lmMotor.inverted = false
@@ -207,7 +206,6 @@ class DriveTrain: SubsystemBase(), Loggable {
     }
 
 
-
     fun setCoastMode() {
         rmMotor.idleMode = CANSparkMax.IdleMode.kCoast
         lmMotor.idleMode = CANSparkMax.IdleMode.kCoast
@@ -222,6 +220,4 @@ class DriveTrain: SubsystemBase(), Loggable {
         lmMotor.setVoltage(leftVolts)
         rmMotor.setVoltage(-rightVolts)
     }
-
-
 }

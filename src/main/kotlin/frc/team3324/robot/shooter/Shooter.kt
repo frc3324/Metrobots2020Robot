@@ -64,7 +64,7 @@ class Shooter: SubsystemBase(), Loggable {
         leftMotor.idleMode = CANSparkMax.IdleMode.kCoast
         rightMotor.follow(leftMotor, true)
 
-        leftMotor.inverted = true
+        leftMotor.inverted = false
         leftEncoder.velocityConversionFactor = Consts.Shooter.GEAR_RATIO
         rightEncoder.velocityConversionFactor = Consts.Shooter.GEAR_RATIO
         leftMotor.setSmartCurrentLimit(40)
@@ -80,15 +80,6 @@ class Shooter: SubsystemBase(), Loggable {
     override fun periodic() {
         SmartDashboard.putNumber("RPM ", RPM)
         SmartDashboard.putNumber("Amp", leftMotor.outputCurrent)
-    }
-
-    fun runPID(goal: Double) {
-      val error = goal + RPM
-        SmartDashboard.putNumber("Goal, ", goal)
-        SmartDashboard.putNumber("Error", error)
-        val speed = (-error * 0.002) - getVoltageFromRPM(goal / Consts.Shooter.GEAR_RATIO, motor) - 1.2
-        SmartDashboard.putNumber("Speed: ", speed)
-        leftMotor.setVoltage(speed)
     }
 
 }
