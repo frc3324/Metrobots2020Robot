@@ -3,11 +3,8 @@ package frc.team3324.robot.drivetrain
 import com.kauailabs.navx.frc.AHRS
 import com.revrobotics.CANSparkMax
 import com.revrobotics.CANSparkMaxLowLevel
-import edu.wpi.first.wpilibj.CounterBase
-import edu.wpi.first.wpilibj.DoubleSolenoid
+import edu.wpi.first.wpilibj.*
 
-import edu.wpi.first.wpilibj.Encoder
-import edu.wpi.first.wpilibj.SPI
 import edu.wpi.first.wpilibj.drive.DifferentialDrive
 import edu.wpi.first.wpilibj.geometry.Pose2d
 import edu.wpi.first.wpilibj.geometry.Rotation2d
@@ -24,7 +21,9 @@ class DriveTrain: SubsystemBase() {
     private val lEncoder = Encoder(Consts.DriveTrain.LEFT_ENCODER_PORT_A, Consts.DriveTrain.LEFT_ENCODER_PORT_B, false, CounterBase.EncodingType.k4X)
     private val rEncoder = Encoder(Consts.DriveTrain.RIGHT_ENCODER_PORT_A, Consts.DriveTrain.RIGHT_ENCODER_PORT_B, true, CounterBase.EncodingType.k4X)
     val driveKinematics = DifferentialDriveKinematics(Consts.DriveTrain.DISTANCE_BETWEEN_WHEELS)
-    val gearShifter = DoubleSolenoid(Consts.DriveTrain.DRIVETRAIN_PCM_MODULE, Consts.DriveTrain.GEARSHIFTER_FORWARD, Consts.DriveTrain.GEARSHIFTER_REVERSE)
+
+    val gearShifter = DoubleSolenoid(Consts.DriveTrain.GEARSHIFTER_FORWARD, Consts.DriveTrain.GEARSHIFTER_REVERSE)
+    var activeConversionRatio: Double = Consts.DriveTrain.DISTANCE_PER_PULSE
     var shifterStatus: DoubleSolenoid.Value
         get() = gearShifter.get()
         set(status) {
@@ -33,16 +32,28 @@ class DriveTrain: SubsystemBase() {
     val accelerationGyro: Double
         get() = gyro.accelFullScaleRangeG.toDouble() * 9.8
     val leftEncoderSpeed: Double
-        get() = lEncoder.rate
+        get() = leftEncoder.velocity * (1.0/60) * activeConversionRatio
+    val leftEncoderPosition: Double
+        get() = leftEncoder.position * activeConversionRatio
+
     val rightEncoderSpeed: Double
-        get() = rEncoder.rate
+        get() = rightEncoder.velocity * (1.0/60) * activeConversionRatio
+    val rightEncoderPosition: Double
+        get() = rightEncoder.position * activeConversionRatio
     val pose: Pose2d
         get() = diffDriveOdometry.poseMeters
     val wheelSpeeds: DifferentialDriveWheelSpeeds
         get() = DifferentialDriveWheelSpeeds(leftEncoderSpeed, rightEncoderSpeed)
 
-    var speed = 0.0
+    val velocity: Double
+        get() = (rightEncoderSpeed - leftEncoderSpeed) / 2.0
+
+    val position: Double
+        get() = (rightEncoderPosition - leftEncoderPosition) / 2.0
+
     var acceleration = 0.0
+    var lastTime = 0.0
+    var lastShift = 0.0
 
 
     private val gyro = AHRS(SPI.Port.kMXP)
@@ -66,6 +77,7 @@ class DriveTrain: SubsystemBase() {
 
     val diffDriveOdometry = DifferentialDriveOdometry(Rotation2d.fromDegrees(gyro.yaw.toDouble()))
     init {
+        shifterStatus = Consts.DriveTrain.LOW_GEAR
         lmMotor.restoreFactoryDefaults()
         luMotor.restoreFactoryDefaults()
         ldMotor.restoreFactoryDefaults()
@@ -74,8 +86,6 @@ class DriveTrain: SubsystemBase() {
         ruMotor.restoreFactoryDefaults()
         rdMotor.restoreFactoryDefaults()
 
-        rightEncoder.positionConversionFactor = Consts.DriveTrain.CIRCUMFERENCE / Consts.DriveTrain.HIGH_GEAR_RATIO
-        leftEncoder.velocityConversionFactor = Consts.DriveTrain.CIRCUMFERENCE / Consts.DriveTrain.HIGH_GEAR_RATIO
 
         rmMotor.setSmartCurrentLimit(33)
         lmMotor.setSmartCurrentLimit(33)
@@ -94,35 +104,42 @@ class DriveTrain: SubsystemBase() {
 
         lmMotor.inverted = false
         luMotor.inverted = false
-        ldMotor.inverted = true
+        ldMotor.inverted = false
 
         drive.isSafetyEnabled = true
 
         setBrakeMode()
     }
 
-    fun getLeftEncoderDistance(): Double {
-        return leftEncoder.position
-    }
-
-    fun getRightEncoderDistance(): Double {
-        return rightEncoder.position
-    }
-
     fun getAverageDistance(): Double {
         return (lEncoder.distance + rEncoder.distance) / 2.0
     }
 
-    fun resetGyro() {
-        gyro.reset()
-    }
-
-    fun getYaw(): Double {
-        return gyro.yaw.toDouble()
-    }
-
     override fun periodic() {
         diffDriveOdometry.update(Rotation2d.fromDegrees(gyro.yaw.toDouble()), leftEncoder.position, rightEncoder.position)
+
+        var timeDifference = Timer.getFPGATimestamp() - lastTime
+        val currentVelocity = velocity
+        val timeBetweenShifts = Timer.getFPGATimestamp() - lastShift
+        lastTime = Timer.getFPGATimestamp()
+
+        if (timeDifference > 0.5) {
+            timeDifference = 0.2
+        }
+
+            if (Math.abs(currentVelocity) > 1.1) {
+                shifterStatus = Consts.DriveTrain.HIGH_GEAR
+                lastShift = Timer.getFPGATimestamp()
+                activeConversionRatio = Consts.DriveTrain.DISTANCE_PER_PULSE
+            }
+            if (Math.abs(currentVelocity) < 1.1) {
+                lastShift = Timer.getFPGATimestamp()
+                shifterStatus = Consts.DriveTrain.LOW_GEAR
+                activeConversionRatio = Consts.DriveTrain.DISTANCE_PER_PULSE
+            }
+        SmartDashboard.putNumber("Position: ", position)
+        SmartDashboard.putNumber("Speed ", currentVelocity)
+        SmartDashboard.putNumber("Right Speed", rightEncoder.velocity)
     }
 
     fun curvatureDrive(xSpeed: Double, ySpeed: Double, quickTurn: Boolean) {
