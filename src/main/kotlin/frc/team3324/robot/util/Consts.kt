@@ -21,8 +21,8 @@ object Consts {
         const val RIGHT_ENCODER_PORT_B = 3
 
         // Encoder and Auto constants
-        const val HIGH_GEAR_RATIO = 1/9.07
-        const val LOW_GEAR_RATIO = 1/19.61
+        const val HIGH_GEAR_RATIO = 1.0/(108800/12000)
+        const val LOW_GEAR_RATIO = 1.0/(160000/8160)
         const val WHEEL_DIAMETER_METERS = 6.00/39.36
         const val CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER_METERS
         const val PULSES = 1870 // 256 (pulses) * 4(quad, 4 ticks/pulse) * 3 * 25 (gear ratios)
@@ -64,6 +64,10 @@ object Consts {
         const val LEFT_MOTOR_PORT = 10
         const val RIGHT_MOTOR_PORT = 9
         const val GEAR_RATIO = 1.25
+
+        const val Kv = 0.107 / 60 // Char tool gives Kv in terms of RPS so /60
+        const val Ks = 0.0921
+        const val Kp = 2.06e-23
     }
 
 }

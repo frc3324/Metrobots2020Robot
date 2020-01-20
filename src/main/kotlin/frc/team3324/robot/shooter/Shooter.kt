@@ -15,8 +15,8 @@ class Shooter: SubsystemBase() {
     val motor = Motors.Neo(2)
 
     var RPM: Double
-        get() = (leftEncoder.velocity + rightEncoder.velocity) / 2.0
-        set(rpm) = leftMotor.set(getPercentFromRPM(rpm / Consts.Shooter.GEAR_RATIO, motor))
+        get() = leftEncoder.velocity
+        set(rpm) = leftMotor.setVoltage(runPID(rpm))
 
     init {
         rightMotor.follow(leftMotor)
@@ -26,8 +26,10 @@ class Shooter: SubsystemBase() {
         rightMotor.setSmartCurrentLimit(40)
     }
 
-    fun run(speed: Double) {
-       leftMotor.set(speed)
+    fun runPID(desiredSpeed: Double): Double {
+        val error = desiredSpeed - RPM
+        val pValue = Consts.Shooter.Kp * error
+        return pValue + (desiredSpeed * Consts.Shooter.Kv) + Consts.Shooter.Ks
     }
 
     override fun periodic() {
