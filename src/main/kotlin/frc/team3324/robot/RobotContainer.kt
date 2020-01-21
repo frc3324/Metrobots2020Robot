@@ -11,9 +11,9 @@ import frc.team3324.robot.shooter.commands.RunShooter
 import frc.team3324.robot.util.Camera
 
 class RobotContainer {
-    private val intake = Intake()
+//    private val intake = Intake()
     private val shooter = Shooter()
-    private val shooterCommand = RunShooter(shooter, 1000.0)
+//    private val shooterCommand = RunShooter(shooter, 1000.0)
     private val primaryController = XboxController(0)
     private val secondaryController = XboxController(1)
 
@@ -29,7 +29,10 @@ class RobotContainer {
    }
 
     fun configureButtonBindings() {
-        JoystickButton(primaryController, Button.kB.value).whenPressed(RunIntake(intake))
+//        JoystickButton(primaryController, Button.kB.value).whenPressed(RunIntake(intake))
         JoystickButton(secondaryController, Button.kA.value).whenPressed(RunShooter(shooter, 3990.0))
+        JoystickButton(secondaryController, Button.kB.value).whenPressed(RunShooter(shooter, 4500.0))
+        JoystickButton(secondaryController, Button.kX.value).whenPressed(RunShooter(shooter, 5700.0))
+        JoystickButton(secondaryController, Button.kY.value).whenPressed(RunShooter(shooter, 6200.0))
     }
 }
