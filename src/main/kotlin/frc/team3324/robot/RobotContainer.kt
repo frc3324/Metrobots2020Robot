@@ -39,7 +39,7 @@ class RobotContainer {
     private val driveTrain = DriveTrain()
     private val relay = Relay(0)
     private val shooter = Shooter()
-    private val shooterCommand = RunShooter(shooter, 1000.0)
+//    private val shooterCommand = RunShooter(shooter, 1000.0)
     private val primaryController = XboxController(0)
     private val secondaryController = XboxController(1)
 
