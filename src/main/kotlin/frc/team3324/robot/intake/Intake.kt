@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 class Intake : SubsystemBase() {
     private val leftMotor = WPI_TalonSRX(0)
     private val rightMotor = WPI_TalonSRX(1)
-//    private var radianMeasure: Double = 0.0
-//        get() = ((cycleEncoder.get()-1)/1023)*2*Math.PI
+    private var radianMeasure: Double = 0.0
+        get() = ((cycleEncoder.get()-1)/1023)*2*Math.PI
 
     init {
         leftMotor.configContinuousCurrentLimit(20)
@@ -23,6 +23,5 @@ class Intake : SubsystemBase() {
         val motorCurrent = leftMotor.statorCurrent
         SmartDashboard.putNumber("Motor Current: ", motorCurrent)
     }
-
 
 }
