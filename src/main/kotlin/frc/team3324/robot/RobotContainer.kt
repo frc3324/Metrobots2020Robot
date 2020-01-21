@@ -33,6 +33,6 @@ class RobotContainer {
         JoystickButton(secondaryController, Button.kA.value).whenPressed(RunShooter(shooter, 3990.0))
         JoystickButton(secondaryController, Button.kB.value).whenPressed(RunShooter(shooter, 4500.0))
         JoystickButton(secondaryController, Button.kX.value).whenPressed(RunShooter(shooter, 5700.0))
-        JoystickButton(secondaryController, Button.kY.value).whenPressed(RunShooter(shooter, 6200.0))
+        JoystickButton(secondaryController, Button.kY.value).whenPressed(RunShooter(shooter, 7000.0))
     }
 }
