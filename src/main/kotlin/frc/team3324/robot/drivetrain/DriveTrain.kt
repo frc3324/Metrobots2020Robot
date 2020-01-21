@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 
 import frc.team3324.robot.util.Consts
-import kotlin.math.sign
 
 class DriveTrain: SubsystemBase() {
 
@@ -27,14 +26,13 @@ class DriveTrain: SubsystemBase() {
         set(status) {
             gearShifter.set(status)
         }
-    val accelerationGyro: Double
-        get() = gyro.accelFullScaleRangeG.toDouble() * 9.8
+
     val leftEncoderSpeed: Double
-        get() = leftEncoder.velocity * (1.0/60) * activeConversionRatio
+        get() = leftEncoder.velocity * (1/60.0) * activeConversionRatio
     val leftEncoderPosition: Double
         get() = leftEncoder.position * activeConversionRatio
     val rightEncoderSpeed: Double
-        get() = rightEncoder.velocity * (1/60) * activeConversionRatio
+        get() = rightEncoder.velocity * (1/60.0) * activeConversionRatio
     val rightEncoderPosition: Double
         get() = rightEncoder.position * activeConversionRatio
     val pose: Pose2d
@@ -47,8 +45,6 @@ class DriveTrain: SubsystemBase() {
 
     val position: Double
         get() = (rightEncoderPosition - leftEncoderPosition) / 2.0
-
-    var acceleration = 0.0
 
 
     private val gyro = AHRS(SPI.Port.kMXP)
@@ -72,10 +68,6 @@ class DriveTrain: SubsystemBase() {
 
     val diffDriveOdometry = DifferentialDriveOdometry(Rotation2d.fromDegrees(gyro.yaw.toDouble()))
 
-    var lastTime = 0.0
-    var lastPosition = 0.0
-    var lastSpeed = 0.0
-    var lastShift = 0.0
     var enabled = true
 
     fun setBrakeMode() {
@@ -135,28 +127,19 @@ class DriveTrain: SubsystemBase() {
     override fun periodic() {
         diffDriveOdometry.update(Rotation2d.fromDegrees(gyro.yaw.toDouble()), leftEncoder.position, rightEncoder.position)
 
-        var timeDifference = Timer.getFPGATimestamp() - lastTime
         val currentVelocity = velocity
-        val timeBetweenShifts = Timer.getFPGATimestamp() - lastShift
-        lastTime = Timer.getFPGATimestamp()
-
-        if (timeDifference > 0.5) {
-            timeDifference = 0.2
+        if (Math.abs(currentVelocity) > 1.54) {
+            shifterStatus = Consts.DriveTrain.HIGH_GEAR
+            activeConversionRatio = Consts.DriveTrain.DISTANCE_PER_PULSE_HIGH
         }
-
-            if (Math.abs(currentVelocity) > 1.1) {
-                shifterStatus = Consts.DriveTrain.HIGH_GEAR
-                lastShift = Timer.getFPGATimestamp()
-                activeConversionRatio = Consts.DriveTrain.DISTANCE_PER_PULSE_HIGH
-            }
-            if (Math.abs(currentVelocity) < 1.1) {
-                lastShift = Timer.getFPGATimestamp()
-                shifterStatus = Consts.DriveTrain.LOW_GEAR
-                activeConversionRatio = Consts.DriveTrain.DISTANCE_PER_PULSE_LOW
-            }
+        if (Math.abs(currentVelocity) < 1.54) {
+            shifterStatus = Consts.DriveTrain.LOW_GEAR
+            activeConversionRatio = Consts.DriveTrain.DISTANCE_PER_PULSE_LOW
+        }
         SmartDashboard.putNumber("Position: ", position)
         SmartDashboard.putNumber("Speed ", currentVelocity)
-        SmartDashboard.putNumber("Right Speed", rightEncoder.velocity)
+        SmartDashboard.putNumber("Right Speed", rightEncoderSpeed)
+        SmartDashboard.putNumber("Left Speed", leftEncoderSpeed)
     }
 
     fun curvatureDrive(xSpeed: Double, ySpeed: Double, quickTurn: Boolean) {
