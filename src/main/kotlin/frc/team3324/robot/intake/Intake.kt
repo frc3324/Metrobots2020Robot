@@ -27,7 +27,7 @@ class Intake : SubsystemBase() {
     }
 
     override fun periodic() {
-        SmartDashboard.putNumber("Radians?", radianMeasure)
+        SmartDashboard.putNumber("Radians", radianMeasure)
         SmartDashboard.putNumber("Raw Value", dutyEncoder.get())
         SmartDashboard.putNumber("Raw Freq", dutyEncoder.frequency.toDouble())
     }
