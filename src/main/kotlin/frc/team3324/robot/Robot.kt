@@ -3,6 +3,7 @@ package frc.team3324.robot
 import edu.wpi.first.cameraserver.CameraServer
 import edu.wpi.first.wpilibj.Compressor
 import edu.wpi.first.wpilibj.PowerDistributionPanel
+import edu.wpi.first.wpilibj.Relay
 import edu.wpi.first.wpilibj.TimedRobot
 import edu.wpi.first.wpilibj.livewindow.LiveWindow
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
@@ -14,6 +15,7 @@ import frc.team3324.robot.util.*
 class Robot: TimedRobot() {
     private val compressor = Compressor(1)
     val robotContainer = RobotContainer()
+    val relay = Relay(0)
 
     companion object {
         val pdp = PowerDistributionPanel()
