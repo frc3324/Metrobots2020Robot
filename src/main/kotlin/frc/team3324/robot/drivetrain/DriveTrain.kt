@@ -113,6 +113,12 @@ class DriveTrain: SubsystemBase() {
 
     override fun periodic() {
         diffDriveOdometry.update(Rotation2d.fromDegrees(gyro.yaw.toDouble()), leftEncoder.position, rightEncoder.position)
+        var currentAngle = gyro.angle
+        var setPoint = 0
+        var error = setPoint - currentAngle
+        var kP = 1/90
+        var speed = error * kP
+        curvatureDrive(0.0,ySpeed = speed, quickTurn = true)
     }
 
     fun curvatureDrive(xSpeed: Double, ySpeed: Double, quickTurn: Boolean) {
