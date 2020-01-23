@@ -19,7 +19,7 @@ class Robot: TimedRobot() {
     private val compressor = Compressor()
     val robotContainer = RobotContainer()
     val ultrasonic = Ultrasonic(1,1);
-    val rangeMeters: Double
+    val rangeMMeters: Double
         get() = ultrasonic.rangeMM
 
     companion object {
@@ -28,17 +28,15 @@ class Robot: TimedRobot() {
 
     override fun robotInit() {
         LiveWindow.disableAllTelemetry()
-
         compressor.start()
-
     }
 
     fun enabledInit() {
     }
 
     override fun robotPeriodic() {
-        
         CommandScheduler.getInstance().run()
+        SmartDashboard.putNumber("MM Distance: ", rangeMMeters)
     }
 
     override fun autonomousInit() {
