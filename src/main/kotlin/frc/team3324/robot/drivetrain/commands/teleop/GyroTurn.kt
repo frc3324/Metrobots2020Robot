@@ -5,24 +5,18 @@ import com.kauailabs.navx.frc.AHRS
 import edu.wpi.first.networktables.NetworkTableEntry
 import edu.wpi.first.wpilibj.SPI
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
+import edu.wpi.first.wpilibj2.command.CommandBase
 
-
-private val gyro = AHRS(SPI.Port.kMXP)
-private val sensorTab = Shuffleboard.getTab("Encoder Values")
-private val gyroYaw: NetworkTableEntry = sensorTab.add("Gyro Yaw", 0).withPosition(0, 2).getEntry()
-
-class GyroTurn {
-    fun clearGyro() {
-        gyro.reset()
+class GyroTurn(val kP: Double,val setPoint: Double, val input: () -> Double, val output: (Double) -> Unit):CommandBase() {
+    override fun execute() {
+        var currentAngle = input()
+        var error = setPoint - currentAngle
+        var kP = 1 / 90
+        var speed = error * kP
+        output(speed)
     }
 
-    object GetYaw {
-        fun getYaw(): Double {
-            return gyro.yaw.toDouble()
-        }
-    }
-
-    fun updateSensors() {
-        gyroYaw.setNumber(0)
+    override fun isFinished(): Boolean {
+        return input()==setPoint
     }
 }
