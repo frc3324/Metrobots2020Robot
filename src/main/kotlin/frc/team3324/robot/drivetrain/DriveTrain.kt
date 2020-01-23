@@ -35,16 +35,19 @@ class DriveTrain: SubsystemBase() {
         get() = rightEncoder.velocity * (1/60.0) * activeConversionRatio
     val rightEncoderPosition: Double
         get() = rightEncoder.position * activeConversionRatio
+    val velocity: Double
+        get() = (rightEncoderSpeed - leftEncoderSpeed) / 2.0
+    val position: Double
+        get() = (rightEncoderPosition - leftEncoderPosition) / 2.0
+    val yaw: Double
+        get() = -gyro.yaw.toDouble()
+
     val pose: Pose2d
         get() = diffDriveOdometry.poseMeters
     val wheelSpeeds: DifferentialDriveWheelSpeeds
         get() = DifferentialDriveWheelSpeeds(leftEncoderSpeed, rightEncoderSpeed)
 
-    val velocity: Double
-        get() = (rightEncoderSpeed - leftEncoderSpeed) / 2.0
 
-    val position: Double
-        get() = (rightEncoderPosition - leftEncoderPosition) / 2.0
 
 
     private val gyro = AHRS(SPI.Port.kMXP)
@@ -118,10 +121,6 @@ class DriveTrain: SubsystemBase() {
 
     fun resetGyro() {
         gyro.reset()
-    }
-
-    fun getYaw(): Double {
-        return gyro.yaw.toDouble()
     }
 
     override fun periodic() {
