@@ -3,11 +3,8 @@ package frc.team3324.robot.drivetrain
 import com.kauailabs.navx.frc.AHRS
 import com.revrobotics.CANSparkMax
 import com.revrobotics.CANSparkMaxLowLevel
-import edu.wpi.first.wpilibj.CounterBase
-import edu.wpi.first.wpilibj.DoubleSolenoid
+import edu.wpi.first.wpilibj.*
 
-import edu.wpi.first.wpilibj.Encoder
-import edu.wpi.first.wpilibj.SPI
 import edu.wpi.first.wpilibj.drive.DifferentialDrive
 import edu.wpi.first.wpilibj.geometry.Pose2d
 import edu.wpi.first.wpilibj.geometry.Rotation2d
@@ -16,91 +13,107 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
-import frc.team3324.robot.drivetrain.commands.teleop.Drive
 
 import frc.team3324.robot.util.Consts
 
 class DriveTrain: SubsystemBase() {
 
-    private val lEncoder = Encoder(Consts.DriveTrain.LEFT_ENCODER_PORT_A, Consts.DriveTrain.LEFT_ENCODER_PORT_B, false, CounterBase.EncodingType.k4X)
-    private val rEncoder = Encoder(Consts.DriveTrain.RIGHT_ENCODER_PORT_A, Consts.DriveTrain.RIGHT_ENCODER_PORT_B, true, CounterBase.EncodingType.k4X)
     val driveKinematics = DifferentialDriveKinematics(Consts.DriveTrain.DISTANCE_BETWEEN_WHEELS)
-    val gearShifter = DoubleSolenoid(Consts.DriveTrain.DRIVETRAIN_PCM_MODULE, Consts.DriveTrain.GEARSHIFTER_FORWARD, Consts.DriveTrain.GEARSHIFTER_REVERSE)
+    val gearShifter = DoubleSolenoid(Consts.DriveTrain.GEARSHIFTER_FORWARD, Consts.DriveTrain.GEARSHIFTER_REVERSE)
+    var activeConversionRatio: Double = Consts.DriveTrain.DISTANCE_PER_PULSE_LOW
     var shifterStatus: DoubleSolenoid.Value
         get() = gearShifter.get()
         set(status) {
             gearShifter.set(status)
         }
-    val accelerationGyro: Double
-        get() = gyro.accelFullScaleRangeG.toDouble() * 9.8
+
     val leftEncoderSpeed: Double
-        get() = lEncoder.rate
+        get() = leftEncoder.velocity * (1/60.0) * activeConversionRatio
+    val leftEncoderPosition: Double
+        get() = leftEncoder.position * activeConversionRatio
     val rightEncoderSpeed: Double
-        get() = rEncoder.rate
+        get() = rightEncoder.velocity * (1/60.0) * activeConversionRatio
+    val rightEncoderPosition: Double
+        get() = rightEncoder.position * activeConversionRatio
     val pose: Pose2d
         get() = diffDriveOdometry.poseMeters
     val wheelSpeeds: DifferentialDriveWheelSpeeds
         get() = DifferentialDriveWheelSpeeds(leftEncoderSpeed, rightEncoderSpeed)
 
-    var speed = 0.0
-    var acceleration = 0.0
+    val velocity: Double
+        get() = (rightEncoderSpeed - leftEncoderSpeed) / 2.0
+
+    val position: Double
+        get() = (rightEncoderPosition - leftEncoderPosition) / 2.0
 
 
     private val gyro = AHRS(SPI.Port.kMXP)
 
-    private val flMotor = CANSparkMax(Consts.DriveTrain.FL_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless)
-    private val blMotor = CANSparkMax(Consts.DriveTrain.BL_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless)
+    private val lmMotor = CANSparkMax(Consts.DriveTrain.LM_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless)
+    private val luMotor = CANSparkMax(Consts.DriveTrain.LU_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless)
+    private val ldMotor = CANSparkMax(Consts.DriveTrain.LD_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless)
 
-    private val frMotor = CANSparkMax(Consts.DriveTrain.FR_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless)
-    private val brMotor = CANSparkMax(Consts.DriveTrain.BR_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless)
-    private val rightEncoder = frMotor.encoder
-    private val leftEncoder = flMotor.encoder
+    private val rmMotor = CANSparkMax(Consts.DriveTrain.RM_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless)
+    private val ruMotor = CANSparkMax(Consts.DriveTrain.RU_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless)
+    private val rdMotor = CANSparkMax(Consts.DriveTrain.RD_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless)
+
+    private val rightEncoder = rmMotor.encoder
+    private val leftEncoder = lmMotor.encoder
+
     var safety: Boolean
         get() = drive.isSafetyEnabled
         set(bool) = drive.setSafetyEnabled(bool)
 
-    private val drive = DifferentialDrive(frMotor, flMotor)
+    private val drive = DifferentialDrive(rmMotor, lmMotor)
 
     val diffDriveOdometry = DifferentialDriveOdometry(Rotation2d.fromDegrees(gyro.yaw.toDouble()))
+
+    var enabled = true
+
+    fun setBrakeMode() {
+        rmMotor.idleMode = CANSparkMax.IdleMode.kBrake
+        ruMotor.idleMode = CANSparkMax.IdleMode.kBrake
+        rdMotor.idleMode = CANSparkMax.IdleMode.kBrake
+        lmMotor.idleMode = CANSparkMax.IdleMode.kBrake
+        luMotor.idleMode = CANSparkMax.IdleMode.kBrake
+        ldMotor.idleMode = CANSparkMax.IdleMode.kBrake
+    }
+
     init {
-        frMotor.restoreFactoryDefaults()
-        flMotor.restoreFactoryDefaults()
-        brMotor.restoreFactoryDefaults()
-        blMotor.restoreFactoryDefaults()
-        rightEncoder.positionConversionFactor = Consts.DriveTrain.CIRCUMFERENCE / Consts.DriveTrain.HIGH_GEAR_RATIO
-        leftEncoder.velocityConversionFactor = Consts.DriveTrain.CIRCUMFERENCE / Consts.DriveTrain.HIGH_GEAR_RATIO
+        shifterStatus = Consts.DriveTrain.LOW_GEAR
+        lmMotor.restoreFactoryDefaults()
+        luMotor.restoreFactoryDefaults()
+        ldMotor.restoreFactoryDefaults()
 
-        frMotor.setSmartCurrentLimit(40)
-        flMotor.setSmartCurrentLimit(40)
-        frMotor.setSecondaryCurrentLimit(80.0)
-        flMotor.setSecondaryCurrentLimit(80.0)
-        frMotor.openLoopRampRate = 0.01
-        flMotor.openLoopRampRate = 0.01
+        rmMotor.restoreFactoryDefaults()
+        ruMotor.restoreFactoryDefaults()
+        rdMotor.restoreFactoryDefaults()
 
-        brMotor.follow(frMotor)
-        blMotor.follow(flMotor)
+        rightEncoder.position = 0.0
+        leftEncoder.position = 0.0
 
-        brMotor.inverted = false
-        frMotor.inverted= true
+        rmMotor.setSmartCurrentLimit(33)
+        lmMotor.setSmartCurrentLimit(33)
+        rmMotor.setSecondaryCurrentLimit(60.0)
+        lmMotor.setSecondaryCurrentLimit(60.0)
 
-        flMotor.inverted = true
-        blMotor.inverted = true
+        ruMotor.follow(rmMotor)
+        rdMotor.follow(rmMotor)
+
+        luMotor.follow(lmMotor)
+        ldMotor.follow(lmMotor)
+
+        ruMotor.inverted = false
+        rmMotor.inverted= false
+        rdMotor.inverted = false
+
+        lmMotor.inverted = false
+        luMotor.inverted = false
+        ldMotor.inverted = false
 
         drive.isSafetyEnabled = true
 
         setBrakeMode()
-    }
-
-    fun getLeftEncoderDistance(): Double {
-        return leftEncoder.position
-    }
-
-    fun getRightEncoderDistance(): Double {
-        return rightEncoder.position
-    }
-
-    fun getAverageDistance(): Double {
-        return (lEncoder.distance + rEncoder.distance) / 2.0
     }
 
     fun resetGyro() {
@@ -113,6 +126,20 @@ class DriveTrain: SubsystemBase() {
 
     override fun periodic() {
         diffDriveOdometry.update(Rotation2d.fromDegrees(gyro.yaw.toDouble()), leftEncoder.position, rightEncoder.position)
+
+        val currentVelocity = velocity
+        if (Math.abs(currentVelocity) > 1.54) {
+            shifterStatus = Consts.DriveTrain.HIGH_GEAR
+            activeConversionRatio = Consts.DriveTrain.DISTANCE_PER_PULSE_HIGH
+        }
+        if (Math.abs(currentVelocity) < 1.54) {
+            shifterStatus = Consts.DriveTrain.LOW_GEAR
+            activeConversionRatio = Consts.DriveTrain.DISTANCE_PER_PULSE_LOW
+        }
+        SmartDashboard.putNumber("Position: ", position)
+        SmartDashboard.putNumber("Speed ", currentVelocity)
+        SmartDashboard.putNumber("Right Speed", rightEncoderSpeed)
+        SmartDashboard.putNumber("Left Speed", leftEncoderSpeed)
     }
 
     fun curvatureDrive(xSpeed: Double, ySpeed: Double, quickTurn: Boolean) {
@@ -121,31 +148,25 @@ class DriveTrain: SubsystemBase() {
 
     fun curvatureDrive(xSpeed: Double, ySpeed: Double) {
         if (xSpeed < 0.05) {
-            drive.curvatureDrive(xSpeed, ySpeed * 0.7, true)
+            curvatureDrive(xSpeed, -ySpeed * 0.7, true)
         } else {
-            drive.curvatureDrive(xSpeed, ySpeed * 0.65, false)
+            curvatureDrive(xSpeed, -ySpeed * 0.65, false)
         }
     }
 
-    fun setBrakeMode() {
-        frMotor.idleMode = CANSparkMax.IdleMode.kBrake
-        flMotor.idleMode = CANSparkMax.IdleMode.kBrake
-        brMotor.idleMode = CANSparkMax.IdleMode.kBrake
-        blMotor.idleMode = CANSparkMax.IdleMode.kBrake
-    }
+
 
     fun setCoastMode() {
-        frMotor.idleMode = CANSparkMax.IdleMode.kCoast
-        flMotor.idleMode = CANSparkMax.IdleMode.kCoast
-        brMotor.idleMode = CANSparkMax.IdleMode.kCoast
-        blMotor.idleMode = CANSparkMax.IdleMode.kCoast
+        rmMotor.idleMode = CANSparkMax.IdleMode.kCoast
+        lmMotor.idleMode = CANSparkMax.IdleMode.kCoast
+        ruMotor.idleMode = CANSparkMax.IdleMode.kCoast
+        luMotor.idleMode = CANSparkMax.IdleMode.kCoast
 
     }
 
     fun tankDriveVolts(leftVolts: Double, rightVolts: Double) {
         SmartDashboard.putNumber("leftVolts", leftVolts)
-        flMotor.setVoltage(leftVolts)
-        frMotor.setVoltage(-rightVolts)
+        lmMotor.setVoltage(leftVolts)
+        rmMotor.setVoltage(-rightVolts)
     }
-
 }

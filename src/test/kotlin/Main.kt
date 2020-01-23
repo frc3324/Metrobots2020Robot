@@ -16,4 +16,12 @@ class Main {
         println("Error = $error")
         assert(error < (goal * 0.01))
     }
+
+    @Test
+    fun shooterTest() {
+        val neo = Motors.Neo(1)
+        println("Voltage: " + Motors.getPercentFromRPM(5000.0, neo))
+        assert(Motors.getPercentFromRPM(5000.0, neo) == 5000/5880.0)
+    }
+
 }

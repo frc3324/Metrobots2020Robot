@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.ScheduleCommand
 import frc.team3324.robot.util.*
 
 class Robot: TimedRobot() {
-    private val compressor = Compressor(1)
+    private val compressor = Compressor()
     val robotContainer = RobotContainer()
 
     companion object {
@@ -34,8 +34,6 @@ class Robot: TimedRobot() {
     }
 
     override fun autonomousInit() {
-        CommandScheduler.getInstance().schedule(robotContainer.getAutoCommand())
-        SmartDashboard.putBoolean("We here 4", true)
         enabledInit()
     }
     override fun teleopInit() {
