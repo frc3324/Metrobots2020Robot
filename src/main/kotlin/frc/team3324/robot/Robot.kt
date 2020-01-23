@@ -8,12 +8,19 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandScheduler
 import edu.wpi.first.wpilibj2.command.ScheduleCommand
+import edu.wpi.first.wpilibj.SendableBase
+import edu.wpi.first.wpilibj.SensorUtil
+import edu.wpi.first.wpilibj.Ultrasonic
+
 
 import frc.team3324.robot.util.*
 
 class Robot: TimedRobot() {
     private val compressor = Compressor()
     val robotContainer = RobotContainer()
+    val ultrasonic = Ultrasonic(1,1);
+    val rangeMeters: Double
+        get() = ultrasonic.rangeMM
 
     companion object {
         val pdp = PowerDistributionPanel()
