@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.ScheduleCommand
 import edu.wpi.first.wpilibj.SendableBase
 import edu.wpi.first.wpilibj.SensorUtil
 import edu.wpi.first.wpilibj.Ultrasonic
+import edu.wpi.first.wpilibj.AnalogInput
 
 
 import frc.team3324.robot.util.*
@@ -18,9 +19,9 @@ import frc.team3324.robot.util.*
 class Robot: TimedRobot() {
     private val compressor = Compressor()
     val robotContainer = RobotContainer()
-    val ultrasonic = Ultrasonic(1,1);
-    val rangeMMeters: Double
-        get() = ultrasonic.rangeMM
+    val ultrasonic = AnalogInput(1)
+    val rangeInches: Double
+        get() = ultrasonic.value.toDouble()*0.125
 
     companion object {
         val pdp = PowerDistributionPanel()
@@ -36,7 +37,7 @@ class Robot: TimedRobot() {
 
     override fun robotPeriodic() {
         CommandScheduler.getInstance().run()
-        SmartDashboard.putNumber("MM Distance: ", rangeMMeters)
+        SmartDashboard.putNumber("Inch Distance: ", rangeInches)
     }
 
     override fun autonomousInit() {
