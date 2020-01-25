@@ -35,6 +35,7 @@ class Robot: TimedRobot() {
         CommandScheduler.getInstance().run()
         SmartDashboard.putNumber("Ultrasonic Inch Distance: ", depRangeInches)
         SmartDashboard.putNumber("Lidar Meter Distance: ", rangeMeters)
+        SmartDashboard.putNumber("Lidar Inches Distance: ", lidar.distanceInches)
     }
 
     override fun autonomousInit() {
