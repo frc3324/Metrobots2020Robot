@@ -46,7 +46,7 @@ class RobotContainer {
         JoystickButton(primaryController, Button.kB.value).whenPressed(RunIntake(intake))
         JoystickButton(primaryController, Button.kX.value).whenPressed(SwitchRelay(relay))
         JoystickButton(primaryController, Button.kY.value).whenPressed(GyroTurn(
-                1.0/110,
+                1.0/45,
                 Consts.DriveTrain.ksVolts/12,
                 {SmartDashboard.getNumber("targetAngle", -1000.0)},
                 driveTrain::yaw,

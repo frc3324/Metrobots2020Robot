@@ -21,7 +21,7 @@ class Robot: TimedRobot() {
     val robotContainer = RobotContainer()
     val ultrasonic = AnalogInput(1)
     val rangeInches: Double
-        get() = ultrasonic.value.toDouble()*0.125
+        get() = ultrasonic.value.toDouble() * 0.125
 
     companion object {
         val pdp = PowerDistributionPanel()

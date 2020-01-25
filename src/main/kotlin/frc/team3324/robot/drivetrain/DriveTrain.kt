@@ -139,6 +139,7 @@ class DriveTrain: SubsystemBase() {
         SmartDashboard.putNumber("Speed ", currentVelocity)
         SmartDashboard.putNumber("Right Speed", rightEncoderSpeed)
         SmartDashboard.putNumber("Left Speed", leftEncoderSpeed)
+        SmartDashboard.putNumber("Angle", gyro.yaw.toDouble())
     }
 
     fun curvatureDrive(xSpeed: Double, ySpeed: Double, quickTurn: Boolean) {
