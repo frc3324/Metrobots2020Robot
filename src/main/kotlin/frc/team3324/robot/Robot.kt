@@ -1,26 +1,22 @@
 package frc.team3324.robot
 
-import edu.wpi.first.cameraserver.CameraServer
 import edu.wpi.first.wpilibj.Compressor
 import edu.wpi.first.wpilibj.PowerDistributionPanel
 import edu.wpi.first.wpilibj.TimedRobot
 import edu.wpi.first.wpilibj.livewindow.LiveWindow
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandScheduler
-import edu.wpi.first.wpilibj2.command.ScheduleCommand
-import edu.wpi.first.wpilibj.SendableBase
-import edu.wpi.first.wpilibj.SensorUtil
-import edu.wpi.first.wpilibj.Ultrasonic
 import edu.wpi.first.wpilibj.AnalogInput
-
-
-import frc.team3324.robot.util.*
+import com.cuforge.libcu.Lasershark
 
 class Robot: TimedRobot() {
     private val compressor = Compressor()
     val robotContainer = RobotContainer()
+    val lidar = Lasershark(2)
+    val rangeMeters: Double
+        get() = lidar.distanceMeters
     val ultrasonic = AnalogInput(1)
-    val rangeInches: Double
+    val depRangeInches: Double
         get() = ultrasonic.value.toDouble() * 0.125
 
     companion object {
@@ -37,7 +33,8 @@ class Robot: TimedRobot() {
 
     override fun robotPeriodic() {
         CommandScheduler.getInstance().run()
-        SmartDashboard.putNumber("Inch Distance: ", rangeInches)
+        SmartDashboard.putNumber("Ultrasonic Inch Distance: ", depRangeInches)
+        SmartDashboard.putNumber("Lidar Meter Distance: ", rangeMeters)
     }
 
     override fun autonomousInit() {
