@@ -9,7 +9,8 @@ import frc.team3324.robot.util.physics.Motors
 import frc.team3324.robot.util.physics.Motors.getPercentFromRPM
 import io.github.oblarg.oblog.Loggable
 import io.github.oblarg.oblog.annotations.Log
-
+import frc.team3324.robot.util.physics.Motors.getVoltageFromRPM
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 class Shooter: SubsystemBase(), Loggable {
     val leftMotor = CANSparkMax(Consts.Shooter.LEFT_MOTOR_PORT, CANSparkMaxLowLevel.MotorType.kBrushless)
     val rightMotor = CANSparkMax(Consts.Shooter.RIGHT_MOTOR_PORT, CANSparkMaxLowLevel.MotorType.kBrushless)
@@ -17,6 +18,7 @@ class Shooter: SubsystemBase(), Loggable {
     val rightEncoder = rightMotor.encoder
 
     val motor = Motors.Neo(2)
+    val rpmChooser = SendableChooser<Double>()
 
     val rightEncoderPosition
         @Log
@@ -69,6 +71,19 @@ class Shooter: SubsystemBase(), Loggable {
         rightEncoder.velocityConversionFactor = Consts.Shooter.GEAR_RATIO
         leftMotor.setSmartCurrentLimit(40)
         rightMotor.setSmartCurrentLimit(40)
+
+        rpmChooser.addOption("0", 0.0)
+        rpmChooser.addOption("1000", 1000.0)
+        rpmChooser.addOption("1500", 1500.0)
+        rpmChooser.addOption("2000", 2000.0)
+        rpmChooser.addOption("2500", 2500.0)
+        rpmChooser.addOption("3000", 3000.0)
+        rpmChooser.addOption("3500", 3500.0)
+        rpmChooser.addOption("4000", 4000.0)
+        rpmChooser.addOption("4500", 4500.0)
+        rpmChooser.addOption("5000", 5000.0)
+        rpmChooser.addOption("5500", 5500.0)
+        rpmChooser.addOption("6000", 6000.0)
     }
 
     fun runPID(desiredSpeed: Double): Double {
@@ -80,6 +95,7 @@ class Shooter: SubsystemBase(), Loggable {
     override fun periodic() {
         SmartDashboard.putNumber("RPM ", RPM)
         SmartDashboard.putNumber("Amp", leftMotor.outputCurrent)
+        RPM = rpmChooser.selected
     }
 
 }
