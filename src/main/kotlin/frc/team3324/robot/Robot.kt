@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandScheduler
 import edu.wpi.first.wpilibj.AnalogInput
 import com.cuforge.libcu.Lasershark
+import io.github.oblarg.oblog.Logger
 
 class Robot: TimedRobot() {
     private val compressor = Compressor()
@@ -26,6 +27,7 @@ class Robot: TimedRobot() {
     override fun robotInit() {
         LiveWindow.disableAllTelemetry()
         compressor.start()
+        Logger.configureLoggingAndConfig(true,false)
     }
 
     fun enabledInit() {
@@ -35,6 +37,7 @@ class Robot: TimedRobot() {
         CommandScheduler.getInstance().run()
         SmartDashboard.putNumber("Ultrasonic Inch Distance: ", depRangeInches)
         SmartDashboard.putNumber("Lidar Meter Distance: ", rangeMeters)
+        Logger.updateEntries()
     }
 
     override fun autonomousInit() {
