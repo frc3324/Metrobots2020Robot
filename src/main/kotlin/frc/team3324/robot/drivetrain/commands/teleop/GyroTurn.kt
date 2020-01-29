@@ -17,18 +17,12 @@ class GyroTurn(private val kP: Double, private val kS: Double, private val setPo
     }
 
     override fun execute() {
-        /*SmartDashboard.putNumber("Setpoint", setPoint)
-        SmartDashboard.putNumber("Boop", (1000.0 + offset))*/
         Moggers.addToLog(setPoint, "GyroTurn", "SetPoint: ")
         Moggers.addToLog(1000.0 + offset, "GyroTurn", "Boop: ")
         if (setPoint != (1000.0 + offset)) {
             val currentAngle = input()
             val error = setPoint - input()
             val speed = error * kP
-            /*SmartDashboard.putNumber("Speed from gyro turn", speed)
-            SmartDashboard.putNumber("Desired Angle", setPoint)
-            SmartDashboard.putNumber("Current Angle", currentAngle)
-            SmartDashboard.putNumber("Error", error)*/
             Moggers.addToLog(speed, "GyroTurn", "Gyro Turn Speed: ")
             Moggers.addToLog(setPoint, "GyroTurn", "Desired Angle: ")
             Moggers.addToLog(currentAngle, "GyroTurn", "Current Angle: ")
@@ -42,7 +36,6 @@ class GyroTurn(private val kP: Double, private val kS: Double, private val setPo
     }
 
     override fun isFinished(): Boolean {
-        //SmartDashboard.putNumber("Ending Error", setPoint - input())
         Moggers.addToLog(setPoint - input(), "GyroTurn", "Ending Error: ")
         return abs((setPoint - input())) < 1.0 || setPoint == (1000.0 + offset)
     }

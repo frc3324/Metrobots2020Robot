@@ -24,14 +24,10 @@ class Intake : SubsystemBase() {
     fun run(power: Double) {
         leftMotor.set(power)
         val motorCurrent = leftMotor.statorCurrent
-        //SmartDashboard.putNumber("Motor Current: ", motorCurrent)
         Moggers.addToLog(motorCurrent, "Intake", "Motor Current: ")
     }
 
     override fun periodic() {
-        /*SmartDashboard.putNumber("Radians", radianMeasure)
-        SmartDashboard.putNumber("Raw Value", dutyEncoder.get())
-        SmartDashboard.putNumber("Raw Freq", dutyEncoder.frequency.toDouble())*/
         Moggers.addToLog(radianMeasure, "Intake", "Radians: ")
         Moggers.addToLog(dutyEncoder.get(), "Intake", "Raw Value: ")
         Moggers.addToLog(dutyEncoder.frequency.toDouble(), "Intake", "Raw Freq: ")

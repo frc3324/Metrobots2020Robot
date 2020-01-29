@@ -49,7 +49,7 @@ class RobotContainer {
         JoystickButton(primaryController, Button.kY.value).whenPressed(GyroTurn(
                 1.0/45,
                 Consts.DriveTrain.ksVolts/12,
-                {/*SmartDashboard.getNumber("targetAngle", -1000.0)*/ Moggers.getValue("GyroTurn", "Desired Angle: ")},
+                {Moggers.getValue("GyroTurn", "Desired Angle: ")},
                 driveTrain::yaw,
                 {input -> driveTrain.curvatureDrive(0.0, input, true)}
         ))

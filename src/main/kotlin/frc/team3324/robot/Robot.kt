@@ -37,13 +37,6 @@ class Robot: TimedRobot() {
 
     override fun robotPeriodic() {
         CommandScheduler.getInstance().run()
-
-        SmartDashboard.putNumber("Ultrasonic Inch Distance: ", depRangeInches)
-        SmartDashboard.putNumber("Lidar Meter Distance: ", rangeMeters)
-        SmartDashboard.putNumber("Lidar Inches Distance: ", lidar.distanceInches)
-
-        /*SmartDashboard.putNumber("Ultrasonic Inch Distance: ", depRangeInches)
-        SmartDashboard.putNumber("Lidar Meter Distance: ", rangeMeters)*/
         Moggers.addToLog(depRangeInches, "Robot", "Ultrasonic Inch Distance: ")
         Moggers.addToLog(rangeMeters, "Robot", "Lidar Meter Distance: ")
         //Logger.updateEntries()
