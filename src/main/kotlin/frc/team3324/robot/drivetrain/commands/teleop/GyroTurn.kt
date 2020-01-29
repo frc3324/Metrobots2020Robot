@@ -15,7 +15,7 @@ class GyroTurn {
     fun clearGyro() {
         gyro.reset()
     }
-
+    
     object GetYaw {
         fun getYaw(): Double {
             return gyro.yaw.toDouble()
