@@ -39,6 +39,7 @@ class Shooter: SubsystemBase() {
         rightMotor.setSmartCurrentLimit(40)
 
         rpmChooser.addOption("0", 0.0)
+        rpmChooser.addOption("200", 200.0)
         rpmChooser.addOption("1000", 1000.0)
         rpmChooser.addOption("1500", 1500.0)
         rpmChooser.addOption("2000", 2000.0)
@@ -47,9 +48,15 @@ class Shooter: SubsystemBase() {
         rpmChooser.addOption("3500", 3500.0)
         rpmChooser.addOption("4000", 4000.0)
         rpmChooser.addOption("4500", 4500.0)
-        rpmChooser.addOption("5000", 5000.0)
+        rpmChooser.addOption("4750", 4750.0)
+        rpmChooser.addOption("4800", 4800.0)
+        rpmChooser.addOption("4875", 4875.0)
+        rpmChooser.addOption("5250", 5250.0)
         rpmChooser.addOption("5500", 5500.0)
         rpmChooser.addOption("6000", 6000.0)
+        rpmChooser.addOption("6500", 6500.0)
+        rpmChooser.setDefaultOption("0", 0.0)
+        SmartDashboard.putData("RPM Chooser:", rpmChooser)
     }
 
 
@@ -62,7 +69,9 @@ class Shooter: SubsystemBase() {
     override fun periodic() {
         SmartDashboard.putNumber("RPM ", RPM)
         SmartDashboard.putNumber("Amp", leftMotor.outputCurrent)
-        RPM = rpmChooser.selected
+        if (rpmChooser.selected != null) {
+            RPM = rpmChooser.selected
+        }
     }
 
 }
