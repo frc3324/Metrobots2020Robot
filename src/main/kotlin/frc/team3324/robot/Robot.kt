@@ -36,7 +36,7 @@ class Robot: TimedRobot() {
     }
 
     override fun autonomousInit() {
-        SmartDashboard.putBoolean("We here 4", true)
+        Moggers.addToLog(1.0, "Robot", "We here 4")
         enabledInit()
     }
     override fun teleopInit() {

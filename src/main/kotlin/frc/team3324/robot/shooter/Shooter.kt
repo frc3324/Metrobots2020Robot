@@ -69,8 +69,8 @@ class Shooter: SubsystemBase() {
     }
 
     override fun periodic() {
-        SmartDashboard.putNumber("RPM ", RPM)
-        SmartDashboard.putNumber("Amp", leftMotor.outputCurrent)
+        Moggers.addToLog(RPM, "Shooter", "RPM: ")
+        Moggers.addToLog(leftMotor.outputCurrent, "Shooter", "Amp: ")
         if (rpmChooser.selected != null) {
             RPM = rpmChooser.selected
         }
