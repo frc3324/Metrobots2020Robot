@@ -18,6 +18,7 @@ import frc.team3324.robot.util.Camera
 import frc.team3324.robot.util.Consts
 import frc.team3324.robot.util.PneumaticShift
 import frc.team3324.robot.util.SwitchRelay
+import frc.team3324.robot.util.Moggers
 
 class RobotContainer {
     private val intake = Intake()
@@ -48,7 +49,7 @@ class RobotContainer {
         JoystickButton(primaryController, Button.kY.value).whenPressed(GyroTurn(
                 1.0/45,
                 Consts.DriveTrain.ksVolts/12,
-                {SmartDashboard.getNumber("targetAngle", -1000.0)},
+                {/*SmartDashboard.getNumber("targetAngle", -1000.0)*/ Moggers.getValue("GyroTurn", "Desired Angle: ")},
                 driveTrain::yaw,
                 {input -> driveTrain.curvatureDrive(0.0, input, true)}
         ))
