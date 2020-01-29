@@ -9,6 +9,8 @@ import frc.team3324.robot.util.physics.Motors
 import frc.team3324.robot.util.physics.Motors.getPercentFromRPM
 import frc.team3324.robot.util.physics.Motors.getVoltageFromRPM
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
+import frc.team3324.robot.util.Moggers
+
 
 class Shooter: SubsystemBase() {
     val leftMotor = CANSparkMax(Consts.Shooter.LEFT_MOTOR_PORT, CANSparkMaxLowLevel.MotorType.kBrushless)
@@ -56,7 +58,7 @@ class Shooter: SubsystemBase() {
         rpmChooser.addOption("6000", 6000.0)
         rpmChooser.addOption("6500", 6500.0)
         rpmChooser.setDefaultOption("0", 0.0)
-        SmartDashboard.putData("RPM Chooser:", rpmChooser)
+        Moggers.addChooser(rpmChooser, "Shooter", "RPM Chooser: ")
     }
 
 
