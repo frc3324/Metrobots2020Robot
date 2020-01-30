@@ -4,13 +4,25 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj.DutyCycleEncoder
+import io.github.oblarg.oblog.annotations.Log
 
 class Intake : SubsystemBase() {
     private val leftMotor = WPI_TalonSRX(7)
     private val pivotMotor = WPI_TalonSRX(4)
     private val dutyEncoder = DutyCycleEncoder(7)
 
+    var leftMotorSpeed
+        @Log
+        get() = leftMotor.get()
+        set(LeftMotorSpeed) = leftMotor.set(leftMotorSpeed)
+
+    val leftMotorCurrent
+        @Log
+        get() = leftMotor.statorCurrent
+
+
     private val radianMeasure: Double
+        @Log
         get() = dutyEncoder.get()*2*Math.PI
 
     var pivot: Double
