@@ -18,6 +18,7 @@ import frc.team3324.robot.util.Camera
 import frc.team3324.robot.util.Consts
 import frc.team3324.robot.util.PneumaticShift
 import frc.team3324.robot.util.SwitchRelay
+import io.github.oblarg.oblog.Logger
 
 class RobotContainer {
     private val intake = Intake()
@@ -34,6 +35,7 @@ class RobotContainer {
 
 
    init {
+       Logger.configureLoggingAndConfig(this, true)
        Camera.schedule()
        driveTrain.defaultCommand = Drive(driveTrain, {primaryController.getY(GenericHID.Hand.kLeft)}, {primaryController.getX(GenericHID.Hand.kRight)})
        configureButtonBindings()

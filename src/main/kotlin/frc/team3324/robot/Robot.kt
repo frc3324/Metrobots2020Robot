@@ -27,7 +27,6 @@ class Robot: TimedRobot() {
     override fun robotInit() {
         LiveWindow.disableAllTelemetry()
         compressor.start()
-        Logger.configureLoggingAndConfig(true,false)
     }
 
     fun enabledInit() {
@@ -35,6 +34,7 @@ class Robot: TimedRobot() {
 
     override fun robotPeriodic() {
         CommandScheduler.getInstance().run()
+        Logger.updateEntries()
 
         SmartDashboard.putNumber("Ultrasonic Inch Distance: ", depRangeInches)
         SmartDashboard.putNumber("Lidar Meter Distance: ", rangeMeters)

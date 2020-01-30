@@ -15,8 +15,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 
 import frc.team3324.robot.util.Consts
+import io.github.oblarg.oblog.Loggable
+import io.github.oblarg.oblog.annotations.Log
 
-class DriveTrain: SubsystemBase() {
+class DriveTrain: SubsystemBase(), Loggable {
 
     val driveKinematics = DifferentialDriveKinematics(Consts.DriveTrain.DISTANCE_BETWEEN_WHEELS)
     val gearShifter = DoubleSolenoid(Consts.DriveTrain.GEARSHIFTER_FORWARD, Consts.DriveTrain.GEARSHIFTER_REVERSE)
@@ -28,19 +30,46 @@ class DriveTrain: SubsystemBase() {
         }
 
     val leftEncoderSpeed: Double
+        @Log
         get() = leftEncoder.velocity * (1/60.0) * activeConversionRatio
     val leftEncoderPosition: Double
+        @Log
         get() = leftEncoder.position * activeConversionRatio
     val rightEncoderSpeed: Double
+        @Log
         get() = rightEncoder.velocity * (1/60.0) * activeConversionRatio
     val rightEncoderPosition: Double
+        @Log
         get() = rightEncoder.position * activeConversionRatio
     val velocity: Double
+        @Log
         get() = (rightEncoderSpeed - leftEncoderSpeed) / 2.0
     val position: Double
+        @Log
         get() = (rightEncoderPosition - leftEncoderPosition) / 2.0
     val yaw: Double
+        @Log
         get() = -gyro.yaw.toDouble()
+
+    val lmCurrent: Double
+        @Log
+        get() = lmMotor.outputCurrent
+    val luCurrent: Double
+        @Log
+        get() = luMotor.outputCurrent
+    val ldCurrent: Double
+        @Log
+        get() = ldMotor.outputCurrent
+
+    val rmCurrent: Double
+        @Log
+        get() = rmMotor.outputCurrent
+    val ruCurrent: Double
+        @Log
+        get() = ruMotor.outputCurrent
+    val rdCurrent: Double
+        @Log
+        get() = rdMotor.outputCurrent
 
     val pose: Pose2d
         get() = diffDriveOdometry.poseMeters
@@ -113,6 +142,14 @@ class DriveTrain: SubsystemBase() {
         lmMotor.inverted = false
         luMotor.inverted = false
         ldMotor.inverted = false
+
+        ruMotor.burnFlash()
+        rmMotor.burnFlash()
+        rdMotor.burnFlash()
+
+        lmMotor.burnFlash()
+        luMotor.burnFlash()
+        ldMotor.burnFlash()
 
         drive.isSafetyEnabled = true
 
