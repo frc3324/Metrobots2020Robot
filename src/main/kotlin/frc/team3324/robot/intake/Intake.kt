@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj.DutyCycleEncoder
-import frc.team3324.robot.util.Moggers
 
 class Intake : SubsystemBase() {
     private val leftMotor = WPI_TalonSRX(0)
@@ -24,13 +23,12 @@ class Intake : SubsystemBase() {
     fun run(power: Double) {
         leftMotor.set(power)
         val motorCurrent = leftMotor.statorCurrent
-        Moggers.addToLog(motorCurrent, "Intake", "Motor Current: ")
     }
 
     override fun periodic() {
-        Moggers.addToLog(radianMeasure, "Intake", "Radians: ")
-        Moggers.addToLog(dutyEncoder.get(), "Intake", "Raw Value: ")
-        Moggers.addToLog(dutyEncoder.frequency.toDouble(), "Intake", "Raw Freq: ")
+        SmartDashboard.putNumber("Radians", radianMeasure)
+        SmartDashboard.putNumber("Raw Value", dutyEncoder.get())
+        SmartDashboard.putNumber("Raw Freq", dutyEncoder.frequency.toDouble())
     }
 
 }

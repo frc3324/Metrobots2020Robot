@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 
 import frc.team3324.robot.util.Consts
-import frc.team3324.robot.util.Moggers
 
 class DriveTrain: SubsystemBase() {
 
@@ -136,16 +135,11 @@ class DriveTrain: SubsystemBase() {
             shifterStatus = Consts.DriveTrain.LOW_GEAR
             activeConversionRatio = Consts.DriveTrain.DISTANCE_PER_PULSE_LOW
         }
-        /*SmartDashboard.putNumber("Position: ", position)
+        SmartDashboard.putNumber("Position: ", position)
         SmartDashboard.putNumber("Speed ", currentVelocity)
         SmartDashboard.putNumber("Right Speed", rightEncoderSpeed)
         SmartDashboard.putNumber("Left Speed", leftEncoderSpeed)
-        SmartDashboard.putNumber("Angle", gyro.yaw.toDouble())*/
-        Moggers.addToLog(position, "DriveTrain", "Position: ")
-        Moggers.addToLog(currentVelocity, "DriveTrain", "Speed: ")
-        Moggers.addToLog(rightEncoderSpeed, "DriveTrain", "Right Speed: ")
-        Moggers.addToLog(leftEncoderSpeed, "DriveTrain", "Left Speed: ")
-        Moggers.addToLog(gyro.yaw.toDouble(), "DriveTrain", "Angle: ")
+        SmartDashboard.putNumber("Angle", gyro.yaw.toDouble())
     }
 
     fun curvatureDrive(xSpeed: Double, ySpeed: Double, quickTurn: Boolean) {
@@ -171,8 +165,7 @@ class DriveTrain: SubsystemBase() {
     }
 
     fun tankDriveVolts(leftVolts: Double, rightVolts: Double) {
-        //SmartDashboard.putNumber("leftVolts", leftVolts)
-        Moggers.addToLog(leftVolts, "DriveTrain", "Left Volts: ")
+        SmartDashboard.putNumber("leftVolts", leftVolts)
         lmMotor.setVoltage(leftVolts)
         rmMotor.setVoltage(-rightVolts)
     }

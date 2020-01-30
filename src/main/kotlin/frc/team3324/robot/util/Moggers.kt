@@ -8,11 +8,12 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab
 
 public object Moggers {
-    @Config
+
     public fun addToLog(data:Double, tab:String, valueTitle:String){
         Shuffleboard.getTab(tab)
                 .add(valueTitle,data)
     }
+
     @Config
     public fun getValue(tab:String, valueTitle: String): Double {
         return Shuffleboard.getTab(tab).add(valueTitle, 0.0).entry.getDouble(0.0)
