@@ -6,23 +6,26 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj.DutyCycleEncoder
 
 class Intake : SubsystemBase() {
-    private val leftMotor = WPI_TalonSRX(0)
-    private val rightMotor = WPI_TalonSRX(1)
+    private val leftMotor = WPI_TalonSRX(7)
+    private val pivotMotor = WPI_TalonSRX(4)
     private val dutyEncoder = DutyCycleEncoder(7)
+
     private val radianMeasure: Double
         get() = dutyEncoder.get()*2*Math.PI
 
+    var pivot: Double
+        get() = pivotMotor.get()
+        set(x) = pivotMotor.set(x)
+
     init {
+        leftMotor.inverted = true
         leftMotor.configContinuousCurrentLimit(20)
         leftMotor.enableCurrentLimit(true)
-        rightMotor.follow(leftMotor)
-
     }
 
 
     fun run(power: Double) {
         leftMotor.set(power)
-        val motorCurrent = leftMotor.statorCurrent
     }
 
     override fun periodic() {
