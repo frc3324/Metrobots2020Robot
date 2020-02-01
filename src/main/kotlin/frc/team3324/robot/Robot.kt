@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler
 import edu.wpi.first.wpilibj.AnalogInput
 import com.cuforge.libcu.Lasershark
 import io.github.oblarg.oblog.Logger
+import io.github.oblarg.oblog.annotations.Config
 
 class Robot: TimedRobot() {
     private val compressor = Compressor()
@@ -42,6 +43,7 @@ class Robot: TimedRobot() {
     }
 
     override fun autonomousInit() {
+        CommandScheduler.getInstance().schedule(robotContainer.getAutoCommand())
         enabledInit()
     }
     override fun teleopInit() {

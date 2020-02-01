@@ -77,14 +77,13 @@ class RobotContainer {
     }
 
     fun getAutoCommand(): Command {
-        val config = TrajectoryConfig(Consts.DriveTrain.LOW_GEAR_MAX_VELOCITY, Consts.DriveTrain.LOW_GEAR_MAX_ACCELERATION)
-        config.setKinematics(driveTrain.driveKinematics)
-
-        val start = Pose2d(Units.feetToMeters(0.0), Units.feetToMeters(0.0), Rotation2d(0.0))
-        val end = Pose2d(Units.feetToMeters(1.0), Units.feetToMeters(0.0), Rotation2d(0.0))
-
-        val interiorWaypoints = listOf(Translation2d(0.5, 0.0))
         val voltageConstraint = DifferentialDriveVoltageConstraint(driveTrain.feedForward, driveTrain.driveKinematics, 7.0)
+        val config = TrajectoryConfig(Consts.DriveTrain.LOW_GEAR_MAX_VELOCITY, Consts.DriveTrain.LOW_GEAR_MAX_ACCELERATION)
+
+        val start = Pose2d(0.0,0.0, Rotation2d(0.0))
+        val end = Pose2d(3.0, 0.0, Rotation2d(0.0))
+
+        val interiorWaypoints = listOf(Translation2d(1.0, 1.0), Translation2d(2.0, -1.0))
 
         val trajectory = TrajectoryGenerator.generateTrajectory(
                 start,
@@ -103,6 +102,6 @@ class RobotContainer {
                 driveTrain.rightPIDController,
                 BiConsumer(driveTrain::tankDriveVolts),
                 driveTrain)
-        return ramseteCommand
+        return ramseteCommand.andThen(Runnable {driveTrain.tankDriveVolts(0.0, 0.0)})
     }
 }
