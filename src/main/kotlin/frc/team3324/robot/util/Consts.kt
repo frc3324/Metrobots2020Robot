@@ -31,18 +31,19 @@ object Consts {
         const val DISTANCE_PER_PULSE_LOW = CIRCUMFERENCE * LOW_GEAR_RATIO
         const val DISTANCE_BETWEEN_WHEELS = 0.61
 
-
-        const val HIGH_GEAR_MAX_VELOCITY = 3.0435
-        const val HIGH_GEAR_MAX_ACCELERATION = 2.00
-        const val LOW_GEAR_MAX_VELOCITY = 1.8
-        const val LOW_GEAR_MAX_ACCELERATION = 6.51
-
         const val ksVolts = 0.181
-        const val kvVoltSecondsPerMeter = 2.3
+        const val LOW_GEAR_KV = 4.9
+        const val HIGH_GEAR_KV = 2.28
+        const val LOW_GEAR_KA = 0.36
         const val kaVoltSecondsSquaredPerMeter = 0.302
-        const val kPDriveVel = 5
         const val kRamseteB = 2.0
         const val kRamseteZeta = 0.7
+
+        const val HIGH_GEAR_MAX_VELOCITY = 12.0 / HIGH_GEAR_KV
+        const val HIGH_GEAR_MAX_ACCELERATION = 2.00
+        const val LOW_GEAR_MAX_VELOCITY = 12.0 / LOW_GEAR_KV
+        const val LOW_GEAR_MAX_ACCELERATION = 6.51
+
 
         const val GEARSHIFTER_FORWARD = 0
         const val GEARSHIFTER_REVERSE = 1

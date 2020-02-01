@@ -4,6 +4,8 @@ import com.kauailabs.navx.frc.AHRS
 import com.revrobotics.CANSparkMax
 import com.revrobotics.CANSparkMaxLowLevel
 import edu.wpi.first.wpilibj.*
+import edu.wpi.first.wpilibj.controller.PIDController
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive
 import edu.wpi.first.wpilibj.geometry.Pose2d
@@ -21,6 +23,7 @@ import io.github.oblarg.oblog.annotations.Log
 class DriveTrain: SubsystemBase(), Loggable {
 
     val driveKinematics = DifferentialDriveKinematics(Consts.DriveTrain.DISTANCE_BETWEEN_WHEELS)
+    val feedForward = SimpleMotorFeedforward(Consts.DriveTrain.ksVolts, Consts.DriveTrain.LOW_GEAR_KV, Consts.DriveTrain.LOW_GEAR_KA)
     val gearShifter = DoubleSolenoid(Consts.DriveTrain.GEARSHIFTER_FORWARD, Consts.DriveTrain.GEARSHIFTER_REVERSE)
     var activeConversionRatio: Double = Consts.DriveTrain.DISTANCE_PER_PULSE_LOW
     var shifterStatus: DoubleSolenoid.Value
@@ -76,6 +79,9 @@ class DriveTrain: SubsystemBase(), Loggable {
     val wheelSpeeds: DifferentialDriveWheelSpeeds
         get() = DifferentialDriveWheelSpeeds(leftEncoderSpeed, rightEncoderSpeed)
 
+    val leftPIDController = PIDController(2.95, 0.0, 0.0)
+    val rightPIDController = PIDController(2.95, 0.0, 0.0)
+
 
 
 
@@ -98,7 +104,7 @@ class DriveTrain: SubsystemBase(), Loggable {
 
     private val drive = DifferentialDrive(rmMotor, lmMotor)
 
-    val diffDriveOdometry = DifferentialDriveOdometry(Rotation2d.fromDegrees(gyro.yaw.toDouble()))
+    val diffDriveOdometry = DifferentialDriveOdometry(Rotation2d.fromDegrees(-gyro.yaw.toDouble()))
 
     var enabled = true
 
@@ -203,6 +209,7 @@ class DriveTrain: SubsystemBase(), Loggable {
 
     fun tankDriveVolts(leftVolts: Double, rightVolts: Double) {
         SmartDashboard.putNumber("leftVolts", leftVolts)
+        drive.feed()
         lmMotor.setVoltage(leftVolts)
         rmMotor.setVoltage(-rightVolts)
     }
