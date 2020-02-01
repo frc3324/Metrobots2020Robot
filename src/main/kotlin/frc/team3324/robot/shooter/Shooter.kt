@@ -6,9 +6,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.team3324.robot.util.Consts
 import frc.team3324.robot.util.physics.Motors
 import frc.team3324.robot.util.physics.Motors.getPercentFromRPM
+import io.github.oblarg.oblog.Loggable
 import io.github.oblarg.oblog.annotations.Log
 
-class Shooter: SubsystemBase() {
+class Shooter: SubsystemBase(), Loggable {
     val leftMotor = CANSparkMax(Consts.Shooter.LEFT_MOTOR_PORT, CANSparkMaxLowLevel.MotorType.kBrushless)
     val rightMotor = CANSparkMax(Consts.Shooter.RIGHT_MOTOR_PORT, CANSparkMaxLowLevel.MotorType.kBrushless)
     val leftEncoder = leftMotor.encoder
