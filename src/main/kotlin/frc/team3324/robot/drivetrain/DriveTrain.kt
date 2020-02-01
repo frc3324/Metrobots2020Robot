@@ -31,6 +31,7 @@ class DriveTrain: SubsystemBase(), Loggable {
         set(status) {
             gearShifter.set(status)
         }
+    var shifterCount = 0
 
     val leftEncoderSpeed: Double
         @Log
@@ -168,6 +169,8 @@ class DriveTrain: SubsystemBase(), Loggable {
 
     override fun periodic() {
         diffDriveOdometry.update(Rotation2d.fromDegrees(gyro.yaw.toDouble()), leftEncoder.position, rightEncoder.position)
+        shifterCount += 1
+        SmartDashboard.putNumber("Shifter: ", shifterCount.toDouble())
 
         val currentVelocity = velocity
 //        if (Math.abs(currentVelocity) > 1.54) {
