@@ -4,9 +4,10 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj.DutyCycleEncoder
+import io.github.oblarg.oblog.Loggable
 import io.github.oblarg.oblog.annotations.Log
 
-class Intake : SubsystemBase() {
+class Intake : SubsystemBase(), Loggable {
     private val leftMotor = WPI_TalonSRX(7)
     private val pivotMotor = WPI_TalonSRX(4)
     private val dutyEncoder = DutyCycleEncoder(7)

@@ -59,7 +59,8 @@ class RobotContainer {
 
     fun configureButtonBindings() {
         JoystickButton(primaryController, Button.kBumperLeft.value).whenPressed(PneumaticShift(driveTrain.gearShifter))
-        JoystickButton(primaryController, Button.kA.value).whenPressed(ToggleAutoShifting(driveTrain))
+        JoystickButton(primaryController, Button.kA.value).whileHeld(RunPivot(intake, 0.2))
+        JoystickButton(primaryController, Button.kB.value).whileHeld(RunPivot(intake, -0.2))
         JoystickButton(primaryController, Button.kX.value).whenPressed(SwitchRelay(relay))
         JoystickButton(primaryController, Button.kY.value).whenPressed(GyroTurn(
                 1.0/45,
@@ -70,7 +71,8 @@ class RobotContainer {
         ))
         JoystickButton(secondaryController, Button.kBumperLeft.value).whileHeld(RunPivot(intake, 0.2))
         JoystickButton(secondaryController, Button.kBumperRight.value).whileHeld(RunPivot(intake, -0.2))
-        JoystickButton(secondaryController, Button.kA.value).whileHeld(RunIntake(intake, -1.0))
+        JoystickButton(secondaryController, Button.kA.value).whileHeld(RunIntake(intake, -0.2))
+        JoystickButton(secondaryController, Button.kB.value).whileHeld(RunIntake(intake, 0.2))
 //        JoystickButton(secondaryController, Button.kA.value).whenPressed(RunShooter(shooter, 5000.0))
     }
 
