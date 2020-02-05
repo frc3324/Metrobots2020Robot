@@ -36,21 +36,27 @@ class DriveTrain: SubsystemBase(), Loggable {
     val leftEncoderSpeed: Double
         @Log
         get() = leftEncoder.velocity * (1/60.0) * activeConversionRatio
+
     val leftEncoderPosition: Double
         @Log
         get() = leftEncoder.position * activeConversionRatio
+
     val rightEncoderSpeed: Double
         @Log
         get() = rightEncoder.velocity * (1/60.0) * activeConversionRatio
+
     val rightEncoderPosition: Double
         @Log
         get() = rightEncoder.position * activeConversionRatio
+
     val velocity: Double
         @Log
         get() = (rightEncoderSpeed - leftEncoderSpeed) / 2.0
+
     val position: Double
         @Log
         get() = (rightEncoderPosition - leftEncoderPosition) / 2.0
+
     val yaw: Double
         @Log
         get() = -gyro.yaw.toDouble()
@@ -173,14 +179,14 @@ class DriveTrain: SubsystemBase(), Loggable {
         SmartDashboard.putNumber("Shifter: ", shifterCount.toDouble())
 
         val currentVelocity = velocity
-//        if (Math.abs(currentVelocity) > 1.54) {
-//            shifterStatus = Consts.DriveTrain.HIGH_GEAR
-//            activeConversionRatio = Consts.DriveTrain.DISTANCE_PER_PULSE_HIGH
-//        }
-//        if (Math.abs(currentVelocity) < 1.54) {
-//            shifterStatus = Consts.DriveTrain.LOW_GEAR
-//            activeConversionRatio = Consts.DriveTrain.DISTANCE_PER_PULSE_LOW
-//        }
+        if (Math.abs(currentVelocity) > 1.54) {
+            shifterStatus = Consts.DriveTrain.HIGH_GEAR
+            activeConversionRatio = Consts.DriveTrain.DISTANCE_PER_PULSE_HIGH
+        }
+        if (Math.abs(currentVelocity) < 1.54) {
+            shifterStatus = Consts.DriveTrain.LOW_GEAR
+            activeConversionRatio = Consts.DriveTrain.DISTANCE_PER_PULSE_LOW
+        }
         SmartDashboard.putNumber("Position: ", position)
         SmartDashboard.putNumber("Speed ", currentVelocity)
         SmartDashboard.putNumber("Right Speed", rightEncoderSpeed)
