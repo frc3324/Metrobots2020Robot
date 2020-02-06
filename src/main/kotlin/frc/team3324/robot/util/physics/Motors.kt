@@ -53,4 +53,8 @@ object Motors {
         return desiredRPM/ Units.radiansPerSecondToRotationsPerMinute(motor.freeSpeed)
     }
 
+    fun getVoltageFromRPM(desiredRPM: Double, motor: Motor): Double {
+        return Math.min((desiredRPM/ Units.radiansPerSecondToRotationsPerMinute(motor.freeSpeed)) * 12, 12.0)
+    }
+
 }

@@ -2,6 +2,7 @@ package frc.team3324.robot
 
 import edu.wpi.first.wpilibj.Compressor
 import edu.wpi.first.wpilibj.PowerDistributionPanel
+import edu.wpi.first.wpilibj.Relay
 import edu.wpi.first.wpilibj.TimedRobot
 import edu.wpi.first.wpilibj.livewindow.LiveWindow
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
@@ -44,6 +45,7 @@ class Robot: TimedRobot() {
 
     override fun autonomousInit() {
         CommandScheduler.getInstance().schedule(robotContainer.getAutoCommand())
+        SmartDashboard.putBoolean("We here 4", true)
         enabledInit()
     }
     override fun teleopInit() {
