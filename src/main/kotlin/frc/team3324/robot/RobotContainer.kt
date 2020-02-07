@@ -26,6 +26,8 @@ import frc.team3324.robot.intake.commands.RunIntake
 import frc.team3324.robot.intake.commands.RunPivot
 import frc.team3324.robot.shooter.Shooter
 import frc.team3324.robot.shooter.commands.RunShooter
+import frc.team3324.robot.storage.Storage
+import frc.team3324.robot.storage.commands.RunStorage
 import frc.team3324.robot.util.Camera
 import frc.team3324.robot.util.Consts
 import frc.team3324.robot.util.PneumaticShift
@@ -36,6 +38,7 @@ import java.util.function.Supplier
 
 class RobotContainer {
     private val intake = Intake()
+    private val storage = Storage()
     private val driveTrain = DriveTrain()
     private val relay = Relay(0)
     private val shooter = Shooter()
@@ -54,6 +57,7 @@ class RobotContainer {
        Camera.schedule()
        driveTrain.defaultCommand = Drive(driveTrain, {primaryController.getY(GenericHID.Hand.kLeft)}, {primaryController.getX(GenericHID.Hand.kRight)})
        intake.defaultCommand = RunPivot(intake, -0.05)
+       storage.defaultCommand = RunStorage(storage)
        configureButtonBindings()
    }
 
@@ -71,8 +75,8 @@ class RobotContainer {
         ))
         JoystickButton(secondaryController, Button.kBumperLeft.value).whileHeld(RunPivot(intake, 0.2))
         JoystickButton(secondaryController, Button.kBumperRight.value).whileHeld(RunPivot(intake, -0.2))
-        JoystickButton(secondaryController, Button.kA.value).whileHeld(RunIntake(intake, -0.2))
-        JoystickButton(secondaryController, Button.kB.value).whileHeld(RunIntake(intake, 0.2))
+        JoystickButton(secondaryController, Button.kA.value).whileHeld(RunIntake(intake, -0.5))
+        JoystickButton(secondaryController, Button.kB.value).whileHeld(RunIntake(intake, 0.5))
 //        JoystickButton(secondaryController, Button.kA.value).whenPressed(RunShooter(shooter, 5000.0))
         JoystickButton(secondaryController, Button.kX.value).whenPressed(RunShooter(shooter, 5700.0))
         JoystickButton(secondaryController, Button.kY.value).whenPressed(RunShooter(shooter, 7000.0))
