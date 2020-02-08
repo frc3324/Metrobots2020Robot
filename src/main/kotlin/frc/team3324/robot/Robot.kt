@@ -2,7 +2,6 @@ package frc.team3324.robot
 
 import edu.wpi.first.wpilibj.Compressor
 import edu.wpi.first.wpilibj.PowerDistributionPanel
-import edu.wpi.first.wpilibj.Relay
 import edu.wpi.first.wpilibj.TimedRobot
 import edu.wpi.first.wpilibj.livewindow.LiveWindow
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
@@ -10,16 +9,15 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler
 import edu.wpi.first.wpilibj.AnalogInput
 import com.cuforge.libcu.Lasershark
 import io.github.oblarg.oblog.Logger
-import io.github.oblarg.oblog.annotations.Config
 
 class Robot: TimedRobot() {
     private val compressor = Compressor()
-    val robotContainer = RobotContainer()
-    val lidar = Lasershark(2)
-    val rangeMeters: Double
+    private val robotContainer = RobotContainer()
+    private val lidar = Lasershark(2)
+    private val rangeMeters: Double
         get() = lidar.distanceMeters
-    val ultrasonic = AnalogInput(1)
-    val depRangeInches: Double
+    private val ultrasonic = AnalogInput(1)
+    private val depRangeInches: Double
         get() = ultrasonic.value.toDouble() * 0.125
 
     companion object {

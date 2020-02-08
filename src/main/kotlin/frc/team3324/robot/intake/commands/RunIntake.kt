@@ -2,18 +2,22 @@ package frc.team3324.robot.intake.commands
 
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.team3324.robot.intake.Intake
+import frc.team3324.robot.storage.Storage
 
-class RunIntake(val intake: Intake, val speed: Double): CommandBase() {
+class RunIntake(val storage: Storage, val intake: Intake, val speed: Double): CommandBase() {
 
     init {
+        addRequirements(intake, storage)
     }
 
     override fun execute() {
-        intake.run(speed)
+        intake.speed = speed
+        storage.speed = speed
     }
 
     override fun end(interrupted: Boolean) {
-        intake.run(0.0)
+        intake.speed = 0.0
+        storage.speed = 0.0
     }
 
 }
