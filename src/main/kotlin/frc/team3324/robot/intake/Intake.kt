@@ -12,12 +12,12 @@ class Intake : SubsystemBase(), Loggable {
     private val pivotMotor = WPI_TalonSRX(4)
     private val dutyEncoder = DutyCycleEncoder(7)
 
-    var leftMotorSpeed
+    var speed
         @Log
         get() = leftMotor.get()
-        set(LeftMotorSpeed) = leftMotor.set(leftMotorSpeed)
+        set(x) = leftMotor.set(x)
 
-    val leftMotorCurrent
+    val current
         @Log
         get() = leftMotor.statorCurrent
 
@@ -34,11 +34,6 @@ class Intake : SubsystemBase(), Loggable {
         leftMotor.inverted = true
         leftMotor.configContinuousCurrentLimit(20)
         leftMotor.enableCurrentLimit(true)
-    }
-
-
-    fun run(power: Double) {
-        leftMotor.set(power)
     }
 
     override fun periodic() {

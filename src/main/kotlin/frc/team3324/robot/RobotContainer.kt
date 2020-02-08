@@ -12,15 +12,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint
-import edu.wpi.first.wpilibj.util.Units
 import edu.wpi.first.wpilibj2.command.Command
-import edu.wpi.first.wpilibj2.command.CommandBase
 import edu.wpi.first.wpilibj2.command.RamseteCommand
 import edu.wpi.first.wpilibj2.command.button.JoystickButton
 import frc.team3324.robot.drivetrain.DriveTrain
 import frc.team3324.robot.drivetrain.commands.teleop.Drive
 import frc.team3324.robot.drivetrain.commands.teleop.GyroTurn
-import frc.team3324.robot.drivetrain.commands.teleop.ToggleAutoShifting
 import frc.team3324.robot.intake.Intake
 import frc.team3324.robot.intake.commands.RunIntake
 import frc.team3324.robot.intake.commands.RunPivot
@@ -63,8 +60,6 @@ class RobotContainer {
 
     fun configureButtonBindings() {
         JoystickButton(primaryController, Button.kBumperLeft.value).whenPressed(PneumaticShift(driveTrain.gearShifter))
-        JoystickButton(primaryController, Button.kA.value).whileHeld(RunPivot(intake, 0.2))
-        JoystickButton(primaryController, Button.kB.value).whileHeld(RunPivot(intake, -0.2))
         JoystickButton(primaryController, Button.kX.value).whenPressed(SwitchRelay(relay))
         JoystickButton(primaryController, Button.kY.value).whenPressed(GyroTurn(
                 1.0/45,

@@ -5,8 +5,6 @@ import edu.wpi.first.wpilibj.util.Units
 
 object Consts {
     object DriveTrain {
-        const val DRIVETRAIN_PCM_MODULE = 0
-
         // Motor ports
         const val LM_MOTOR = 1
         const val LU_MOTOR = 2
@@ -14,11 +12,6 @@ object Consts {
         const val RM_MOTOR = 4
         const val RU_MOTOR = 5
         const val RD_MOTOR = 6
-
-        const val LEFT_ENCODER_PORT_A = 0
-        const val LEFT_ENCODER_PORT_B = 1
-        const val RIGHT_ENCODER_PORT_A = 2
-        const val RIGHT_ENCODER_PORT_B = 3
 
         // Encoder and Auto constants
         const val HIGH_GEAR_RATIO = 1.0 / (108800 / 12000)
@@ -51,14 +44,6 @@ object Consts {
         val HIGH_GEAR = DoubleSolenoid.Value.kReverse
         val LOW_GEAR = DoubleSolenoid.Value.kForward
 
-    }
-
-    object LED {
-        const val LED_PCM_MODULE = 1
-
-        const val RED_PORT = 7
-        const val GREEN_PORT = 6
-        const val BLUE_PORT = 5
     }
 
     object Shooter {
