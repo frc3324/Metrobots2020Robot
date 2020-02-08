@@ -57,7 +57,7 @@ class RobotContainer {
        Camera.schedule()
        driveTrain.defaultCommand = Drive(driveTrain, {primaryController.getY(GenericHID.Hand.kLeft)}, {primaryController.getX(GenericHID.Hand.kRight)})
        intake.defaultCommand = RunPivot(intake, -0.05)
-       storage.defaultCommand = RunStorage(storage)
+//       storage.defaultCommand = RunStorage(storage)
        configureButtonBindings()
    }
 
