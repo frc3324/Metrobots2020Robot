@@ -53,11 +53,11 @@ object Consts {
 
         const val Kv = 0.107 / 60 // Char tool gives Kv in terms of RPS so /60
         const val Ks = 0.0921
-        const val Kp = 2.06e-23
+        const val Kp = 2.06e-15
     }
 
     object Storage {
         const val MOTOR_TOP = 21
-        const val MOTOR_BOTTOM = 0
+        const val MOTOR_BOTTOM = 1
     }
 }

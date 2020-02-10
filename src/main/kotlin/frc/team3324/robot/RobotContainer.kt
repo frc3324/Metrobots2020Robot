@@ -70,10 +70,10 @@ class RobotContainer {
         ))
         JoystickButton(secondaryController, Button.kBumperLeft.value).whileHeld(RunPivot(intake, 0.2))
         JoystickButton(secondaryController, Button.kBumperRight.value).whileHeld(RunPivot(intake, -0.2))
-        JoystickButton(secondaryController, Button.kA.value).whileHeld(RunIntake(intake, -0.5))
-        JoystickButton(secondaryController, Button.kB.value).whileHeld(RunIntake(intake, 0.5))
+        JoystickButton(secondaryController, Button.kA.value).whileHeld(RunIntake(storage, intake, -0.5))
+        JoystickButton(secondaryController, Button.kB.value).whileHeld(RunIntake(storage, intake, 0.5))
 //        JoystickButton(secondaryController, Button.kA.value).whenPressed(RunShooter(shooter, 5000.0))
-        JoystickButton(secondaryController, Button.kX.value).whenPressed(RunShooter(shooter, 5700.0))
+        JoystickButton(secondaryController, Button.kX.value).whenPressed(RunShooter(shooter, 5000.0))
         JoystickButton(secondaryController, Button.kY.value).whenPressed(RunShooter(shooter, 7000.0))
     }
 
