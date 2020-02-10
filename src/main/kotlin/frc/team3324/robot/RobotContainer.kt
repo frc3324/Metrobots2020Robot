@@ -1,5 +1,6 @@
 package frc.team3324.robot
 
+import edu.wpi.first.networktables.NetworkTableInstance
 import edu.wpi.first.wpilibj.GenericHID
 import edu.wpi.first.wpilibj.Relay
 import edu.wpi.first.wpilibj.XboxController
@@ -39,7 +40,10 @@ class RobotContainer {
     private val driveTrain = DriveTrain()
     private val relay = Relay(0)
     private val shooter = Shooter()
-//    private val shooterCommand = RunShooter(shooter, 1000.0)
+
+    private val table = NetworkTableInstance.getDefault()
+    private val cameraTable = table.getTable("chameleon-vision").getSubTable("camera-name")
+
     private val primaryController = XboxController(0)
     private val secondaryController = XboxController(1)
 
@@ -47,6 +51,8 @@ class RobotContainer {
         get() = primaryController.getX(GenericHID.Hand.kLeft)
     private val primaryLeftY: Double
         get() = primaryController.getY(GenericHID.Hand.kRight)
+
+
 
 
    init {
@@ -64,14 +70,14 @@ class RobotContainer {
         JoystickButton(primaryController, Button.kY.value).whenPressed(GyroTurn(
                 1.0/45,
                 Consts.DriveTrain.ksVolts/12,
-                {SmartDashboard.getNumber("targetAngle", -1000.0)},
+                {cameraTable.instance.getEntry("chameleon-vision").getDouble(0.0)},
                 driveTrain::yaw,
                 {input -> driveTrain.curvatureDrive(0.0, input, true)}
         ))
         JoystickButton(secondaryController, Button.kBumperLeft.value).whileHeld(RunPivot(intake, 0.2))
         JoystickButton(secondaryController, Button.kBumperRight.value).whileHeld(RunPivot(intake, -0.2))
-        JoystickButton(secondaryController, Button.kA.value).whileHeld(RunIntake(intake, -0.5))
-        JoystickButton(secondaryController, Button.kB.value).whileHeld(RunIntake(intake, 0.5))
+        JoystickButton(secondaryController, Button.kA.value).whileHeld(RunIntake(storage, intake, -0.5))
+        JoystickButton(secondaryController, Button.kB.value).whileHeld(RunIntake(storage, intake, 0.5))
 //        JoystickButton(secondaryController, Button.kA.value).whenPressed(RunShooter(shooter, 5000.0))
         JoystickButton(secondaryController, Button.kX.value).whenPressed(RunShooter(shooter, 5700.0))
         JoystickButton(secondaryController, Button.kY.value).whenPressed(RunShooter(shooter, 7000.0))
