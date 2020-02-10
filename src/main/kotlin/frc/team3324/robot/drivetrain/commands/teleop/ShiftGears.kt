@@ -9,6 +9,6 @@ class ShiftGears(val driveTrain: DriveTrain): InstantCommand() {
         driveTrain.shifterStatus = when {
             (driveTrain.shifterStatus == DoubleSolenoid.Value.kForward) -> DoubleSolenoid.Value.kReverse
             else -> DoubleSolenoid.Value.kForward
-        }
+
     }
 }
