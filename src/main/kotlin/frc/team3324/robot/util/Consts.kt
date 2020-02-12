@@ -9,8 +9,8 @@ object Consts {
         const val LM_MOTOR = 1
         const val LU_MOTOR = 2
         const val LD_MOTOR = 3
-        const val RM_MOTOR = 4
-        const val RU_MOTOR = 5
+        const val RM_MOTOR = 5
+        const val RU_MOTOR = 4
         const val RD_MOTOR = 6
 
         // Encoder and Auto constants
@@ -38,8 +38,8 @@ object Consts {
         const val LOW_GEAR_MAX_ACCELERATION = 6.51
 
 
-        const val GEARSHIFTER_FORWARD = 0
-        const val GEARSHIFTER_REVERSE = 1
+        const val GEARSHIFTER_FORWARD = 4
+        const val GEARSHIFTER_REVERSE = 5
 
         val HIGH_GEAR = DoubleSolenoid.Value.kReverse
         val LOW_GEAR = DoubleSolenoid.Value.kForward
@@ -58,6 +58,6 @@ object Consts {
 
     object Storage {
         const val MOTOR_TOP = 21
-        const val MOTOR_BOTTOM = 1
+        const val MOTOR_BOTTOM = 7
     }
 }

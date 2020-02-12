@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandScheduler
 import edu.wpi.first.wpilibj.AnalogInput
 import com.cuforge.libcu.Lasershark
+import edu.wpi.first.networktables.NetworkTableInstance
 import io.github.oblarg.oblog.Logger
 
 class Robot: TimedRobot() {
@@ -35,14 +36,11 @@ class Robot: TimedRobot() {
     override fun robotPeriodic() {
         CommandScheduler.getInstance().run()
         Logger.updateEntries()
-
-        SmartDashboard.putNumber("Ultrasonic Inch Distance: ", depRangeInches)
-        SmartDashboard.putNumber("Lidar Meter Distance: ", rangeMeters)
         Logger.updateEntries()
     }
 
     override fun autonomousInit() {
-        CommandScheduler.getInstance().schedule(robotContainer.getAutoCommand())
+//        CommandScheduler.getInstance().schedule(robotContainer.getAutoCommand())
         SmartDashboard.putBoolean("We here 4", true)
         enabledInit()
     }

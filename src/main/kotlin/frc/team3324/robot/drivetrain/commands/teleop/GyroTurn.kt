@@ -6,20 +6,19 @@ import edu.wpi.first.wpilibj2.command.CommandBase
 import kotlin.math.abs
 import kotlin.math.sign
 
-class GyroTurn(private val kP: Double, private val kS: Double, private val setPointMethod: () -> Double, val input: () -> Double, val output: (Double) -> Unit):CommandBase() {
-    var setPoint = -setPointMethod()
+class GyroTurn(private val kP: Double, private val kS: Double, private var setPoint: Double, val input: () -> Double, val output: (Double) -> Unit):CommandBase() {
     private var offset = input()
 
     override fun initialize() {
         offset = input()
-        setPoint = -setPointMethod() + offset
+        setPoint += offset
     }
 
     override fun execute() {
         SmartDashboard.putNumber("Setpoint", setPoint)
         SmartDashboard.putNumber("Boop", (0.0 + offset))
         val currentAngle = input()
-        val error = setPoint - input()
+        val error = setPoint - currentAngle
         val speed = error * kP
 
         SmartDashboard.putNumber("Speed from gyro turn", speed)

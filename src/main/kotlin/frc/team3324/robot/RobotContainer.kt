@@ -39,10 +39,10 @@ class RobotContainer {
     private val storage = Storage()
     private val driveTrain = DriveTrain()
     private val relay = Relay(0)
-    private val shooter = Shooter()
+    private val  shooter = Shooter()
 
     private val table = NetworkTableInstance.getDefault()
-    private val cameraTable = table.getTable("chameleon-vision").getSubTable("camera-name")
+    private val cameraTable = table.getTable("chameleon-vision").getSubTable("USB_Camera")
 
     private val primaryController = XboxController(0)
     private val secondaryController = XboxController(1)
@@ -52,6 +52,18 @@ class RobotContainer {
     private val primaryLeftY: Double
         get() = primaryController.getY(GenericHID.Hand.kRight)
 
+    private val secondaryRightX: Double
+        get() = secondaryController.getX(GenericHID.Hand.kLeft)
+    private val secondRightY: Double
+        get() = secondaryController.getY(GenericHID.Hand.kRight)
+    private val secondLeftY: Double
+        get() = secondaryController.getY(GenericHID.Hand.kLeft)
+
+    private val secondTriggerRight: Double
+        get() = secondaryController.getTriggerAxis(GenericHID.Hand.kRight)
+    private val secondTriggerLeft: Double
+        get() = secondaryController.getTriggerAxis(GenericHID.Hand.kLeft)
+
 
 
 
@@ -60,27 +72,27 @@ class RobotContainer {
        Camera.schedule()
        driveTrain.defaultCommand = Drive(driveTrain, {primaryController.getY(GenericHID.Hand.kLeft)}, {primaryController.getX(GenericHID.Hand.kRight)})
        intake.defaultCommand = RunPivot(intake, -0.05)
-//       storage.defaultCommand = RunStorage(storage)
+       storage.defaultCommand = RunStorage(storage, this::secondTriggerLeft, this::secondTriggerRight)
        configureButtonBindings()
+
+
    }
 
     fun configureButtonBindings() {
         JoystickButton(primaryController, Button.kBumperLeft.value).whenPressed(PneumaticShift(driveTrain.gearShifter))
+        JoystickButton(primaryController, Button.kA.value).whileHeld(RunPivot(intake, 0.5))
+        JoystickButton(primaryController, Button.kB.value).whileHeld(RunPivot(intake, -0.5))
         JoystickButton(primaryController, Button.kX.value).whenPressed(SwitchRelay(relay))
         JoystickButton(primaryController, Button.kY.value).whenPressed(GyroTurn(
-                1.0/45,
+                1.0/45.0,
                 Consts.DriveTrain.ksVolts/12,
-                {cameraTable.instance.getEntry("chameleon-vision").getDouble(0.0)},
+                cameraTable.instance.getEntry("targetYaw").getDouble(0.0),
                 driveTrain::yaw,
                 {input -> driveTrain.curvatureDrive(0.0, input, true)}
         ))
-        JoystickButton(secondaryController, Button.kBumperLeft.value).whileHeld(RunPivot(intake, 0.2))
-        JoystickButton(secondaryController, Button.kBumperRight.value).whileHeld(RunPivot(intake, -0.2))
-        JoystickButton(secondaryController, Button.kA.value).whileHeld(RunIntake(storage, intake, -0.5))
-        JoystickButton(secondaryController, Button.kB.value).whileHeld(RunIntake(storage, intake, 0.5))
-//        JoystickButton(secondaryController, Button.kA.value).whenPressed(RunShooter(shooter, 5000.0))
-        JoystickButton(secondaryController, Button.kX.value).whenPressed(RunShooter(shooter, 5000.0))
-        JoystickButton(secondaryController, Button.kY.value).whenPressed(RunShooter(shooter, 7000.0))
+        JoystickButton(secondaryController, Button.kA.value).whileHeld(RunIntake( intake, -0.5))
+        JoystickButton(secondaryController, Button.kB.value).whileHeld(RunIntake( intake, 0.5))
+        JoystickButton(secondaryController, Button.kX.value).whileHeld(RunShooter(shooter, 4800.0))
     }
 
     fun getAutoCommand(): Command {
