@@ -12,6 +12,11 @@ import edu.wpi.first.networktables.NetworkTableInstance
 import io.github.oblarg.oblog.Logger
 
 class Robot: TimedRobot() {
+
+    private val table = NetworkTableInstance.getDefault()
+    private val cameraTable = table.getTable("chameleon-vision").getSubTable("USBCamera")
+    private val yaw = cameraTable.instance.getEntry("yaw")
+
     private val compressor = Compressor()
     private val robotContainer = RobotContainer()
     private val lidar = Lasershark(2)

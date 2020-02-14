@@ -124,6 +124,9 @@ class DriveTrain: SubsystemBase(), Loggable {
     }
 
     init {
+        lmMotor.openLoopRampRate = 0.9
+        rmMotor.openLoopRampRate = 0.9
+
         shifterStatus = Consts.DriveTrain.LOW_GEAR
         lmMotor.restoreFactoryDefaults()
         luMotor.restoreFactoryDefaults()

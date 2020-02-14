@@ -60,4 +60,9 @@ object Consts {
         const val MOTOR_TOP = 21
         const val MOTOR_BOTTOM = 7
     }
+
+    object Climber {
+        const val MOTOR_LEFT = 1
+        const val MOTOR_RIGHT = 25
+    }
 }
