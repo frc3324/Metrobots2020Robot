@@ -62,6 +62,11 @@ class DriveTrain: SubsystemBase(), Loggable {
         @Log
         get() = -gyro.yaw.toDouble()
 
+    val fusedYaw: Double
+        @Log
+        get() = -gyro.fusedHeading.toDouble()
+
+
     val lmCurrent: Double
         @Log
         get() = lmMotor.outputCurrent

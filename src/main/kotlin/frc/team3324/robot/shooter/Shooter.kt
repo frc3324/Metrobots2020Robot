@@ -90,6 +90,7 @@ class Shooter: SubsystemBase(), Loggable {
             rpmChooser.addOption("6000", 6000.0)
             rpmChooser.addOption("6500", 6500.0)
             rpmChooser.setDefaultOption("0", 0.0)
+            SmartDashboard.putData(rpmChooser)
         }
 
         fun runPID(desiredSpeed: Double): Double {
