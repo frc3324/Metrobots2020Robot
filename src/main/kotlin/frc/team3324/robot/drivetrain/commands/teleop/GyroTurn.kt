@@ -6,13 +6,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase
 import kotlin.math.abs
 import kotlin.math.sign
 
-class GyroTurn(private val kP: Double, private val kS: Double, private val setPointMethod: () -> Double, val input: () -> Double, val output: (Double) -> Unit):CommandBase() {
-    var setPoint = setPointMethod()
+class GyroTurn(private val kP: Double, private val kS: Double, private var setPoint: Double, val input: () -> Double, val output: (Double) -> Unit):CommandBase() {
     private var offset = input()
 
     override fun initialize() {
         offset = input()
-        setPoint = offset - setPointMethod()
+        setPoint = offset - setPoint
         if (setPoint < 0.0) {
             setPoint = 360.0 - setPoint
         }

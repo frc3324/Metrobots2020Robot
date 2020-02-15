@@ -9,8 +9,8 @@ object Consts {
         const val LM_MOTOR = 1
         const val LU_MOTOR = 2
         const val LD_MOTOR = 3
-        const val RM_MOTOR = 4
-        const val RU_MOTOR = 5
+        const val RM_MOTOR = 5
+        const val RU_MOTOR = 4
         const val RD_MOTOR = 6
 
         // Encoder and Auto constants
@@ -38,8 +38,8 @@ object Consts {
         const val LOW_GEAR_MAX_ACCELERATION = 6.51
 
 
-        const val GEARSHIFTER_FORWARD = 0
-        const val GEARSHIFTER_REVERSE = 1
+        const val GEARSHIFTER_FORWARD = 4
+        const val GEARSHIFTER_REVERSE = 5
 
         val HIGH_GEAR = DoubleSolenoid.Value.kReverse
         val LOW_GEAR = DoubleSolenoid.Value.kForward
@@ -53,11 +53,16 @@ object Consts {
 
         const val Kv = 0.107 / 60 // Char tool gives Kv in terms of RPS so /60
         const val Ks = 0.0921
-        const val Kp = 2.06e-23
+        const val Kp = 2.06e-15
     }
 
     object Storage {
         const val MOTOR_TOP = 21
-        const val MOTOR_BOTTOM = 0
+        const val MOTOR_BOTTOM = 7
+    }
+
+    object Climber {
+        const val MOTOR_LEFT = 1
+        const val MOTOR_RIGHT = 25
     }
 }

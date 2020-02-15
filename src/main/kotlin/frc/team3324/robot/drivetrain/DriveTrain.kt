@@ -120,15 +120,18 @@ class DriveTrain: SubsystemBase(), Loggable {
     var enabled = true
 
     fun setBrakeMode() {
-        rmMotor.idleMode = CANSparkMax.IdleMode.kBrake
-        ruMotor.idleMode = CANSparkMax.IdleMode.kBrake
-        rdMotor.idleMode = CANSparkMax.IdleMode.kBrake
-        lmMotor.idleMode = CANSparkMax.IdleMode.kBrake
-        luMotor.idleMode = CANSparkMax.IdleMode.kBrake
-        ldMotor.idleMode = CANSparkMax.IdleMode.kBrake
+        rmMotor.idleMode = CANSparkMax.IdleMode.kCoast
+        ruMotor.idleMode = CANSparkMax.IdleMode.kCoast
+        rdMotor.idleMode = CANSparkMax.IdleMode.kCoast
+        lmMotor.idleMode = CANSparkMax.IdleMode.kCoast
+        luMotor.idleMode = CANSparkMax.IdleMode.kCoast
+        ldMotor.idleMode = CANSparkMax.IdleMode.kCoast
     }
 
     init {
+        lmMotor.openLoopRampRate = 0.9
+        rmMotor.openLoopRampRate = 0.9
+
         shifterStatus = Consts.DriveTrain.LOW_GEAR
         lmMotor.restoreFactoryDefaults()
         luMotor.restoreFactoryDefaults()
@@ -136,7 +139,7 @@ class DriveTrain: SubsystemBase(), Loggable {
 
         rmMotor.restoreFactoryDefaults()
         ruMotor.restoreFactoryDefaults()
-        rdMotor.restoreFactoryDefaults()
+//        rdMotor.restoreFactoryDefaults()
 
         rightEncoder.position = 0.0
         leftEncoder.position = 0.0
@@ -146,19 +149,11 @@ class DriveTrain: SubsystemBase(), Loggable {
         rmMotor.setSecondaryCurrentLimit(60.0)
         lmMotor.setSecondaryCurrentLimit(60.0)
 
-        ruMotor.follow(rmMotor)
-        rdMotor.follow(rmMotor)
+        ruMotor.follow(rmMotor, false)
+        rdMotor.follow(rmMotor, false)
 
         luMotor.follow(lmMotor)
         ldMotor.follow(lmMotor)
-
-        ruMotor.inverted = false
-        rmMotor.inverted = false
-        rdMotor.inverted = false
-
-        lmMotor.inverted = false
-        luMotor.inverted = false
-        ldMotor.inverted = false
 
         ruMotor.burnFlash()
         rmMotor.burnFlash()

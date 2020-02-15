@@ -1,18 +1,18 @@
 package frc.team3324.robot.intake.commands
 
 import edu.wpi.first.wpilibj2.command.CommandBase
-import frc.team3324.robot.intake.Intake
+import frc.team3324.robot.intake.Pivot
 
-class RunPivot(val intake: Intake, val speed: Double): CommandBase() {
+class RunPivot(val pivot: Pivot, val speed: Double): CommandBase() {
     init {
-        addRequirements(intake)
+        addRequirements(pivot)
     }
 
     override fun execute() {
-        intake.pivot = speed
+        pivot.pivot = speed
     }
 
     override fun end(interrupted: Boolean) {
-        intake.pivot = 0.0
+        pivot.pivot = 0.0
     }
 }

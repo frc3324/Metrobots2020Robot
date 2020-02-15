@@ -8,8 +8,7 @@ import io.github.oblarg.oblog.Loggable
 import io.github.oblarg.oblog.annotations.Log
 
 class Intake : SubsystemBase(), Loggable {
-    private val leftMotor = WPI_TalonSRX(7)
-    private val pivotMotor = WPI_TalonSRX(4)
+    private val leftMotor = WPI_TalonSRX(20)
     private val dutyEncoder = DutyCycleEncoder(7)
 
     var speed
@@ -26,9 +25,6 @@ class Intake : SubsystemBase(), Loggable {
         @Log
         get() = dutyEncoder.get()*2*Math.PI
 
-    var pivot: Double
-        get() = pivotMotor.get()
-        set(x) = pivotMotor.set(x)
 
     init {
         leftMotor.inverted = true

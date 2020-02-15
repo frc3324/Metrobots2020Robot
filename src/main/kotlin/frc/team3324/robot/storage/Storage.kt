@@ -5,23 +5,26 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.team3324.robot.util.Consts
 
-class Storage: SubsystemBase() {
-    val motorTop = WPI_TalonSRX(Consts.Storage.MOTOR_BOTTOM)
-    val motorBottom = WPI_TalonSRX(Consts.Storage.MOTOR_TOP)
+class Storage(): SubsystemBase() {
+    val motorTop = WPI_TalonSRX(Consts.Storage.MOTOR_TOP)
+    val motorBottom = WPI_TalonSRX(Consts.Storage.MOTOR_BOTTOM)
 
     init {
         motorTop.configFactoryDefault()
         motorBottom.configFactoryDefault()
         configureBrakeMode()
 
-        motorBottom.follow(motorTop)
+        motorBottom.inverted = true
+
         motorTop.enableCurrentLimit(true)
         motorTop.configContinuousCurrentLimit(20)
+        motorBottom.enableCurrentLimit(true)
+        motorBottom.configContinuousCurrentLimit(20)
     }
 
     var speed: Double
         get() = motorTop.get()
-        set(x) = motorBottom.set(x)
+        set(x) = motorTop.set(x)
 
     private fun configureBrakeMode() {
         motorBottom.setNeutralMode(NeutralMode.Brake)

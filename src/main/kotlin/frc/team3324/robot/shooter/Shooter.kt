@@ -66,7 +66,7 @@ class Shooter: SubsystemBase(), Loggable {
             leftMotor.idleMode = CANSparkMax.IdleMode.kCoast
             rightMotor.follow(leftMotor, true)
 
-            leftMotor.inverted = false
+            leftMotor.inverted = true
             leftEncoder.velocityConversionFactor = Consts.Shooter.GEAR_RATIO
             rightEncoder.velocityConversionFactor = Consts.Shooter.GEAR_RATIO
             leftMotor.setSmartCurrentLimit(40)
