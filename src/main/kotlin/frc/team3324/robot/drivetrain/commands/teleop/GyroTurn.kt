@@ -11,20 +11,19 @@ class GyroTurn(private val kP: Double, private val kS: Double, private var setPo
 
     override fun initialize() {
         offset = input()
-        setPoint = offset - setPoint
-        if (setPoint < 0.0) {
-            setPoint = 360.0 - setPoint
+        setPoint += offset
+        if (setPoint > 180.0) {
+            setPoint = 180.0 - setPoint
         }
     }
 
     override fun execute() {
         val currentAngle = input()
-        val error = setPoint - currentAngle
-        var speed = error * kP
-
-        if (error > 180.0) {
-            speed = -speed
+        var error = (setPoint - currentAngle)
+        if (error < -180) {
+            error += 180.0
         }
+        val speed = error * kP
 
         SmartDashboard.putNumber("Speed from gyro turn", speed)
         SmartDashboard.putNumber("Desired Angle", setPoint)
