@@ -2,7 +2,6 @@ package frc.team3324.robot
 
 import edu.wpi.first.networktables.NetworkTableInstance
 import edu.wpi.first.wpilibj.GenericHID
-import edu.wpi.first.wpilibj.Joystick
 import edu.wpi.first.wpilibj.Relay
 import edu.wpi.first.wpilibj.XboxController
 import edu.wpi.first.wpilibj.XboxController.Button
@@ -16,6 +15,7 @@ import frc.team3324.robot.drivetrain.commands.teleop.Drive
 import frc.team3324.robot.drivetrain.commands.teleop.GyroTurn
 import frc.team3324.robot.intake.Intake
 import frc.team3324.robot.intake.Pivot
+import frc.team3324.robot.intake.commands.RunIntake
 import frc.team3324.robot.intake.commands.RunPivot
 import frc.team3324.robot.shooter.Shooter
 import frc.team3324.robot.shooter.commands.RunShooter
@@ -41,16 +41,6 @@ class RobotContainer {
 
     private val primaryController = XboxController(0)
     private val secondaryController = XboxController(1)
-    private val ddrPad = Joystick(2)
-
-    private val DDR_START_BUTTON = JoystickButton(ddrPad, 10)
-    private val DDR_SELECT_BUTTON = JoystickButton(ddrPad, 8)
-    private val DDR_A_BUTTON = JoystickButton(ddrPad, 2)
-    private val DDR_B_BUTTON = JoystickButton(ddrPad, 3)
-    private val DDR_UP_BUTTON = JoystickButton(ddrPad, 13)
-    private val DDR_DOWN_BUTTON = JoystickButton(ddrPad, 15)
-    private val DDR_LEFT_BUTTON = JoystickButton(ddrPad, 16)
-    private val DDR_RIGHT_BUTTON = JoystickButton(ddrPad, 14)
 
     private val primaryRightX: Double
         get() = primaryController.getX(GenericHID.Hand.kLeft)
@@ -80,52 +70,35 @@ class RobotContainer {
    init {
        Logger.configureLoggingAndConfig(this, true)
        Camera.schedule()
-       driveTrain.defaultCommand = Drive(driveTrain, this::ddrDriveForward, this::ddrDriveTurn)
+       driveTrain.defaultCommand = Drive(driveTrain, {primaryController.getY(GenericHID.Hand.kLeft)}, {primaryController.getX(GenericHID.Hand.kRight)})
 
 
        pivot.defaultCommand = RunPivot(pivot, -0.05)
-       //intake.defaultCommand = RunIntake(storage, intake, this::primaryTriggerLeft, this::primaryTriggerRight)
+       intake.defaultCommand = RunIntake(storage, intake, this::primaryTriggerLeft, this::primaryTriggerRight)
        storage.defaultCommand = RunStorage(storage, this::secondTriggerLeft, this::secondTriggerRight, this::secondRightY, this::secondLeftY)
        configureButtonBindings()
 
    }
 
-    fun ddrDriveForward(): Double {
-        when {
-            DDR_UP_BUTTON.get() -> return -0.3
-            DDR_DOWN_BUTTON.get() -> return 0.3
-            else -> return 0.0
-        }
-    }
-
-    fun ddrDriveTurn(): Double {
-        when {
-            DDR_LEFT_BUTTON.get() -> return -0.3
-            DDR_RIGHT_BUTTON.get() -> return 0.3
-            else -> return 0.0
-        }
-    }
-
     fun configureButtonBindings() {
-//        JoystickButton(primaryController, Button.kBumperLeft.value).whileHeld(RunPivot(pivot, 0.5))
-//        JoystickButton(primaryController, Button.kBumperRight.value).whileHeld(RunPivot(pivot, -0.5))
-//        JoystickButton(primaryController, Button.kX.value).whenPressed(SwitchRelay(relay))
-//        JoystickButton(primaryController, Button.kA.value).whileHeld(RunClimber(climber, -1.0, {input: Double -> climber.leftSpeed = input}))
-//        JoystickButton(primaryController, Button.kB.value).whileHeld(RunClimber(climber, -1.0, {input: Double -> climber.rightSpeed = input}))
-        DDR_A_BUTTON.whenPressed(GyroTurn(
+        JoystickButton(primaryController, Button.kBumperLeft.value).whileHeld(RunPivot(pivot, 0.5))
+        JoystickButton(primaryController, Button.kBumperRight.value).whileHeld(RunPivot(pivot, -0.5))
+        JoystickButton(primaryController, Button.kX.value).whenPressed(SwitchRelay(relay))
+        JoystickButton(primaryController, Button.kA.value).whileHeld(RunClimber(climber, -1.0, {input: Double -> climber.leftSpeed = input}))
+        JoystickButton(primaryController, Button.kB.value).whileHeld(RunClimber(climber, -1.0, {input: Double -> climber.rightSpeed = input}))
+        JoystickButton(primaryController, Button.kY.value).whenPressed(GyroTurn(
                 driveTrain,
                 1.0/90.0,
                 Consts.DriveTrain.ksVolts/12,
                 {cameraTable.getEntry("targetYaw").getDouble(0.0)},
                 {input -> driveTrain.curvatureDrive(0.0, input, true)}
         ))
-        /*DDR_A_BUTTON.whenPressed(RunShooter(shooter, {cameraTable.getEntry("targetArea").getDouble(3800.0)}).withTimeout(5.0))
+        JoystickButton(secondaryController, Button.kX.value).whenPressed(RunShooter(shooter, {cameraTable.getEntry("targetArea").getDouble(3800.0)}).withTimeout(5.0))
+        JoystickButton(secondaryController, Button.kA.value).whileHeld(RunClimber(climber, 1.0, {input: Double -> climber.leftSpeed = input; climber.rightSpeed = input}))
+        JoystickButton(secondaryController, Button.kB.value).whileHeld(RunClimber(climber, -1.0, {input: Double -> climber.leftSpeed = input; climber.rightSpeed = input}))
+        JoystickButton(secondaryController, Button.kBumperLeft.value).whileHeld(RunStorageConstant(storage, -0.6))
+        JoystickButton(secondaryController, Button.kBumperRight.value).whileHeld(RunStorageConstant(storage, 0.6))
 
-        DDR_START_BUTTON.whileHeld(RunClimber(climber, 1.0, {input: Double -> climber.leftSpeed = input; climber.rightSpeed = input}))
-        DDR_SELECT_BUTTON.whileHeld(RunClimber(climber, -1.0, {input: Double -> climber.leftSpeed = input; climber.rightSpeed = input}))
-        DDR_RIGHT_BUTTON.whileHeld(RunStorageConstant(storage, -0.6))
-        DDR_LEFT_BUTTON.whileHeld(RunStorageConstant(storage, 0.6))
-*/
     }
 
     fun getAutoCommand(): Command {
