@@ -6,28 +6,33 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.team3324.robot.util.Consts
 
 class Storage(): SubsystemBase() {
-    val motorTop = WPI_TalonSRX(Consts.Storage.MOTOR_TOP)
-    val motorBottom = WPI_TalonSRX(Consts.Storage.MOTOR_BOTTOM)
+    private val motorTop = WPI_TalonSRX(Consts.Storage.MOTOR_TOP)
+    private val motorBot = WPI_TalonSRX(Consts.Storage.MOTOR_BOTTOM)
 
     init {
         motorTop.configFactoryDefault()
-        motorBottom.configFactoryDefault()
+        motorBot.configFactoryDefault()
         configureBrakeMode()
 
-        motorBottom.inverted = true
+        motorTop.inverted = true
+        motorBot.inverted = false
 
         motorTop.enableCurrentLimit(true)
         motorTop.configContinuousCurrentLimit(20)
-        motorBottom.enableCurrentLimit(true)
-        motorBottom.configContinuousCurrentLimit(20)
+        motorBot.enableCurrentLimit(true)
+        motorBot.configContinuousCurrentLimit(20)
     }
 
-    var speed: Double
+    var topSpeed: Double
         get() = motorTop.get()
         set(x) = motorTop.set(x)
 
+    var botSpeed: Double
+        get() = motorBot.get()
+        set(x) = motorBot.set(x)
+
     private fun configureBrakeMode() {
-        motorBottom.setNeutralMode(NeutralMode.Brake)
+        motorBot.setNeutralMode(NeutralMode.Brake)
         motorTop.setNeutralMode(NeutralMode.Brake)
     }
 }

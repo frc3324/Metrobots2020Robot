@@ -3,31 +3,20 @@ package frc.team3324.robot.drivetrain.commands.teleop
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandBase
+import edu.wpi.first.wpilibj2.command.Subsystem
 import kotlin.math.abs
 import kotlin.math.sign
 
-class GyroTurn(private val kP: Double, private val kS: Double, private var setPoint: Double, val input: () -> Double, val output: (Double) -> Unit):CommandBase() {
-    private var offset = input()
-
-    override fun initialize() {
-        offset = input()
-        setPoint += offset
-        if (setPoint > 180.0) {
-            setPoint = 180.0 - setPoint
-        }
+class GyroTurn(subsystem: Subsystem, private val kP: Double, private val kS: Double, private var setPointMethod: () -> Double, val output: (Double) -> Unit):CommandBase() {
+    init {
+        addRequirements(subsystem)
     }
 
     override fun execute() {
-        val currentAngle = input()
-        var error = (setPoint - currentAngle)
-        if (error < -180) {
-            error += 180.0
-        }
-        val speed = error * kP
+        var error = setPointMethod()
+        val speed = -error * kP
 
         SmartDashboard.putNumber("Speed from gyro turn", speed)
-        SmartDashboard.putNumber("Desired Angle", setPoint)
-        SmartDashboard.putNumber("Current Angle", currentAngle)
         SmartDashboard.putNumber("Error", error)
 
         output(speed + (sign(speed) * kS))
@@ -38,7 +27,7 @@ class GyroTurn(private val kP: Double, private val kS: Double, private var setPo
     }
 
     override fun isFinished(): Boolean {
-        SmartDashboard.putNumber("Ending Error", setPoint - input())
-        return abs((setPoint - input())) < 1.0 || setPoint == 0.0
+        var error = setPointMethod()
+        return abs(error) < 2.0 || setPointMethod() == 0.0
     }
 }

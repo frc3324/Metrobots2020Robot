@@ -52,7 +52,7 @@ object Consts {
         const val GEAR_RATIO = 1.25
 
         const val Kv = 0.107 / 60 // Char tool gives Kv in terms of RPS so /60
-        const val Ks = 0.0921
+        const val Ks = 0.101
         const val Kp = 2.06e-15
     }
 

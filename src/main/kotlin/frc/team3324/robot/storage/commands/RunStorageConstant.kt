@@ -3,7 +3,7 @@ package frc.team3324.robot.storage.commands
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.team3324.robot.storage.Storage
 
-class RunStorageAuto(val storage: Storage, val speed: Double): CommandBase() {
+class RunStorageConstant(val storage: Storage, val speed: Double): CommandBase() {
     init {
         addRequirements(storage)
     }

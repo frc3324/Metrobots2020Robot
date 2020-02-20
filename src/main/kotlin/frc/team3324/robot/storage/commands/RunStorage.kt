@@ -10,19 +10,19 @@ class RunStorage(val storage: Storage, val ySpeedBot: () -> Double, val ySpeedTo
 
     override fun execute() {
         if (ySpeedBot() > 0.0) {
-            storage.motorBottom.set(ySpeedBot())
-            storage.motorTop.set(ySpeedBot())
-        } else if (joystickBot() > 0.0) {
-            storage.motorBottom.set(joystickBot())
-        } else if (joystickTop() > 0.0) {
-            storage.motorTop.set(joystickTop())
+            storage.botSpeed = ySpeedBot()
+            storage.topSpeed = ySpeedBot()
+        } else if (Math.abs(joystickBot()) > 0.0) {
+            storage.botSpeed = joystickBot()
+        } else if (Math.abs(joystickTop()) > 0.0) {
+            storage.topSpeed = joystickTop()
         } else {
-            storage.motorBottom.set(-ySpeedTop())
-            storage.motorTop.set(-ySpeedTop())
+            storage.botSpeed = -ySpeedTop()
+            storage.topSpeed = -ySpeedTop()
         }
     }
 
     override fun end(interrupted: Boolean) {
-        storage.speed = 0.0
+        storage.botSpeed = 0.0
     }
 }
