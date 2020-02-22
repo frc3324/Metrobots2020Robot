@@ -93,7 +93,7 @@ class RobotContainer {
                 {cameraTable.getEntry("targetYaw").getDouble(0.0)},
                 {input -> driveTrain.curvatureDrive(0.0, input, true)}
         ))
-        JoystickButton(secondaryController, Button.kX.value).whenPressed(RunShooter(shooter, {cameraTable.getEntry("targetArea").getDouble(3800.0)}).withTimeout(5.0))
+        JoystickButton(secondaryController, Button.kX.value).whenPressed(RunShooter(shooter, {cameraTable.getEntry("targetArea").getDouble(3800.0)}).withTimeout(10.0))
         JoystickButton(secondaryController, Button.kA.value).whileHeld(RunClimber(climber, 1.0, {input: Double -> climber.leftSpeed = input; climber.rightSpeed = input}))
         JoystickButton(secondaryController, Button.kB.value).whileHeld(RunClimber(climber, -1.0, {input: Double -> climber.leftSpeed = input; climber.rightSpeed = input}))
         JoystickButton(secondaryController, Button.kBumperLeft.value).whileHeld(RunStorageConstant(storage, -0.6))

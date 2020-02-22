@@ -13,7 +13,7 @@ class RunShooter(val shooter: Shooter, val area: () -> Double): CommandBase() {
 
     override fun execute() {
         val area = area()
-        val rpm = 7400 - (171000 * area) + 2.5e+6 * Math.pow(area, 2.0)
+        val rpm = 1113 * Math.pow(area(), -0.33)
        shooter.RPM = rpm
     }
 

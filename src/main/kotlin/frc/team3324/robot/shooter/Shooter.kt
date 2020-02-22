@@ -60,6 +60,7 @@ class Shooter: SubsystemBase(), Loggable {
             set(speed) = leftMotor.set(speed)
 
         init {
+            SmartDashboard.putNumber("Numbah", 0.0)
             rightMotor.restoreFactoryDefaults()
             leftMotor.restoreFactoryDefaults()
             rightMotor.idleMode = CANSparkMax.IdleMode.kCoast
@@ -106,8 +107,6 @@ class Shooter: SubsystemBase(), Loggable {
         override fun periodic() {
             SmartDashboard.putNumber("RPM ", RPM)
             SmartDashboard.putNumber("Amp", leftMotor.outputCurrent)
-            if (rpmChooser.selected != null) {
-                RPM = rpmChooser.selected
-            }
+//            RPM = SmartDashboard.getNumber("Numbah", 0.0)
         }
     }
