@@ -3,19 +3,22 @@ package frc.team3324.robot.storage.commands
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.team3324.robot.storage.Storage
 
-class RunStorageConstant(val storage: Storage, val speed: Double, val selector: Int): CommandBase() {
+class RunStorageConstant(val storage: Storage, val speed: Double, val selector: STORAGE_TYPE): CommandBase() {
+    enum class STORAGE_TYPE {
+        BOTH, BOT, TOP
+    }
     init {
         addRequirements(storage)
     }
 
     override fun execute() {
         when(selector) {
-            0 -> {
+            STORAGE_TYPE.BOTH -> {
                 storage.botSpeed = speed;
                 storage.topSpeed = speed;
             }
-            1 -> storage.botSpeed = speed;
-            2 -> storage.topSpeed = speed;
+            STORAGE_TYPE.BOT -> storage.botSpeed = speed;
+            STORAGE_TYPE.TOP -> storage.topSpeed = speed;
         }
     }
 

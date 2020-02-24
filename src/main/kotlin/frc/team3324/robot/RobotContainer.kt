@@ -100,10 +100,10 @@ class RobotContainer {
 //        JoystickButton(secondaryController, Button.kB.value).whileHeld(RunClimber(climber, -1.0, {input: Double -> climber.leftSpeed = input; climber.rightSpeed = input}))
 //        JoystickButton(secondaryController, Button.kBumperLeft.value).whileHeld(RunStorageConstant(storage, -0.6))
 //        JoystickButton(secondaryController, Button.kBumperRight.value).whileHeld(RunStorageConstant(storage, 0.6))
-        JoystickButton(bongo, 0).whenPressed(RunStorageConstant(storage, 0.6, 2))
-        JoystickButton(bongo, 4).whenPressed(RunStorageConstant(storage, 0.6, 1))
-        JoystickButton(bongo, 2).whenPressed(RunStorageConstant(storage, -0.6, 2))
-        JoystickButton(bongo, 3).whenPressed(RunStorageConstant(storage, -0.6, 1))
+        JoystickButton(bongo, 0).whenPressed(RunStorageConstant(storage, 0.6, RunStorageConstant.STORAGE_TYPE.TOP))
+        JoystickButton(bongo, 4).whenPressed(RunStorageConstant(storage, 0.6, RunStorageConstant.STORAGE_TYPE.BOT))
+        JoystickButton(bongo, 2).whenPressed(RunStorageConstant(storage, -0.6, RunStorageConstant.STORAGE_TYPE.TOP))
+        JoystickButton(bongo, 3).whenPressed(RunStorageConstant(storage, -0.6, RunStorageConstant.STORAGE_TYPE.BOT))
 
     }
 
