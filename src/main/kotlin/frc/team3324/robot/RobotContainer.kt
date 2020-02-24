@@ -42,7 +42,7 @@ class RobotContainer {
 
     private val primaryController = XboxController(0)
     private val secondaryController = XboxController(1)
-    private val bongo = Joystick(0)
+    private val bongo = Joystick(2)
 
     private val primaryRightX: Double
         get() = primaryController.getX(GenericHID.Hand.kLeft)
