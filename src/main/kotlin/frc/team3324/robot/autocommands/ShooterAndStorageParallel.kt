@@ -9,6 +9,6 @@ import frc.team3324.robot.storage.commands.RunStorageConstant
 class ShooterAndStorageParallel(shooter: Shooter, storage: Storage, area: () -> Double): ParallelCommandGroup() {
 
     init {
-        addCommands(RunShooter(shooter, area), RunStorageConstant(storage, -0.6))
+        addCommands(RunShooter(shooter, area), RunStorageConstant(storage, -0.6, 0))
     }
 }

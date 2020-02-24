@@ -8,6 +8,6 @@ import frc.team3324.robot.storage.commands.RunStorageConstant
 class ShooterAndStorageRaceParallel(shooter: Shooter, storage: Storage, area: () -> Double): ParallelRaceGroup() {
 
     init {
-        addCommands(ShootOneBall(area(), shooter), RunStorageConstant(storage, 0.6))
+        addCommands(ShootOneBall(area(), shooter), RunStorageConstant(storage, 0.6, 0))
     }
 }
