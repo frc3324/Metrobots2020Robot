@@ -12,13 +12,13 @@ class RunStorageConstant(val storage: Storage, val speed: Double, val selector: 
     }
 
     override fun execute() {
-        when(selector) {
-            STORAGE_TYPE.BOTH -> {
-                storage.botSpeed = speed;
-                storage.topSpeed = speed;
-            }
-            STORAGE_TYPE.BOT -> storage.botSpeed = speed;
-            STORAGE_TYPE.TOP -> storage.topSpeed = speed;
+        if (selector == STORAGE_TYPE.BOTH) {
+            storage.botSpeed = speed
+            storage.topSpeed = speed
+        } else if (selector == STORAGE_TYPE.BOT) {
+            storage.botSpeed = speed
+        } else if (selector == STORAGE_TYPE.TOP) {
+            storage.topSpeed = speed
         }
     }
 
