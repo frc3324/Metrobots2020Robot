@@ -2,6 +2,7 @@ package frc.team3324.robot
 
 import edu.wpi.first.networktables.NetworkTableInstance
 import edu.wpi.first.wpilibj.GenericHID
+import edu.wpi.first.wpilibj.Joystick
 import edu.wpi.first.wpilibj.Relay
 import edu.wpi.first.wpilibj.XboxController
 import edu.wpi.first.wpilibj.XboxController.Button
@@ -41,6 +42,7 @@ class RobotContainer {
 
     private val primaryController = XboxController(0)
     private val secondaryController = XboxController(1)
+    private val bongo = Joystick(0)
 
     private val primaryRightX: Double
         get() = primaryController.getX(GenericHID.Hand.kLeft)
@@ -93,11 +95,15 @@ class RobotContainer {
                 {cameraTable.getEntry("targetYaw").getDouble(0.0)},
                 {input -> driveTrain.curvatureDrive(0.0, input, true)}
         ))
-        JoystickButton(secondaryController, Button.kX.value).whenPressed(RunShooter(shooter, {cameraTable.getEntry("targetArea").getDouble(3800.0)}).withTimeout(5.0))
-        JoystickButton(secondaryController, Button.kA.value).whileHeld(RunClimber(climber, 1.0, {input: Double -> climber.leftSpeed = input; climber.rightSpeed = input}))
-        JoystickButton(secondaryController, Button.kB.value).whileHeld(RunClimber(climber, -1.0, {input: Double -> climber.leftSpeed = input; climber.rightSpeed = input}))
-        JoystickButton(secondaryController, Button.kBumperLeft.value).whileHeld(RunStorageConstant(storage, -0.6))
-        JoystickButton(secondaryController, Button.kBumperRight.value).whileHeld(RunStorageConstant(storage, 0.6))
+//        JoystickButton(secondaryController, Button.kX.value).whenPressed(RunShooter(shooter, {cameraTable.getEntry("targetArea").getDouble(3800.0)}).withTimeout(5.0))
+//        JoystickButton(secondaryController, Button.kA.value).whileHeld(RunClimber(climber, 1.0, {input: Double -> climber.leftSpeed = input; climber.rightSpeed = input}))
+//        JoystickButton(secondaryController, Button.kB.value).whileHeld(RunClimber(climber, -1.0, {input: Double -> climber.leftSpeed = input; climber.rightSpeed = input}))
+//        JoystickButton(secondaryController, Button.kBumperLeft.value).whileHeld(RunStorageConstant(storage, -0.6))
+//        JoystickButton(secondaryController, Button.kBumperRight.value).whileHeld(RunStorageConstant(storage, 0.6))
+        JoystickButton(bongo, 0).whenPressed(RunStorageConstant(storage, 0.6, 2))
+        JoystickButton(bongo, 4).whenPressed(RunStorageConstant(storage, 0.6, 1))
+        JoystickButton(bongo, 2).whenPressed(RunStorageConstant(storage, -0.6, 2))
+        JoystickButton(bongo, 3).whenPressed(RunStorageConstant(storage, -0.6, 1))
 
     }
 
