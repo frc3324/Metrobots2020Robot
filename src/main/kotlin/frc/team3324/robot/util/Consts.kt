@@ -38,8 +38,8 @@ object Consts {
         const val LOW_GEAR_MAX_ACCELERATION = 6.51
 
 
-        const val GEARSHIFTER_FORWARD = 4
-        const val GEARSHIFTER_REVERSE = 5
+        const val GEARSHIFTER_FORWARD = 6
+        const val GEARSHIFTER_REVERSE = 7
 
         val HIGH_GEAR = DoubleSolenoid.Value.kReverse
         val LOW_GEAR = DoubleSolenoid.Value.kForward
@@ -47,13 +47,13 @@ object Consts {
     }
 
     object Shooter {
-        const val LEFT_MOTOR_PORT = 9
+        const val LEFT_MOTOR_PORT = 11
         const val RIGHT_MOTOR_PORT = 10
         const val GEAR_RATIO = 1.25
 
         const val Kv = 0.107 / 60 // Char tool gives Kv in terms of RPS so /60
         const val Ks = 0.101
-        const val Kp = 2.06e-15
+        const val Kp = 1.06e-5
     }
 
     object Storage {

@@ -14,13 +14,13 @@ class Storage(): SubsystemBase() {
         motorBot.configFactoryDefault()
         configureBrakeMode()
 
-        motorTop.inverted = true
+        motorTop.inverted = false
         motorBot.inverted = false
 
         motorTop.enableCurrentLimit(true)
-        motorTop.configContinuousCurrentLimit(20)
+        motorTop.configContinuousCurrentLimit(30)
         motorBot.enableCurrentLimit(true)
-        motorBot.configContinuousCurrentLimit(20)
+        motorBot.configContinuousCurrentLimit(30)
     }
 
     var topSpeed: Double

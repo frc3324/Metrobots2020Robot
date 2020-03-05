@@ -12,9 +12,11 @@ class RunIntake(val storage: Storage, val intake: Intake, val speedOne: () -> Do
 
     override fun execute() {
         if (speedOne() > 0.0) {
-            intake.speed = speedOne()
+            intake.speed = speedOne() * 0.5
+        } else if (speedTwo() > 0.0) {
+            intake.speed = -speedTwo() * 0.5
         } else {
-            intake.speed = -speedTwo()
+            intake.speed = 0.0
         }
     }
 

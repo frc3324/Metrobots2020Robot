@@ -28,14 +28,11 @@ class Intake : SubsystemBase(), Loggable {
 
     init {
         leftMotor.inverted = true
-        leftMotor.configContinuousCurrentLimit(20)
+        leftMotor.configContinuousCurrentLimit(10)
         leftMotor.enableCurrentLimit(true)
     }
 
     override fun periodic() {
-        SmartDashboard.putNumber("Radians", radianMeasure)
-        SmartDashboard.putNumber("Raw Value", dutyEncoder.get())
-        SmartDashboard.putNumber("Raw Freq", dutyEncoder.frequency.toDouble())
     }
 
 }

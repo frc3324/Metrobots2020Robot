@@ -120,17 +120,17 @@ class DriveTrain: SubsystemBase(), Loggable {
     var enabled = true
 
     fun setBrakeMode() {
-        rmMotor.idleMode = CANSparkMax.IdleMode.kCoast
-        ruMotor.idleMode = CANSparkMax.IdleMode.kCoast
-        rdMotor.idleMode = CANSparkMax.IdleMode.kCoast
-        lmMotor.idleMode = CANSparkMax.IdleMode.kCoast
-        luMotor.idleMode = CANSparkMax.IdleMode.kCoast
-        ldMotor.idleMode = CANSparkMax.IdleMode.kCoast
+        rmMotor.idleMode = CANSparkMax.IdleMode.kBrake
+        ruMotor.idleMode = CANSparkMax.IdleMode.kBrake
+        rdMotor.idleMode = CANSparkMax.IdleMode.kBrake
+        lmMotor.idleMode = CANSparkMax.IdleMode.kBrake
+        luMotor.idleMode = CANSparkMax.IdleMode.kBrake
+        ldMotor.idleMode = CANSparkMax.IdleMode.kBrake
     }
 
     init {
-        lmMotor.openLoopRampRate = 0.9
-        rmMotor.openLoopRampRate = 0.9
+        lmMotor.openLoopRampRate = 5.0
+        rmMotor.openLoopRampRate = 5.0
 
         shifterStatus = Consts.DriveTrain.LOW_GEAR
         lmMotor.restoreFactoryDefaults()
@@ -139,7 +139,7 @@ class DriveTrain: SubsystemBase(), Loggable {
 
         rmMotor.restoreFactoryDefaults()
         ruMotor.restoreFactoryDefaults()
-//        rdMotor.restoreFactoryDefaults()
+        rdMotor.restoreFactoryDefaults()
 
         rightEncoder.position = 0.0
         leftEncoder.position = 0.0
@@ -201,7 +201,7 @@ class DriveTrain: SubsystemBase(), Loggable {
         if (xSpeed < 0.05) {
             curvatureDrive(xSpeed, -ySpeed * 0.7, true)
         } else {
-            curvatureDrive(xSpeed, -ySpeed * 0.65, false)
+            curvatureDrive(xSpeed, -ySpeed * 0.5, false)
         }
     }
 

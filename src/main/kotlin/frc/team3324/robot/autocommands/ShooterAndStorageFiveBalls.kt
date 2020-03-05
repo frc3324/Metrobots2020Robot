@@ -7,6 +7,6 @@ import frc.team3324.robot.storage.Storage
 
 class ShooterAndStorageFiveBalls(shooter: Shooter, area: () -> Double, storage: Storage, waitTime: Double) : ParallelCommandGroup() {
     init {
-        addCommands(RunShooter(shooter, area), ShootFiveBalls(shooter, storage, area, waitTime))
+        addCommands(RunShooter(shooter, area, false), ShootFiveBalls(shooter, storage, area, waitTime))
     }
 }

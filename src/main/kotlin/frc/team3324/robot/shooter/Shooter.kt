@@ -101,12 +101,12 @@ class Shooter: SubsystemBase(), Loggable {
         fun runPID(desiredSpeed: Double): Double {
             val error = desiredSpeed - RPM
             val pValue = Consts.Shooter.Kp * error
-            return pValue + (desiredSpeed * Consts.Shooter.Kv) + Consts.Shooter.Ks
+            return -(pValue + (desiredSpeed * Consts.Shooter.Kv) + Consts.Shooter.Ks)
         }
 
         override fun periodic() {
             SmartDashboard.putNumber("RPM ", RPM)
             SmartDashboard.putNumber("Amp", leftMotor.outputCurrent)
-//            RPM = SmartDashboard.getNumber("Numbah", 0.0)
+            RPM = SmartDashboard.getNumber("Numbah", 0.0)
         }
     }

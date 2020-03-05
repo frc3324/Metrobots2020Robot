@@ -10,7 +10,7 @@ class RunStorageConstant(val storage: Storage, val speed: Double): CommandBase()
 
     override fun execute() {
         storage.botSpeed = speed
-        storage.topSpeed = speed
+        storage.topSpeed = speed * 1.33333333
     }
 
     override fun end(interrupted: Boolean) {
