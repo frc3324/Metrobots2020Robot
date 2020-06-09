@@ -1,9 +1,9 @@
-package frc.team3324.robot.util
+package frc.team3324.library.commands
 
 import edu.wpi.first.wpilibj.Relay
 import edu.wpi.first.wpilibj2.command.InstantCommand
 
-class SwitchRelay(val relay: Relay): InstantCommand() {
+class ToggleRelayCommand(val relay: Relay): InstantCommand() {
 
     override fun execute() {
         if (relay.get() == Relay.Value.kOn) {
