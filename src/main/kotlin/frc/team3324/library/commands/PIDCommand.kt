@@ -1,4 +1,4 @@
-package frc.team3324.robot.util
+package frc.team3324.libarry.commands
 
 import edu.wpi.first.wpilibj.Notifier
 import edu.wpi.first.wpilibj2.command.CommandBase
@@ -10,12 +10,12 @@ class PIDCommand(val kP: Double, val kI: Double, val kD: Double, val goal: Doubl
     private val notifier = Notifier(this ::executePID)
 
     init {
-       addRequirements(subsystem)
+        addRequirements(subsystem)
     }
 
     override fun initialize() {
-       integral = 0.0
-       notifier.startPeriodic(dt)
+        integral = 0.0
+        notifier.startPeriodic(dt)
     }
 
     private fun executePID() {

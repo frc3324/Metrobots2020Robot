@@ -6,12 +6,9 @@ import edu.wpi.first.wpilibj.XboxController.Button
 import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj2.command.button.JoystickButton
 import frc.team3324.robot.autocommands.FinalAutoGroup
-import frc.team3324.robot.autocommands.ShooterAndStorageFiveBalls
-import frc.team3324.robot.autocommands.ShooterAndStorageParallel
 import frc.team3324.robot.climber.Climber
 import frc.team3324.robot.climber.commands.RunClimber
 import frc.team3324.robot.drivetrain.DriveTrain
-import frc.team3324.robot.drivetrain.commands.auto.RunDrivetrain
 import frc.team3324.robot.drivetrain.commands.teleop.Drive
 import frc.team3324.robot.drivetrain.commands.teleop.GyroTurn
 import frc.team3324.robot.intake.Intake
@@ -24,12 +21,10 @@ import frc.team3324.robot.shooter.Shooter
 import frc.team3324.robot.shooter.commands.RunShooter
 import frc.team3324.robot.shooter.commands.StopShooter
 import frc.team3324.robot.storage.Storage
-import frc.team3324.robot.storage.commands.RunStorage
 import frc.team3324.robot.storage.commands.RunStorageConstant
 import frc.team3324.robot.util.Camera
 import frc.team3324.robot.util.Consts
-import frc.team3324.robot.util.SwitchRelay
-import frc.team3324.robot.util.ToggleLight
+import frc.team3324.library.commands.ToggleLightCommand
 import io.github.oblarg.oblog.Logger
 
 class RobotContainer {
@@ -89,7 +84,7 @@ class RobotContainer {
     fun configureButtonBindings() {
         JoystickButton(primaryController, Button.kBumperLeft.value).whileHeld(PivotPID(pivot, -90.0))
         JoystickButton(primaryController, Button.kBumperRight.value).whileHeld(PivotPID(pivot, 0.0))
-        JoystickButton(primaryController, Button.kX.value).whenPressed(ToggleLight(Robot.light))
+        JoystickButton(primaryController, Button.kX.value).whenPressed(ToggleLightCommand(Robot.light))
         JoystickButton(primaryController, Button.kA.value).whileHeld(RunClimber(climber, -1.0, {input: Double -> climber.leftSpeed = input}))
         JoystickButton(primaryController, Button.kB.value).whileHeld(RunClimber(climber, -1.0, {input: Double -> climber.rightSpeed = input}))
         JoystickButton(primaryController, Button.kStickLeft.value).whileHeld(RunClimber(climber, 1.0, {input: Double -> climber.leftSpeed = input}))

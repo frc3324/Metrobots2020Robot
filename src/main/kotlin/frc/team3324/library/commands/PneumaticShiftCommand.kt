@@ -1,10 +1,9 @@
-package frc.team3324.robot.util
+package frc.team3324.library.commands
 
 import edu.wpi.first.wpilibj.DoubleSolenoid
 import edu.wpi.first.wpilibj2.command.InstantCommand
 
-class PneumaticShift(val solenoid: DoubleSolenoid): InstantCommand() {
-
+class PneumaticShiftCommand(val solenoid: DoubleSolenoid): InstantCommand() {
     override fun initialize() {
         if (solenoid.get() == DoubleSolenoid.Value.kForward) {
             solenoid.set(DoubleSolenoid.Value.kReverse)
@@ -12,5 +11,4 @@ class PneumaticShift(val solenoid: DoubleSolenoid): InstantCommand() {
             solenoid.set(DoubleSolenoid.Value.kForward)
         }
     }
-
 }
