@@ -18,7 +18,7 @@ class RunShooter(val shooter: Shooter, val area: () -> Double, val trench: Boole
         if (trench) {
             rpm = 1116 * Math.pow(area(), -0.338)
         }
-       shooter.RPM = rpm
+        shooter.RPM = rpm
         Robot.robotContainer.rumbleController(1.0)
     }
 
