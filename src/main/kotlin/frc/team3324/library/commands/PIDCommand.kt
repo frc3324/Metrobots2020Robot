@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Notifier
 import edu.wpi.first.wpilibj2.command.CommandBase
 import edu.wpi.first.wpilibj2.command.Subsystem
 
+@Deprecated(level = DeprecationLevel.HIDDEN, message = "Should be replaced with WPILib conforming PIDCommand")
 class PIDCommand(val kP: Double, val kI: Double, val kD: Double, val goal: Double, val dt: Double, subsystem: Subsystem, val measurement: () -> Double, val useOutput: (Double) -> Unit): CommandBase() {
     private var integral = 0.0
     private var lastPosition = 0.0
