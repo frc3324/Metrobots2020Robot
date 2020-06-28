@@ -5,11 +5,9 @@ import com.revrobotics.CANSparkMaxLowLevel
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.team3324.robot.util.Consts
-import frc.team3324.robot.util.physics.Motors
-import frc.team3324.robot.util.physics.Motors.getPercentFromRPM
+import frc.team3324.library.physics.Motors
 import io.github.oblarg.oblog.Loggable
 import io.github.oblarg.oblog.annotations.Log
-import frc.team3324.robot.util.physics.Motors.getVoltageFromRPM
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 class Shooter: SubsystemBase(), Loggable {
     val leftMotor = CANSparkMax(Consts.Shooter.LEFT_MOTOR_PORT, CANSparkMaxLowLevel.MotorType.kBrushless)
