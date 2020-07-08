@@ -1,10 +1,12 @@
 package frc.team3324.robot
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 import edu.wpi.first.networktables.NetworkTableInstance
 import edu.wpi.first.wpilibj.*
 import edu.wpi.first.wpilibj.XboxController.Button
 import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj2.command.button.JoystickButton
+import frc.team3324.library.commands.MotorCommand
 import frc.team3324.robot.autocommands.FinalAutoGroup
 import frc.team3324.robot.climber.Climber
 import frc.team3324.robot.climber.commands.RunClimber
@@ -25,13 +27,14 @@ import frc.team3324.robot.storage.commands.RunStorageConstant
 import frc.team3324.robot.util.Camera
 import frc.team3324.robot.util.Consts
 import frc.team3324.library.commands.ToggleLightCommand
+import frc.team3324.library.subsystems.MotorSubsystem
 import io.github.oblarg.oblog.Logger
 
 class RobotContainer {
     private val intake = Intake()
     private val storage = Storage()
     private val driveTrain = DriveTrain()
-    private val climber = Climber()
+    private val climber = MotorSubsystem(mapOf("leftMotor" to WPI_TalonSRX(Consts.Climber.MOTOR_LEFT), "rightMotor" to WPI_TalonSRX(Consts.Climber.MOTOR_RIGHT)), 40)
     private val pivot = Pivot()
     private val shooter = Shooter()
 
@@ -85,10 +88,10 @@ class RobotContainer {
         JoystickButton(primaryController, Button.kBumperLeft.value).whileHeld(PivotPID(pivot, -90.0))
         JoystickButton(primaryController, Button.kBumperRight.value).whileHeld(PivotPID(pivot, 0.0))
         JoystickButton(primaryController, Button.kX.value).whenPressed(ToggleLightCommand(Robot.light))
-        JoystickButton(primaryController, Button.kA.value).whileHeld(RunClimber(climber, -1.0, {input: Double -> climber.leftSpeed = input}))
-        JoystickButton(primaryController, Button.kB.value).whileHeld(RunClimber(climber, -1.0, {input: Double -> climber.rightSpeed = input}))
-        JoystickButton(primaryController, Button.kStickLeft.value).whileHeld(RunClimber(climber, 1.0, {input: Double -> climber.leftSpeed = input}))
-        JoystickButton(primaryController, Button.kStickRight.value).whileHeld(RunClimber(climber, 1.0, {input: Double -> climber.rightSpeed = input}))
+        JoystickButton(primaryController, Button.kA.value).whileHeld(MotorCommand(climber, "leftMotor", -1.0)) // run the left climber motor
+        JoystickButton(primaryController, Button.kB.value).whileHeld(MotorCommand(climber, "rightMotor", -1.0)) // run the right climber motor
+        JoystickButton(primaryController, Button.kStickLeft.value).whileHeld(MotorCommand(climber, "leftMotor", 1.0))
+        JoystickButton(primaryController, Button.kStickRight.value).whileHeld(MotorCommand(climber, "rightMotor", 1.0))
         JoystickButton(primaryController, Button.kY.value).whileHeld(GyroTurn(
                 driveTrain,
                 1.0/80.0,
