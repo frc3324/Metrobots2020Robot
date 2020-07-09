@@ -1,4 +1,4 @@
-package frc.team3324.robot.util.physics
+package frc.team3324.library.physics
 
 import edu.wpi.first.wpilibj.util.Units
 import edu.wpi.first.wpilibj.util.Units.rotationsPerMinuteToRadiansPerSecond
