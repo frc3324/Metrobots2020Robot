@@ -1,6 +1,5 @@
 package frc.team3324.robot
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 import edu.wpi.first.networktables.NetworkTableInstance
 import edu.wpi.first.wpilibj.*
 import edu.wpi.first.wpilibj.XboxController.Button
@@ -31,7 +30,7 @@ class RobotContainer {
     private val intake = Intake()
     private val storage = Storage(Consts.Storage.TOP_MOTOR, Consts.Storage.BOTTOM_MOTOR)
     private val driveTrain = DriveTrain()
-    private val climber = MotorSubsystem(mapOf("leftMotor" to Consts.Climber.LEFT_MOTOR, "rightMotor" to Consts.Climber.RIGHT_MOTOR), 40.0)
+    private val climber = MotorSubsystem(listOf(Consts.Climber.LEFT_MOTOR, Consts.Climber.RIGHT_MOTOR))
     private val pivot = Pivot()
     private val shooter = Shooter(Consts.Shooter.LEFT_MOTOR, Consts.Shooter.RIGHT_MOTOR)
 
@@ -76,7 +75,7 @@ class RobotContainer {
 
 
        pivot.defaultCommand = RunPivot(pivot, -0.05)
-       intake.defaultCommand = MotorCommand(intake, "leftMotor", if (secondTriggerRight > 0.0) secondTriggerRight * 0.5 else -secondTriggerLeft * 0.5)
+       intake.defaultCommand = MotorCommand(intake, if (secondTriggerRight > 0.0) secondTriggerRight * 0.5 else -secondTriggerLeft * 0.5)
        configureButtonBindings()
 
    }
@@ -85,10 +84,10 @@ class RobotContainer {
         JoystickButton(primaryController, Button.kBumperLeft.value).whileHeld(PivotPID(pivot, -90.0))
         JoystickButton(primaryController, Button.kBumperRight.value).whileHeld(PivotPID(pivot, 0.0))
         JoystickButton(primaryController, Button.kX.value).whenPressed(ToggleLightCommand(Robot.light))
-        JoystickButton(primaryController, Button.kA.value).whileHeld(MotorCommand(climber, "leftMotor", -1.0)) // run the left climber motor
-        JoystickButton(primaryController, Button.kB.value).whileHeld(MotorCommand(climber, "rightMotor", -1.0)) // run the right climber motor
-        JoystickButton(primaryController, Button.kStickLeft.value).whileHeld(MotorCommand(climber, "leftMotor", 1.0))
-        JoystickButton(primaryController, Button.kStickRight.value).whileHeld(MotorCommand(climber, "rightMotor", 1.0))
+        JoystickButton(primaryController, Button.kA.value).whileHeld(MotorCommand(climber, -1.0, 0)) // run the left climber motor
+        JoystickButton(primaryController, Button.kB.value).whileHeld(MotorCommand(climber, -1.0, 1)) // run the right climber motor
+        JoystickButton(primaryController, Button.kStickLeft.value).whileHeld(MotorCommand(climber, 1.0, 0))
+        JoystickButton(primaryController, Button.kStickRight.value).whileHeld(MotorCommand(climber,  1.0, 1))
         JoystickButton(primaryController, Button.kY.value).whileHeld(GyroTurn(
                 driveTrain,
                 1.0/70.0,
@@ -101,13 +100,13 @@ class RobotContainer {
         JoystickButton(secondaryController, Button.kBumperLeft.value).whileHeld(RunStorageConstant(storage, 0.6))
         JoystickButton(secondaryController, Button.kBumperRight.value).whileHeld(RunStorageConstant(storage, -0.6))
 
-        JoystickButton(secondaryController, Button.kA.value).whileHeld(MotorCommand(intake, "leftMotor", -1.0))
-        JoystickButton(secondaryController, Button.kB.value).whileHeld(MotorCommand(intake, "leftMotor", 1.0))
+        JoystickButton(secondaryController, Button.kA.value).whileHeld(MotorCommand(intake, -1.0))
+        JoystickButton(secondaryController, Button.kB.value).whileHeld(MotorCommand(intake, 1.0))
         JoystickButton(secondaryController, Button.kStart.value).whenPressed(StopShooter(shooter))
         JoystickButton(bongos, 1).whileHeld(RunStorageConstant(storage, 0.8))
         JoystickButton(bongos, 2).whileHeld(RunStorageConstant(storage, -0.8))
-        JoystickButton(bongos, 4).whileHeld(MotorCommand(intake, "leftMotor", 1.0))
-        JoystickButton(bongos, 3).whileHeld(MotorCommand(intake, "leftMotor", -1.0))
+        JoystickButton(bongos, 4).whileHeld(MotorCommand(intake, 1.0))
+        JoystickButton(bongos, 3).whileHeld(MotorCommand(intake, -1.0))
         JoystickButton(bongos, 10).whenPressed(RunShooter(shooter, {cameraTable.getEntry("targetArea").getDouble(3800.0)}, false).withTimeout(   10.0))
 
     }

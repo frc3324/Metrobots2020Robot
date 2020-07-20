@@ -6,18 +6,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.team3324.library.motorcontrollers.SmartMotorController
 
-open class MotorSubsystem(private val motorMap: Map<String, SmartMotorController>, val defaultSpeed: Double = 0.0): SubsystemBase() {
+open class MotorSubsystem(private val motorList: List<SmartMotorController>, val defaultSpeed: Double = 0.0): SubsystemBase() {
     init {
-        for (motor in motorMap.values) {
+        for (motor in motorList) {
             motor.setNeutralMode(SmartMotorController.MetroNeutralMode.BRAKE)
         }
     }
 
-    fun setSpeed(motorName: String, speed: Double) {
-        motorMap[motorName]?.set(speed)
+    fun setSpeed(speed: Double) {
+        motorList.forEach {
+            it.set(speed)
+        }
     }
 
-    fun getMotor(motorName: String): SmartMotorController? {
-        return motorMap[motorName]
+    fun setSpeed(speed: Double, index: Int) {
+        motorList[index].set(speed)
+    }
+
+    fun getMotor(index: Int): SmartMotorController {
+        return motorList[index]
     }
 }
