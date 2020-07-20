@@ -5,18 +5,17 @@ import com.revrobotics.CANSparkMaxLowLevel
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.team3324.robot.util.Consts
-import frc.team3324.library.physics.Motors
 import io.github.oblarg.oblog.Loggable
 import io.github.oblarg.oblog.annotations.Log
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
-class Shooter: SubsystemBase(), Loggable {
-        val leftMotor = CANSparkMax(Consts.Shooter.LEFT_MOTOR_PORT, CANSparkMaxLowLevel.MotorType.kBrushless)
-        val rightMotor = CANSparkMax(Consts.Shooter.RIGHT_MOTOR_PORT, CANSparkMaxLowLevel.MotorType.kBrushless)
-        val leftEncoder = leftMotor.encoder
-        val rightEncoder = rightMotor.encoder
+import frc.team3324.library.motorcontrollers.MetroSparkMAX
+import frc.team3324.library.subsystems.MotorSubsystem
 
-        val motor = Motors.Neo(2)
-        val rpmChooser = SendableChooser<Double>()
+class Shooter(val leftMotor: MetroSparkMAX, val rightMotor: MetroSparkMAX): MotorSubsystem(mapOf("leftMotor" to leftMotor, "rightMotor" to rightMotor)), Loggable {
+        private val leftEncoder = leftMotor.encoder
+        private val rightEncoder = rightMotor.encoder
+
+        private val rpmChooser = SendableChooser<Double>()
 
         val rightEncoderPosition
             @Log
@@ -59,17 +58,11 @@ class Shooter: SubsystemBase(), Loggable {
 
         init {
             SmartDashboard.putNumber("Numbah", 0.0)
-            rightMotor.restoreFactoryDefaults()
-            leftMotor.restoreFactoryDefaults()
-            rightMotor.idleMode = CANSparkMax.IdleMode.kBrake
-            leftMotor.idleMode = CANSparkMax.IdleMode.kBrake
-            rightMotor.follow(leftMotor, true)
+            rightMotor.follow(leftMotor as CANSparkMax, true)
 
             leftMotor.inverted = true
             leftEncoder.velocityConversionFactor = Consts.Shooter.GEAR_RATIO
             rightEncoder.velocityConversionFactor = Consts.Shooter.GEAR_RATIO
-            leftMotor.setSmartCurrentLimit(40)
-            rightMotor.setSmartCurrentLimit(40)
 
             rpmChooser.addOption("0", 0.0)
             rpmChooser.addOption("200", 200.0)

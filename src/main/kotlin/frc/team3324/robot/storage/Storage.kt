@@ -1,13 +1,10 @@
 package frc.team3324.robot.storage
 
-import com.ctre.phoenix.motorcontrol.NeutralMode
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 import edu.wpi.first.wpilibj2.command.SubsystemBase
-import frc.team3324.robot.util.Consts
+import frc.team3324.library.motorcontrollers.MetroTalonSRX
+import frc.team3324.library.motorcontrollers.SmartMotorController
 
-class Storage(): SubsystemBase() {
-    private val motorTop = WPI_TalonSRX(Consts.Storage.MOTOR_TOP)
-    private val motorBot = WPI_TalonSRX(Consts.Storage.MOTOR_BOTTOM)
+class Storage(val motorTop: MetroTalonSRX, val motorBot: MetroTalonSRX): SubsystemBase() {
 
     init {
         motorTop.configFactoryDefault()
@@ -32,7 +29,7 @@ class Storage(): SubsystemBase() {
         set(x) = motorBot.set(x)
 
     private fun configureBrakeMode() {
-        motorBot.setNeutralMode(NeutralMode.Brake)
-        motorTop.setNeutralMode(NeutralMode.Brake)
+        motorBot.setNeutralMode(SmartMotorController.MetroNeutralMode.BRAKE)
+        motorTop.setNeutralMode(SmartMotorController.MetroNeutralMode.BRAKE)
     }
 }

@@ -1,10 +1,11 @@
 package frc.team3324.library.motorcontrollers
 
+import com.revrobotics.CANEncoder
 import com.revrobotics.CANSparkMax
 
 class MetroSparkMAX(deviceID: Int, type: MotorType, currentLimit: Int) : CANSparkMax(deviceID, type), SmartMotorController {
     init {
-        setCurrentLimit(currentLimit);
+        setCurrentLimit(currentLimit)
     }
 
     override fun follow(motor: SmartMotorController, invert: Boolean) {
@@ -25,4 +26,9 @@ class MetroSparkMAX(deviceID: Int, type: MotorType, currentLimit: Int) : CANSpar
             SmartMotorController.MetroNeutralMode.COAST -> IdleMode.kCoast
         }
     }
+
+    override fun getEncoder(): CANEncoder {
+        return super.getEncoder()
+    }
+
 }

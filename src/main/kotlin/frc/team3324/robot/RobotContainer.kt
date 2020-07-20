@@ -29,11 +29,11 @@ import io.github.oblarg.oblog.Logger
 
 class RobotContainer {
     private val intake = Intake()
-    private val storage = Storage()
+    private val storage = Storage(Consts.Storage.TOP_MOTOR, Consts.Storage.BOTTOM_MOTOR)
     private val driveTrain = DriveTrain()
-    private val climber = MotorSubsystem(mapOf("leftMotor" to MetroTalonSRX(Consts.Climber.MOTOR_LEFT, 40), "rightMotor" to MetroTalonSRX(Consts.Climber.MOTOR_RIGHT, 40)), 40.0)
+    private val climber = MotorSubsystem(mapOf("leftMotor" to Consts.Climber.LEFT_MOTOR, "rightMotor" to Consts.Climber.RIGHT_MOTOR), 40.0)
     private val pivot = Pivot()
-    private val shooter = Shooter()
+    private val shooter = Shooter(Consts.Shooter.LEFT_MOTOR, Consts.Shooter.RIGHT_MOTOR)
 
 
     private val table = NetworkTableInstance.getDefault()
