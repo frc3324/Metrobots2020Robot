@@ -4,14 +4,12 @@ import com.ctre.phoenix.motorcontrol.NeutralMode
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
+import frc.team3324.library.motorcontrollers.SmartMotorController
 
-open class MotorSubsystem(val motorMap: Map<String, WPI_TalonSRX>, currentLimit: Int, val defaultSpeed: Double = 0.0): SubsystemBase() {
+open class MotorSubsystem(private val motorMap: Map<String, SmartMotorController>, val defaultSpeed: Double = 0.0): SubsystemBase() {
     init {
         for (motor in motorMap.values) {
-            SmartDashboard.putString("Motor set to brake" + motor.description, motor.description)
-            motor.setNeutralMode(NeutralMode.Brake)
-            motor.configContinuousCurrentLimit(currentLimit)
-            motor.enableCurrentLimit(true)
+            motor.setNeutralMode(SmartMotorController.MetroNeutralMode.BRAKE)
         }
     }
 
@@ -19,7 +17,7 @@ open class MotorSubsystem(val motorMap: Map<String, WPI_TalonSRX>, currentLimit:
         motorMap[motorName]?.set(speed)
     }
 
-    fun getMotor(motorName: String): WPI_TalonSRX? {
+    fun getMotor(motorName: String): SmartMotorController? {
         return motorMap[motorName]
     }
 }
