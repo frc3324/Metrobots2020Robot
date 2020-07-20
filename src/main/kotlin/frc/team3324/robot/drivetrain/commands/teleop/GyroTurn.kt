@@ -17,7 +17,7 @@ class GyroTurn(subsystem: Subsystem, private val kP: Double, private val kS: Dou
         Robot.light.set(true)
     }
     override fun execute() {
-        var error = setPointMethod() - 9.5
+        var error = setPointMethod()
         val speed = -error * kP
 
         SmartDashboard.putNumber("Speed from gyro turn", speed)

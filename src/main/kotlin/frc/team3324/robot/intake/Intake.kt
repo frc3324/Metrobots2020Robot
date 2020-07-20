@@ -6,7 +6,8 @@ import frc.team3324.library.subsystems.MotorSubsystem
 import io.github.oblarg.oblog.Loggable
 import io.github.oblarg.oblog.annotations.Log
 
-class Intake: MotorSubsystem(mapOf("leftMotor" to WPI_TalonSRX(20)), 10), Loggable {
+class Intake: MotorSubsystem(mapOf("leftMotor" to WPI_TalonSRX(26)), 10), Loggable {
+    private val leftMotor = WPI_TalonSRX(26)
     private val dutyEncoder = DutyCycleEncoder(7)
 
     init {

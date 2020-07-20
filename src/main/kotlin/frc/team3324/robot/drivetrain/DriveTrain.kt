@@ -129,8 +129,8 @@ class DriveTrain: SubsystemBase(), Loggable {
     }
 
     init {
-        lmMotor.openLoopRampRate = 5.0
-        rmMotor.openLoopRampRate = 5.0
+        lmMotor.openLoopRampRate = 2.0
+        rmMotor.openLoopRampRate = 2.0
 
         shifterStatus = Consts.DriveTrain.LOW_GEAR
         lmMotor.restoreFactoryDefaults()
@@ -154,6 +154,7 @@ class DriveTrain: SubsystemBase(), Loggable {
 
         luMotor.follow(lmMotor)
         ldMotor.follow(lmMotor)
+        setBrakeMode()
 
         ruMotor.burnFlash()
         rmMotor.burnFlash()
@@ -165,7 +166,6 @@ class DriveTrain: SubsystemBase(), Loggable {
 
         drive.isSafetyEnabled = true
 
-        setBrakeMode()
     }
 
     fun resetGyro() {
