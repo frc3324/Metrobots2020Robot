@@ -10,7 +10,7 @@ import io.github.oblarg.oblog.Loggable
 import io.github.oblarg.oblog.annotations.Log
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 class Shooter: SubsystemBase(), Loggable {
-    val leftMotor = CANSparkMax(Consts.Shooter.LEFT_MOTOR_PORT, CANSparkMaxLowLevel.MotorType.kBrushless)
+        val leftMotor = CANSparkMax(Consts.Shooter.LEFT_MOTOR_PORT, CANSparkMaxLowLevel.MotorType.kBrushless)
         val rightMotor = CANSparkMax(Consts.Shooter.RIGHT_MOTOR_PORT, CANSparkMaxLowLevel.MotorType.kBrushless)
         val leftEncoder = leftMotor.encoder
         val rightEncoder = rightMotor.encoder
@@ -61,8 +61,8 @@ class Shooter: SubsystemBase(), Loggable {
             SmartDashboard.putNumber("Numbah", 0.0)
             rightMotor.restoreFactoryDefaults()
             leftMotor.restoreFactoryDefaults()
-            rightMotor.idleMode = CANSparkMax.IdleMode.kCoast
-            leftMotor.idleMode = CANSparkMax.IdleMode.kCoast
+            rightMotor.idleMode = CANSparkMax.IdleMode.kBrake
+            leftMotor.idleMode = CANSparkMax.IdleMode.kBrake
             rightMotor.follow(leftMotor, true)
 
             leftMotor.inverted = true

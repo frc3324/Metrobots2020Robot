@@ -91,8 +91,8 @@ class RobotContainer {
         JoystickButton(primaryController, Button.kStickRight.value).whileHeld(MotorCommand(climber, "rightMotor", 1.0))
         JoystickButton(primaryController, Button.kY.value).whileHeld(GyroTurn(
                 driveTrain,
-                1.0/80.0,
-                Consts.DriveTrain.ksVolts/12,
+                1.0/70.0,
+                (Consts.DriveTrain.ksVolts + 0.3)/12,
                 {cameraTable.getEntry("targetYaw").getDouble(0.0)},
                 {input -> driveTrain.curvatureDrive(0.0, input, true)}
         ))
