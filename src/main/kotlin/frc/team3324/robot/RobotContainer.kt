@@ -87,8 +87,8 @@ class RobotContainer {
    }
 
     fun configureButtonBindings() {
-        JoystickButton(primaryController, Button.kBumperLeft.value).whileHeld(PivotPID(pivot, -90.0))
-        JoystickButton(primaryController, Button.kBumperRight.value).whileHeld(PivotPID(pivot, 0.0))
+        JoystickButton(primaryController, Button.kBumperLeft.value).whileHeld(RunPivot(pivot, -0.3))
+        JoystickButton(primaryController, Button.kBumperRight.value).whileHeld(RunPivot(pivot, 0.3))
         JoystickButton(primaryController, Button.kX.value).whenPressed(ToggleLight(Robot.light))
         JoystickButton(primaryController, Button.kA.value).whileHeld(RunClimber(climber, -1.0, {input: Double -> climber.leftSpeed = input}))
         JoystickButton(primaryController, Button.kB.value).whileHeld(RunClimber(climber, -1.0, {input: Double -> climber.rightSpeed = input}))
@@ -96,8 +96,8 @@ class RobotContainer {
         JoystickButton(primaryController, Button.kStickRight.value).whileHeld(RunClimber(climber, 1.0, {input: Double -> climber.rightSpeed = input}))
         JoystickButton(primaryController, Button.kY.value).whileHeld(GyroTurn(
                 driveTrain,
-                1.0/80.0,
-                Consts.DriveTrain.ksVolts/12,
+                1.0/70.0,
+                (Consts.DriveTrain.ksVolts + 0.3)/12,
                 {cameraTable.getEntry("targetYaw").getDouble(0.0)},
                 {input -> driveTrain.curvatureDrive(0.0, input, true)}
         ))

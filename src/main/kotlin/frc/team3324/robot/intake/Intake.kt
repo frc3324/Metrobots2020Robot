@@ -8,7 +8,7 @@ import io.github.oblarg.oblog.Loggable
 import io.github.oblarg.oblog.annotations.Log
 
 class Intake : SubsystemBase(), Loggable {
-    private val leftMotor = WPI_TalonSRX(20)
+    private val leftMotor = WPI_TalonSRX(26)
     private val dutyEncoder = DutyCycleEncoder(7)
 
     var speed
