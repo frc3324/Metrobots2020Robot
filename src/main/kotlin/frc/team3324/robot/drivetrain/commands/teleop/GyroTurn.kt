@@ -1,11 +1,9 @@
 package frc.team3324.robot.drivetrain.commands.teleop
 
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandBase
 import edu.wpi.first.wpilibj2.command.Subsystem
 import frc.team3324.robot.Robot
-import kotlin.math.abs
 import kotlin.math.sign
 
 class GyroTurn(subsystem: Subsystem, private val kP: Double, private val kS: Double, private var setPointMethod: () -> Double, val output: (Double) -> Unit):CommandBase() {
@@ -19,9 +17,6 @@ class GyroTurn(subsystem: Subsystem, private val kP: Double, private val kS: Dou
     override fun execute() {
         var error = setPointMethod()
         val speed = -error * kP
-
-        SmartDashboard.putNumber("Speed from gyro turn", speed)
-        SmartDashboard.putNumber("Error", error)
 
         output(speed + (sign(speed) * kS))
     }

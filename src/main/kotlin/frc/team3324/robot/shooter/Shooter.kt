@@ -103,8 +103,6 @@ class Shooter: SubsystemBase(), Loggable {
         }
 
         override fun periodic() {
-            SmartDashboard.putNumber("RPM ", RPM)
-            SmartDashboard.putNumber("Amp", leftMotor.outputCurrent)
             RPM = SmartDashboard.getNumber("Numbah", 0.0)
         }
     }
