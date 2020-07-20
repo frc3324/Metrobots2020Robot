@@ -2,12 +2,12 @@ package frc.team3324.robot.intake
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 import edu.wpi.first.wpilibj.DutyCycleEncoder
+import frc.team3324.library.motorcontrollers.MetroTalonSRX
 import frc.team3324.library.subsystems.MotorSubsystem
 import io.github.oblarg.oblog.Loggable
 import io.github.oblarg.oblog.annotations.Log
 
-class Intake: MotorSubsystem(mapOf("leftMotor" to WPI_TalonSRX(26)), 10), Loggable {
-    private val leftMotor = WPI_TalonSRX(26)
+class Intake: MotorSubsystem(mapOf("leftMotor" to MetroTalonSRX(26, 20)), 10.0), Loggable {
     private val dutyEncoder = DutyCycleEncoder(7)
 
     init {
@@ -20,5 +20,5 @@ class Intake: MotorSubsystem(mapOf("leftMotor" to WPI_TalonSRX(26)), 10), Loggab
 
     val current
         @Log
-        get() = this.getMotor("leftMotor")?.statorCurrent
+        get() = this.getMotor("leftMotor")?.getCurrentDraw()
 }
