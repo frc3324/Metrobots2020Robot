@@ -13,7 +13,8 @@ class Drive(val driveTrain: DriveTrain, val xSpeed: () -> Double, val ySpeed: ()
     }
 
     override fun execute() {
-        driveTrain.curvatureDrive(xSpeed(), ySpeed() + (sign(ySpeed()) * 0.01))
+        val xSpeed = xSpeed()
+        driveTrain.curvatureDrive(xSpeed * xSpeed * sign(xSpeed), ySpeed() + (sign(ySpeed()) * 0.01))
     }
 
     override fun isFinished(): Boolean {

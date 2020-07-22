@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 
 import frc.team3324.robot.util.Consts
@@ -21,9 +20,6 @@ import io.github.oblarg.oblog.Loggable
 import io.github.oblarg.oblog.annotations.Log
 
 class DriveTrain: SubsystemBase(), Loggable {
-
-    val driveKinematics = DifferentialDriveKinematics(Consts.DriveTrain.DISTANCE_BETWEEN_WHEELS)
-    val feedForward = SimpleMotorFeedforward(Consts.DriveTrain.ksVolts, Consts.DriveTrain.LOW_GEAR_KV, Consts.DriveTrain.LOW_GEAR_KA)
     val gearShifter = DoubleSolenoid(Consts.DriveTrain.GEARSHIFTER_FORWARD, Consts.DriveTrain.GEARSHIFTER_REVERSE)
     var activeConversionRatio: Double = Consts.DriveTrain.DISTANCE_PER_PULSE_LOW
 
@@ -129,8 +125,8 @@ class DriveTrain: SubsystemBase(), Loggable {
     }
 
     init {
-        lmMotor.openLoopRampRate = 5.0
-        rmMotor.openLoopRampRate = 5.0
+        lmMotor.openLoopRampRate = 2.0
+        rmMotor.openLoopRampRate = 2.0
 
         shifterStatus = Consts.DriveTrain.LOW_GEAR
         lmMotor.restoreFactoryDefaults()
@@ -154,6 +150,7 @@ class DriveTrain: SubsystemBase(), Loggable {
 
         luMotor.follow(lmMotor)
         ldMotor.follow(lmMotor)
+        setBrakeMode()
 
         ruMotor.burnFlash()
         rmMotor.burnFlash()
@@ -165,7 +162,6 @@ class DriveTrain: SubsystemBase(), Loggable {
 
         drive.isSafetyEnabled = true
 
-        setBrakeMode()
     }
 
     fun resetGyro() {
@@ -175,7 +171,6 @@ class DriveTrain: SubsystemBase(), Loggable {
     override fun periodic() {
         diffDriveOdometry.update(Rotation2d.fromDegrees(gyro.yaw.toDouble()), leftEncoder.position, rightEncoder.position)
         shifterCount += 1
-        SmartDashboard.putNumber("Shifter: ", shifterCount.toDouble())
 
         val currentVelocity = velocity
         if (Math.abs(currentVelocity) > 1.54) {
@@ -186,11 +181,6 @@ class DriveTrain: SubsystemBase(), Loggable {
             shifterStatus = Consts.DriveTrain.LOW_GEAR
             activeConversionRatio = Consts.DriveTrain.DISTANCE_PER_PULSE_LOW
         }
-        SmartDashboard.putNumber("Position: ", position)
-        SmartDashboard.putNumber("Speed ", currentVelocity)
-        SmartDashboard.putNumber("Right Speed", rightEncoderSpeed)
-        SmartDashboard.putNumber("Left Speed", leftEncoderSpeed)
-        SmartDashboard.putNumber("Angle", gyro.yaw.toDouble())
     }
 
     fun curvatureDrive(xSpeed: Double, ySpeed: Double, quickTurn: Boolean) {
@@ -215,7 +205,6 @@ class DriveTrain: SubsystemBase(), Loggable {
     }
 
     fun tankDriveVolts(leftVolts: Double, rightVolts: Double) {
-        SmartDashboard.putNumber("leftVolts", leftVolts)
         drive.feed()
         lmMotor.setVoltage(leftVolts)
         rmMotor.setVoltage(-rightVolts)

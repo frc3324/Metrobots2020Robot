@@ -1,13 +1,10 @@
 package frc.team3324.robot
 
 import edu.wpi.first.wpilibj.livewindow.LiveWindow
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandScheduler
 import com.cuforge.libcu.Lasershark
 import edu.wpi.first.cameraserver.CameraServer
-import edu.wpi.first.networktables.NetworkTableInstance
 import edu.wpi.first.wpilibj.*
-import frc.team3324.robot.util.Camera
 import io.github.oblarg.oblog.Logger
 
 class Robot: TimedRobot() {
@@ -44,7 +41,6 @@ class Robot: TimedRobot() {
 
     override fun autonomousInit() {
         CommandScheduler.getInstance().schedule(robotContainer.getAutoCommand())
-        SmartDashboard.putBoolean("We here 4", true)
         enabledInit()
     }
     override fun teleopInit() {
