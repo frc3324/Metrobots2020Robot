@@ -23,17 +23,17 @@ import frc.team3324.robot.storage.commands.RunStorageConstant
 import frc.team3324.robot.util.Camera
 import frc.team3324.robot.util.Consts
 import frc.team3324.library.commands.ToggleLightCommand
+import frc.team3324.library.motorcontrollers.MetroTalonSRX
 import frc.team3324.library.subsystems.MotorSubsystem
-import frc.team3324.robot.util.physics.Motors
 import io.github.oblarg.oblog.Logger
 
 class RobotContainer {
     private val intake = Intake()
-    private val storage = Storage()
+    private val storage = Storage(Consts.Storage.TOP_MOTOR, Consts.Storage.BOTTOM_MOTOR)
     private val driveTrain = DriveTrain()
-    private val climber = MotorSubsystem(mapOf("leftMotor" to WPI_TalonSRX(Consts.Climber.MOTOR_LEFT), "rightMotor" to WPI_TalonSRX(Consts.Climber.MOTOR_RIGHT)), 40)
+    private val climber = MotorSubsystem(mapOf("leftMotor" to Consts.Climber.LEFT_MOTOR, "rightMotor" to Consts.Climber.RIGHT_MOTOR), 40.0)
     private val pivot = Pivot()
-    private val shooter = Shooter()
+    private val shooter = Shooter(Consts.Shooter.LEFT_MOTOR, Consts.Shooter.RIGHT_MOTOR)
 
 
     private val table = NetworkTableInstance.getDefault()
@@ -81,7 +81,7 @@ class RobotContainer {
 
    }
 
-    fun configureButtonBindings() {
+    private fun configureButtonBindings() {
         JoystickButton(primaryController, Button.kBumperLeft.value).whileHeld(PivotPID(pivot, -90.0))
         JoystickButton(primaryController, Button.kBumperRight.value).whileHeld(PivotPID(pivot, 0.0))
         JoystickButton(primaryController, Button.kX.value).whenPressed(ToggleLightCommand(Robot.light))
@@ -91,8 +91,8 @@ class RobotContainer {
         JoystickButton(primaryController, Button.kStickRight.value).whileHeld(MotorCommand(climber, "rightMotor", 1.0))
         JoystickButton(primaryController, Button.kY.value).whileHeld(GyroTurn(
                 driveTrain,
-                1.0/80.0,
-                Consts.DriveTrain.ksVolts/12,
+                1.0/70.0,
+                (Consts.DriveTrain.ksVolts + 0.3)/12,
                 {cameraTable.getEntry("targetYaw").getDouble(0.0)},
                 {input -> driveTrain.curvatureDrive(0.0, input, true)}
         ))
