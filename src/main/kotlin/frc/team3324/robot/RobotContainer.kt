@@ -29,7 +29,7 @@ import io.github.oblarg.oblog.Logger
 
 class RobotContainer {
     private val intake = Intake()
-    private val storage = Storage()
+    private val storage = MotorSubsystem(mapOf("motorTop" to WPI_TalonSRX(Consts.Storage.MOTOR_TOP), "motorBot" to WPI_TalonSRX(Consts.Storage.MOTOR_BOTTOM)), 30)
     private val driveTrain = DriveTrain()
     private val climber = MotorSubsystem(mapOf("leftMotor" to WPI_TalonSRX(Consts.Climber.MOTOR_LEFT), "rightMotor" to WPI_TalonSRX(Consts.Climber.MOTOR_RIGHT)), 40)
     private val pivot = Pivot()
