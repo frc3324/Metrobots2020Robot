@@ -8,8 +8,8 @@ import frc.team3324.library.motorcontrollers.SmartMotorController
 
 open class MotorSubsystem(private val motorList: List<SmartMotorController>, val defaultSpeed: Double = 0.0): SubsystemBase() {
     init {
-        for (motor in motorList) {
-            motor.setNeutralMode(SmartMotorController.MetroNeutralMode.BRAKE)
+        motorList.forEach {
+            it.setNeutralMode(SmartMotorController.MetroNeutralMode.BRAKE)
         }
     }
 

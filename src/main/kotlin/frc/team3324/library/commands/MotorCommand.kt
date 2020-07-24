@@ -9,7 +9,11 @@ class MotorCommand(val subsystem: MotorSubsystem, val speed: Double, val index: 
     }
 
     override fun execute() {
-        if (index != null) subsystem.setSpeed(speed, index) else subsystem.setSpeed(speed)
+        if (index != null) {
+            subsystem.setSpeed(speed, index)
+        } else {
+            subsystem.setSpeed(speed)
+        }
     }
 
     override fun isFinished(): Boolean {
