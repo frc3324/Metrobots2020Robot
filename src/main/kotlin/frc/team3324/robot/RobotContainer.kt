@@ -25,9 +25,9 @@ import io.github.oblarg.oblog.Logger
 
 class RobotContainer {
     private val intake = Intake()
-    private val storage = MotorSubsystem(mapOf("motorTop" to Consts.Storage.TOP_MOTOR, "motorBot" to Consts.Storage.BOTTOM_MOTOR))
+    private val storage = MotorSubsystem(listOf(Consts.Storage.TOP_MOTOR, Consts.Storage.BOTTOM_MOTOR))
     private val driveTrain = DriveTrain()
-    private val climber = MotorSubsystem(mapOf("leftMotor" to Consts.Climber.LEFT_MOTOR, "rightMotor" to Consts.Climber.RIGHT_MOTOR))
+    private val climber = MotorSubsystem(listOf(Consts.Climber.LEFT_MOTOR, Consts.Climber.RIGHT_MOTOR))
     private val pivot = Pivot()
     private val shooter = Shooter(Consts.Shooter.LEFT_MOTOR, Consts.Shooter.RIGHT_MOTOR)
 
@@ -72,7 +72,7 @@ class RobotContainer {
 
 
        pivot.defaultCommand = RunPivot(pivot, -0.05)
-       intake.defaultCommand = MotorCommand(intake, "leftMotor", if (secondTriggerRight > 0.0) secondTriggerRight * 0.5 else -secondTriggerLeft * 0.5)
+       intake.defaultCommand = MotorCommand(intake, if (secondTriggerRight > 0.0) secondTriggerRight * 0.5 else -secondTriggerLeft * 0.5)
        configureButtonBindings()
 
    }
@@ -81,10 +81,10 @@ class RobotContainer {
         JoystickButton(primaryController, Button.kBumperLeft.value).whileHeld(PivotPID(pivot, -90.0))
         JoystickButton(primaryController, Button.kBumperRight.value).whileHeld(PivotPID(pivot, 0.0))
         JoystickButton(primaryController, Button.kX.value).whenPressed(ToggleLightCommand(Robot.light))
-        JoystickButton(primaryController, Button.kA.value).whileHeld(MotorCommand(climber, "leftMotor", -1.0)) // run the left climber motor
-        JoystickButton(primaryController, Button.kB.value).whileHeld(MotorCommand(climber, "rightMotor", -1.0)) // run the right climber motor
-        JoystickButton(primaryController, Button.kStickLeft.value).whileHeld(MotorCommand(climber, "leftMotor", 1.0))
-        JoystickButton(primaryController, Button.kStickRight.value).whileHeld(MotorCommand(climber, "rightMotor", 1.0))
+        JoystickButton(primaryController, Button.kA.value).whileHeld(MotorCommand(climber, -1.0, 0)) // run the left climber motor
+        JoystickButton(primaryController, Button.kB.value).whileHeld(MotorCommand(climber, -1.0, 1)) // run the right climber motor
+        JoystickButton(primaryController, Button.kStickLeft.value).whileHeld(MotorCommand(climber, 1.0, 0))
+        JoystickButton(primaryController, Button.kStickRight.value).whileHeld(MotorCommand(climber,  1.0, 1))
         JoystickButton(primaryController, Button.kY.value).whileHeld(GyroTurn(
                 driveTrain,
                 1.0/70.0,
@@ -94,20 +94,16 @@ class RobotContainer {
         ))
         JoystickButton(secondaryController, Button.kX.value).whenPressed(RunShooter(shooter, {cameraTable.getEntry("targetArea").getDouble(3800.0)}, false).withTimeout(10.0))
         JoystickButton(secondaryController, Button.kY.value).whenPressed(RunShooter(shooter, {cameraTable.getEntry("targetArea").getDouble(3800.0)}, true).withTimeout(10.0))
-        JoystickButton(secondaryController, Button.kBumperLeft.value).whileHeld(MotorCommand(storage, "motorTop", 0.799999998))
-        JoystickButton(secondaryController, Button.kBumperLeft.value).whileHeld(MotorCommand(storage, "motorBot", 0.6))
-        JoystickButton(secondaryController, Button.kBumperRight.value).whileHeld(MotorCommand(storage, "motorTop", -0.799999998))
-        JoystickButton(secondaryController, Button.kBumperRight.value).whileHeld(MotorCommand(storage, "motorBot", -0.6))
+        JoystickButton(secondaryController, Button.kBumperLeft.value).whileHeld(MotorCommand(storage, 0.799999998, 0).alongWith(MotorCommand(storage, 0.6, 1)))
+        JoystickButton(secondaryController, Button.kBumperRight.value).whileHeld(MotorCommand(storage, -0.799999998, 0).alongWith(MotorCommand(storage, -0.6, 1)))
 
-        JoystickButton(secondaryController, Button.kA.value).whileHeld(MotorCommand(intake, "leftMotor", -1.0))
-        JoystickButton(secondaryController, Button.kB.value).whileHeld(MotorCommand(intake, "leftMotor", 1.0))
+        JoystickButton(secondaryController, Button.kA.value).whileHeld(MotorCommand(intake, -1.0))
+        JoystickButton(secondaryController, Button.kB.value).whileHeld(MotorCommand(intake, 1.0))
         JoystickButton(secondaryController, Button.kStart.value).whenPressed(StopShooter(shooter))
-        JoystickButton(bongos, 1).whileHeld(MotorCommand(storage, "motorTop", 1.066666664))
-        JoystickButton(bongos, 1).whileHeld(MotorCommand(storage, "motorBot", 0.8))
-        JoystickButton(bongos, 2).whileHeld(MotorCommand(storage, "motorTop", -1.066666664))
-        JoystickButton(bongos, 2).whileHeld(MotorCommand(storage, "motorBot", -0.8))
-        JoystickButton(bongos, 4).whileHeld(MotorCommand(intake, "leftMotor", 1.0))
-        JoystickButton(bongos, 3).whileHeld(MotorCommand(intake, "leftMotor", -1.0))
+        JoystickButton(bongos, 1).whileHeld(MotorCommand(storage, 1.066666664, 0).alongWith(MotorCommand(storage, 0.8, 1)))
+        JoystickButton(bongos, 2).whileHeld(MotorCommand(storage, -1.066666664, 0).alongWith(MotorCommand(storage, -0.8, 1)))
+        JoystickButton(bongos, 4).whileHeld(MotorCommand(intake, 1.0))
+        JoystickButton(bongos, 3).whileHeld(MotorCommand(intake, -1.0))
         JoystickButton(bongos, 10).whenPressed(RunShooter(shooter, {cameraTable.getEntry("targetArea").getDouble(3800.0)}, false).withTimeout(   10.0))
 
     }

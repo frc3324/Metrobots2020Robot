@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import frc.team3324.library.motorcontrollers.MetroSparkMAX
 import frc.team3324.library.subsystems.MotorSubsystem
 
-class Shooter(val leftMotor: MetroSparkMAX, val rightMotor: MetroSparkMAX): MotorSubsystem(mapOf("leftMotor" to leftMotor, "rightMotor" to rightMotor)), Loggable {
+class Shooter(val leftMotor: MetroSparkMAX, val rightMotor: MetroSparkMAX): MotorSubsystem(listOf(leftMotor, rightMotor)), Loggable {
         private val leftEncoder = leftMotor.encoder
         private val rightEncoder = rightMotor.encoder
 

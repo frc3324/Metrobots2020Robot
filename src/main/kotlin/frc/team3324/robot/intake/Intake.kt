@@ -7,11 +7,11 @@ import frc.team3324.library.subsystems.MotorSubsystem
 import io.github.oblarg.oblog.Loggable
 import io.github.oblarg.oblog.annotations.Log
 
-class Intake: MotorSubsystem(mapOf("leftMotor" to MetroTalonSRX(26, 20)), 10.0), Loggable {
+class Intake: MotorSubsystem(listOf(MetroTalonSRX(26, 20)), 10.0), Loggable {
     private val dutyEncoder = DutyCycleEncoder(7)
 
     init {
-        this.getMotor("leftMotor")?.inverted = true
+        this.getMotor(0).inverted = true
     }
 
     private val radianMeasure: Double
@@ -20,5 +20,5 @@ class Intake: MotorSubsystem(mapOf("leftMotor" to MetroTalonSRX(26, 20)), 10.0),
 
     val current
         @Log
-        get() = this.getMotor("leftMotor")?.getCurrentDraw()
+        get() = this.getMotor(0).getCurrentDraw()
 }
