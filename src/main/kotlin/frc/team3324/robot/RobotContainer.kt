@@ -1,6 +1,5 @@
 package frc.team3324.robot
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 import edu.wpi.first.networktables.NetworkTableInstance
 import edu.wpi.first.wpilibj.*
 import edu.wpi.first.wpilibj.XboxController.Button
@@ -18,20 +17,17 @@ import frc.team3324.robot.intake.commands.RunPivot
 import frc.team3324.robot.shooter.Shooter
 import frc.team3324.robot.shooter.commands.RunShooter
 import frc.team3324.robot.shooter.commands.StopShooter
-import frc.team3324.robot.storage.Storage
-import frc.team3324.robot.storage.commands.RunStorageConstant
 import frc.team3324.robot.util.Camera
 import frc.team3324.robot.util.Consts
 import frc.team3324.library.commands.ToggleLightCommand
-import frc.team3324.library.motorcontrollers.MetroTalonSRX
 import frc.team3324.library.subsystems.MotorSubsystem
 import io.github.oblarg.oblog.Logger
 
 class RobotContainer {
     private val intake = Intake()
-    private val storage = MotorSubsystem(mapOf("motorTop" to WPI_TalonSRX(Consts.Storage.MOTOR_TOP), "motorBot" to WPI_TalonSRX(Consts.Storage.MOTOR_BOTTOM)), 30)
+    private val storage = MotorSubsystem(mapOf("motorTop" to Consts.Storage.TOP_MOTOR, "motorBot" to Consts.Storage.BOTTOM_MOTOR))
     private val driveTrain = DriveTrain()
-    private val climber = MotorSubsystem(mapOf("leftMotor" to Consts.Climber.LEFT_MOTOR, "rightMotor" to Consts.Climber.RIGHT_MOTOR), 40.0)
+    private val climber = MotorSubsystem(mapOf("leftMotor" to Consts.Climber.LEFT_MOTOR, "rightMotor" to Consts.Climber.RIGHT_MOTOR))
     private val pivot = Pivot()
     private val shooter = Shooter(Consts.Shooter.LEFT_MOTOR, Consts.Shooter.RIGHT_MOTOR)
 
@@ -108,8 +104,8 @@ class RobotContainer {
         JoystickButton(secondaryController, Button.kStart.value).whenPressed(StopShooter(shooter))
         JoystickButton(bongos, 1).whileHeld(MotorCommand(storage, "motorTop", 1.066666664))
         JoystickButton(bongos, 1).whileHeld(MotorCommand(storage, "motorBot", 0.8))
-        JoystickButton(bongos, 2).whileHeld(MotorCommand(storage, "motorTop" -1.066666664))
-        JoystickButton(bongos, 2).whileHeld(MotorCommand(storage, "motorBot" -0.8))
+        JoystickButton(bongos, 2).whileHeld(MotorCommand(storage, "motorTop", -1.066666664))
+        JoystickButton(bongos, 2).whileHeld(MotorCommand(storage, "motorBot", -0.8))
         JoystickButton(bongos, 4).whileHeld(MotorCommand(intake, "leftMotor", 1.0))
         JoystickButton(bongos, 3).whileHeld(MotorCommand(intake, "leftMotor", -1.0))
         JoystickButton(bongos, 10).whenPressed(RunShooter(shooter, {cameraTable.getEntry("targetArea").getDouble(3800.0)}, false).withTimeout(   10.0))
