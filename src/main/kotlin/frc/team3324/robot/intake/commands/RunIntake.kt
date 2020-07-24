@@ -11,16 +11,16 @@ class RunIntake(val intake: Intake, val speedOne: () -> Double, val speedTwo: ()
 
     override fun execute() {
         if (speedOne() > 0.0) {
-            intake.setSpeed("leftMotor", speedOne() * 0.5)
+            intake.setSpeed(speedOne() * 0.5)
         } else if (speedTwo() > 0.0) {
-            intake.setSpeed("leftMotor", -speedTwo() * 0.5)
+            intake.setSpeed(-speedTwo() * 0.5)
         } else {
-            intake.setSpeed("leftMotor", 0.0)
+            intake.setSpeed(0.0)
         }
     }
 
     override fun end(interrupted: Boolean) {
-        intake.setSpeed("leftMotor", 0.0)
+        intake.setSpeed(0.0)
     }
 
 }
