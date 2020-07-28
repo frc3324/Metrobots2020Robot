@@ -13,7 +13,7 @@ class RunIntakeConstant(val storage: Storage, val intake: Intake, val pivot: Piv
     }
 
     override fun execute() {
-        pivot.pivot = 0.07
+        pivot.setSpeed(0.07)
         intake.setSpeed(speed)
 //        storage.botSpeed = 0.6 * -sign(speed)
     }

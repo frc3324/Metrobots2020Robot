@@ -10,9 +10,9 @@ import frc.team3324.robot.shooter.Shooter
 import frc.team3324.robot.shooter.commands.RunShooter
 import frc.team3324.robot.storage.commands.RunStorageConstant
 
-class ShooterAndStorageParallel(pivot: Pivot, shooter: Shooter, storage: MotorSubsystem, area: () -> Double): ParallelCommandGroup() {
+class ShooterAndStorageParallel(pivot: MotorSubsystem, shooter: Shooter, storage: MotorSubsystem, area: () -> Double): ParallelCommandGroup() {
 
     init {
-        addCommands(RunShooter(shooter, area, true), WaitCommand(2.0).andThen(MotorCommand(storage,0.4)), RunPivot(pivot, 0.5))
+        addCommands(RunShooter(shooter, area, true), WaitCommand(2.0).andThen(MotorCommand(storage,0.4)), MotorCommand(pivot, 0.5))
     }
 }

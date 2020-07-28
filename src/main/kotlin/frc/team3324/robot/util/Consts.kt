@@ -68,4 +68,12 @@ object Consts {
         val LEFT_MOTOR = MetroTalonSRX(1, 40)
         val RIGHT_MOTOR = MetroTalonSRX(25, 40)
     }
+
+    object Intake {
+        val MOTOR = MetroTalonSRX(20, 10)
+    }
+
+    object Pivot {
+        val MOTOR = MetroSparkMAX(8, CANSparkMaxLowLevel.MotorType.kBrushless, 30)
+    }
 }
