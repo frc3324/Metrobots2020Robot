@@ -9,10 +9,10 @@ class RunPivot(val pivot: Pivot, val speed: Double): CommandBase() {
     }
 
     override fun execute() {
-        pivot.pivot = speed
+        pivot.setSpeed(speed)
     }
 
     override fun end(interrupted: Boolean) {
-        pivot.pivot = 0.0
+        pivot.setSpeed(0.0)
     }
 }

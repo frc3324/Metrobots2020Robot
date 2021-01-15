@@ -1,7 +1,9 @@
 package frc.team3324.robot.util
 
+import com.revrobotics.CANSparkMaxLowLevel
 import edu.wpi.first.wpilibj.DoubleSolenoid
-import edu.wpi.first.wpilibj.util.Units
+import frc.team3324.library.motorcontrollers.MetroSparkMAX
+import frc.team3324.library.motorcontrollers.MetroTalonSRX
 
 object Consts {
     object DriveTrain {
@@ -47,8 +49,9 @@ object Consts {
     }
 
     object Shooter {
-        const val LEFT_MOTOR_PORT = 11
-        const val RIGHT_MOTOR_PORT = 10
+        val LEFT_MOTOR = MetroSparkMAX(11, CANSparkMaxLowLevel.MotorType.kBrushless, 40)
+        val RIGHT_MOTOR = MetroSparkMAX(10, CANSparkMaxLowLevel.MotorType.kBrushless, 40)
+
         const val GEAR_RATIO = 1.25
 
         const val Kv = 0.107 / 60 // Char tool gives Kv in terms of RPS so /60
@@ -57,12 +60,20 @@ object Consts {
     }
 
     object Storage {
-        const val MOTOR_TOP = 21
-        const val MOTOR_BOTTOM = 7
+        val TOP_MOTOR = MetroTalonSRX(21, 40)
+        val BOTTOM_MOTOR = MetroTalonSRX(7, 40)
     }
 
     object Climber {
-        const val MOTOR_LEFT = 1
-        const val MOTOR_RIGHT = 25
+        val LEFT_MOTOR = MetroTalonSRX(1, 40)
+        val RIGHT_MOTOR = MetroTalonSRX(25, 40)
+    }
+
+    object Intake {
+        val MOTOR = MetroTalonSRX(20, 10)
+    }
+
+    object Pivot {
+        val MOTOR = MetroSparkMAX(8, CANSparkMaxLowLevel.MotorType.kBrushless, 30)
     }
 }
